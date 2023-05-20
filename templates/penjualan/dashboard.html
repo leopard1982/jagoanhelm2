@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+	<div class="container text-center py-5">
+		<img src="{% static 'img/jagoanhelm.jpeg'%}" class="img-circle" style="width: 100px;height: 100px;">
+		<span style="font-size: 50px;" class="fw-bold " id="header1">Jagoan Helm</span>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var tulisan="";
+			var counter=0;
+			setInterval(function() {
+				counter++;
+				
+				if (counter==1) {
+					tulisan="J_";
+				} else if (counter==2) {
+					tulisan="Ja_";
+				} else if (counter==3) {
+					tulisan="Jag_";
+				} else if (counter==4) {
+					tulisan="Jago_";
+				} else if (counter==5) {
+					tulisan="Jagoa_";
+				} else if (counter==6) {
+					tulisan="Jagoan_";
+				}else if (counter==7) {
+					tulisan="Jagoan _";
+				}else if (counter==8) {
+					tulisan="Jagoan H_";
+				}else if (counter==9) {
+					tulisan="Jagoan He_";
+				}else if (counter==10) {
+					tulisan="Jagoan Hel_";
+				}else if (counter==11) {
+					tulisan="Jagoan Helm";
+					counter=0;
+				};
+				$("#header1").html(tulisan);
+				if(counter==0) {
+					$("#header1").animate({
+						fontSize:"80px",
+					},1000);
+					$("#header1").animate({
+						fontSize:"50px",
+					},10);
+				};
+				$("#header1").css("font-size","50px");
+			}, 1000)
+		})
+	</script>
+{% endblock%}
