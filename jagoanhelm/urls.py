@@ -23,6 +23,11 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('penjualan.urls')),
+    path('adm/',include('administrasi.urls')),
+    path('buy/',include('pembelian.urls')),
+    path('tax/',include('pajak.urls')),
+    path('kirim/',include('pengiriman.urls')),
+    path('bayar/',include('pembayaran.urls')),
     re_path(r'^media/(?P<path>.*)$', serve, kwargs={'document_root': settings.MEDIA_ROOT}),
     re_path(r'^static/(?P<path>.*)$', serve, kwargs={'document_root': settings.STATICFILES_DIRS}),
 
