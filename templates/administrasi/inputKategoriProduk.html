@@ -1,0 +1,9 @@
+{% extends 'base.html'%}
+{% block contents %}
+	<h1>Input Kategori Produk</h1>
+	<form method="POST" action="" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{forms.as_p}}
+		<input type="submit" name="btnSubmit" value="Tambahkan">
+	</form>
+{% endblock%}
