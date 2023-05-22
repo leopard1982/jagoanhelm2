@@ -6,4 +6,13 @@
 		{% csrf_token%}
 		<input type="submit" name="btnSubmit" value="Tambahkan">
 	</form>
+	<div class="py-3">
+		<h3>Upload File</h3>
+		<form method="POST" enctype="multipart/form-data" action="/adm/upload/produk/">
+			{% csrf_token %}
+			<input type="file" name="myfile">
+			<input type="submit" name="submit">
+		</form>
+		
+	</div>
 {% endblock%}

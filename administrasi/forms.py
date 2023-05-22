@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from administrasi.models import kategoriProduk, Produk
+from administrasi.models import kategoriProduk, Produk, upFiles
 
 class formInputKategori(ModelForm):
 	class Meta:
@@ -31,3 +31,8 @@ class formInputProduk(ModelForm):
 		#     fields['produk_serial'].widget.attrs['class']="form-control"
 		#     fields['produk_produsen'].widget.attrs['class']="form-control"
 		#     fields['stok_awal'].widget.attrs['class']="form-control"
+
+class UploadFiles(ModelForm):
+	class Meta:
+		model = upFiles
+		fields = ["myfile",]

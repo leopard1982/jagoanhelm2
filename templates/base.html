@@ -3,17 +3,22 @@
 <html>
 <head>
 	<script type="text/javascript" src="{% static 'js/jquery.3.6.4.js'%}"></script>
-	<script type="text/javascript" src="{% static 'js/fontawesomekit.js'%}"></script>
 	<script type="text/javascript" src="{% static 'js/bootstrap5.bundle.min.js'%}"></script>
+	<link rel="stylesheet" href="{% static 'css/bootstrap5.min.css'%}">
+	<link rel="icon" href="{% static 'img/jagoanhelm.ico'%}">
+
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Jagoan Helm</title>
-	<link rel="stylesheet" href="{% static 'css/bootstrap5.min.css'%}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/font.awesome.4.7.css'%}">
-	<link rel="icon" href="{% static 'img/jagoanhelm.ico'%}">
 </head>
 <body>
 	<div class="container">
+		{% for msg in  messages %}
+			<div class="py-3 my-3 text-center rounded alert alert-warning alert-dismissible fade show" role="alert">
+			  <strong>{{msg}}</strong>
+			  </button>
+			</div>
+		{% endfor %}
 		{% block contents%}
 		{% endblock %}
 	</div>

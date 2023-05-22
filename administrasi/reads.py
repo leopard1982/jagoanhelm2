@@ -4,34 +4,37 @@ from django.db import transaction
 from administrasi.models import kategoriProduk, Produk
 
 class readdata:
-	def insertToTable():
+	#goyang mang!!!
+	def insertToTable(pathnya):
 		x=[]
 
-		file = open(os.path.join(settings.BASE_DIR,'mydata.csv'))
-		
+		jumlah_data=0
+
+		file = open(pathnya,'r')
 		for mydata in file:
 			try:
 				y = {
-				'kategori_id':mydata.split(',')[0],
-				'produk_kode':mydata.split(',')[1],
-				'produk_nama':mydata.split(',')[2],
-				'produk_serial':mydata.split(',')[3],
-				'produk_produsen':mydata.split(',')[4]
-				}
+					'kategori_id':mydata.split(',')[0],
+					'produk_kode':mydata.split(',')[1],
+					'produk_nama':mydata.split(',')[2],
+					'produk_serial':mydata.split(',')[3],
+					'produk_produsen':mydata.split(',')[4]
+					}
 				x.append(y)
 			except:
-				pass
-
+				pass			
 
 		for xx in x:
 			try:
-				mypro = Produk(
+				mypro = Produk.objects.create(
 						kategori_id=kategoriProduk.objects.get(kategori=xx['kategori_id']),
 						produk_kode=xx['produk_kode'],
 						produk_nama=xx['produk_nama'],
 						produk_serial=xx['produk_serial'],
 						produk_produsen=xx['produk_produsen']
 					)
-				mypro.save()
+				jumlah_data +=1
+				
 			except:
 				pass
+		return jumlah_data
