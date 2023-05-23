@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents%}
+	<div class="container p-5 h1 text-center">
+		Daftar Produk
+	</div>
+	<div class="row d-flex justify-content-center">
+		{% for data in mydata %}
+		<div class="col-10">
+			<div class="row m-2">
+				<div class="col-4 btn btn-outline-primary" onclick="klikid('{{data.produk_kode}}')">
+					{% if data.gambar %}
+					<img src="{{data.gambar.url}}" class="rounded " style="width: 100%;height: 100%;">
+					{% else %}
+					<div class="container-fluid rounded " style="background: rgba(0,0,0,0.1); width: 100%; height: 100%;">
+						
+					</div>
+					{% endif %}
+				</div>
+				<div class="col-8 p-2 rounded border  border-primary">
+					<p>Kategori: {{data.kategori_id}}</p>
+					<p>Kode Barang: {{data.produk_kode}}</p>
+					<p>Nama Barang: {{data.produk_nama}}</p>
+					<p>Serial Barang: {{data.produk_serial}}</p>
+					<p>Produsen: {{data.produk_produsen}}</p>
+				</div>
+			</div>
+		</div>
+		{% endfor%}
+	</div>
+	<script type="text/javascript">
+		function klikid(mydata) {
+			alert("hallo, kode barangnya: " + mydata);
+		};
+	</script>
+{% endblock%}

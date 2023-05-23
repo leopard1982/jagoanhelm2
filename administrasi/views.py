@@ -15,6 +15,7 @@ from django.conf import settings
 import os
 
 from django.contrib import messages
+from administrasi.models import Produk, kategoriProduk
 
 # Create your views here.
 def dashboard(request):
@@ -40,7 +41,10 @@ def input_Produk(request):
 		myform = formInputProduk(request.POST, request.FILES)
 		if myform.is_valid():
 			myform.save()
-		print(myform)
+			messages.success(request,"Data Berhasil Tersimpan!")
+		else:
+			messages.success(request,"Data Gagal disimpan! Apakah ada duplikat data?")
+		
 		return HttpResponseRedirect("/adm/input/produk/")	
 	forms=formInputProduk()
 	return render(request,'administrasi/inputProduk.html',{'forms':forms})
@@ -49,15 +53,22 @@ def upload_Produk(request):
 	if request.method=="POST":
 		myform=UploadFiles(request.POST,request.FILES)
 		if myform.is_valid():
-			myform.save()
-			####yes bisa!
-			mydata = upFiles.objects.all().order_by("-id")[0]
-			#dapatkan pathnya dari file
-			myfile=os.path.join(settings.BASE_DIR,"media/" + str(mydata.myfile))
-			#proses ke insert!
-			jumlah_data = readdata.insertToTable(myfile)
-			if(jumlah_data==0):
-				messages.success(request,"Upload gagal! Apakah ada duplikat data atau format file csv salah?")
-			else:
-				messages.success(request,"Upload Sukses, ditambahkan %i data!"%jumlah_data)
+			try:
+				myform.save()
+				####yes bisa!
+				mydata = upFiles.objects.all().order_by("-id")[0]
+				#dapatkan pathnya dari file
+				myfile=os.path.join(settings.BASE_DIR,"media/" + str(mydata.myfile))
+				#proses ke insert!
+				jumlah_data = readdata.insertToTable(myfile)
+				if(jumlah_data==0):
+					messages.success(request,"Upload gagal! Apakah ada duplikat data atau format file csv salah?")
+				else:
+					messages.success(request,"Upload Sukses, ditambahkan %i data!"%jumlah_data)
+			except:
+				messages.success(request,"Ini file CSV bung bukan gambar euy!!!")
 	return HttpResponseRedirect("/adm/input/produk/")
+
+def viewProduk(request):
+	mydata = Produk.objects.all()
+	return render(request,'administrasi/tampilProduk.html',{'mydata':mydata})

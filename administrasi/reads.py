@@ -3,6 +3,7 @@ import os
 from django.db import transaction
 from administrasi.models import kategoriProduk, Produk
 
+@transaction.atomic
 class readdata:
 	#goyang mang!!!
 	def insertToTable(pathnya):
