@@ -4,6 +4,6 @@
 	<form method="POST" action="" enctype="multipart/form-data">
 		{% csrf_token %}
 		{{forms.as_p}}
-		<input type="submit" name="btnSubmit" value="Tambahkan">
+		<p><input type="submit" name="btnSubmit" value="Tambahkan" class="btn btn-outline-success"></p>
 	</form>
 {% endblock%}

@@ -15,14 +15,18 @@ class formInputKategori(ModelForm):
 class formInputProduk(ModelForm):
 	class Meta:
 		model = Produk
-		fields = ["kategori","produk_kode","gambar","produk_nama","produk_serial","produk_produsen","stok_awal"]
+		fields = ["kategori","produk_kode","gambar","produk_nama","produk_serial","produk_produsen","berat","deskripsi","stok_awal"]
 
 		widgets = {
 			'produk_kode': forms.TextInput(attrs={'class':'form-control'}),
 			'produk_nama': forms.TextInput(attrs={'class':'form-control'}),
 			'produk_serial': forms.TextInput(attrs={'class':'form-control'}),
 			'produk_produsen': forms.TextInput(attrs={'class':'form-control'}),
+			'berat': forms.NumberInput(attrs={'class':'form-control'}),
 			'stok_awal': forms.NumberInput(attrs={'class':'form-control'}),
+			'deskripsi': forms.Textarea(attrs={'class':'form-control'}),
+			'gambar':forms.FileInput(attrs={'class':'form-control'}),
+			'kategori':forms.Select(attrs={'class':'form-control'})
 		}
 		# def __init__(self, *args, **kwargs):
 		#     super(formInputProduk, self).__init__(*args, **kwargs)
@@ -32,7 +36,27 @@ class formInputProduk(ModelForm):
 		#     fields['produk_produsen'].widget.attrs['class']="form-control"
 		#     fields['stok_awal'].widget.attrs['class']="form-control"
 
+class formUpdateProduk(ModelForm):
+	class Meta:
+		model = Produk
+		fields = ["produk_kode","gambar","produk_nama","berat","produk_serial","produk_produsen","stok_awal","deskripsi"]
+
+		widgets = {
+			'produk_kode': forms.TextInput(attrs={'class':'form-control','readonly':'readonly'}),
+			'produk_nama': forms.TextInput(attrs={'class':'form-control'}),
+			'produk_serial': forms.TextInput(attrs={'class':'form-control'}),
+			'produk_produsen': forms.TextInput(attrs={'class':'form-control'}),
+			'stok_awal': forms.NumberInput(attrs={'class':'form-control'}),
+			'berat': forms.NumberInput(attrs={'class':'form-control'}),
+			'deskripsi': forms.Textarea(attrs={'class':'form-control'})
+
+
+
+		}
+
 class UploadFiles(ModelForm):
 	class Meta:
 		model = upFiles
 		fields = ["myfile",]
+
+	

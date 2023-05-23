@@ -3,6 +3,7 @@ from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirec
 from django.db import transaction
 
 from administrasi.forms import formInputKategori, formInputProduk, UploadFiles
+from administrasi.forms import formUpdateProduk
 
 from administrasi.reads import readdata
 
@@ -72,3 +73,19 @@ def upload_Produk(request):
 def viewProduk(request):
 	mydata = Produk.objects.all()
 	return render(request,'administrasi/tampilProduk.html',{'mydata':mydata})
+
+def updateProduk(request,produk_kode):
+	mydata = Produk.objects.get(produk_kode=produk_kode)
+
+	if request.method=="POST":
+		myforms = formUpdateProduk(request.POST, request.FILES,instance=mydata)
+		if myforms.is_valid():
+			myforms.save()
+			messages.success(request,"data berhasil diupdate!")
+			return HttpResponseRedirect('/adm/view/produk')
+		else:
+			messages.success(request,"data Gagal diupdate! coba cek apakah ada data yang salah?")
+	myforms = formUpdateProduk(instance=mydata)
+	print(mydata)
+
+	return render(request,'administrasi/updateProduk.html',{'myforms':myforms})

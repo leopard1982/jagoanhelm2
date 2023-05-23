@@ -15,13 +15,15 @@ class Produk(models.Model):
 	produk_kode =models.CharField(max_length=100,verbose_name='Kode Produk',null=False,blank=False,primary_key=True)
 	produk_nama =models.CharField(max_length=200,verbose_name='Nama Produk',null=False,blank=False)
 	produk_serial = models.CharField(max_length=200,verbose_name='Serial Kode Produk',null=True,blank=True)
-	produk_produsen = models.CharField(max_length=200,verbose_name='Produken Produk',null=True,blank=True)
+	produk_produsen = models.CharField(max_length=200,verbose_name='Produsen Produk',null=True,blank=True)
 	stok_awal = models.IntegerField(default=0,verbose_name='Stok Awal')
 	stok_masuk = models.IntegerField(default=0,verbose_name='Stok Masuk')
 	stok_keluar = models.IntegerField(default=0,verbose_name='Stok Keluar')
 	stok_rusak = models.IntegerField(default=0,verbose_name="Stok Rusak")
 	stok_akhir = models.IntegerField(default=0,verbose_name='Stok Akhir')
 	gambar = models.ImageField(verbose_name="Gambar Produk",null=True,upload_to="produk")
+	berat = models.IntegerField(verbose_name="Berat dalam gram",null=True,blank=True)
+	deskripsi = models.TextField(verbose_name="Deskripsi Produk",null=True,blank=True)
 	
 	def __str__(self):
 		return self.produk_nama

@@ -1,0 +1,13 @@
+{% extends 'base.html'%}
+{% block contents %}
+	<div class="containers d-flex justify-content-center py-3">
+		<div class="col-10">
+			<h1>Detail Produk</h1>
+			<form action="" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{myforms.as_p}}			
+			<p><input type="submit" value="Update!"></p>
+			</form>
+		</div>
+	</div>
+{% endblock%}

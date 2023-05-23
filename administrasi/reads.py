@@ -15,11 +15,11 @@ class readdata:
 		for mydata in file:
 			try:
 				y = {
-					'kategori_id':mydata.split(',')[0],
-					'produk_kode':mydata.split(',')[1],
-					'produk_nama':mydata.split(',')[2],
-					'produk_serial':mydata.split(',')[3],
-					'produk_produsen':mydata.split(',')[4]
+					'kategori_id':mydata.split(',')[0].strip(),
+					'produk_kode':mydata.split(',')[1].strip(),
+					'produk_nama':mydata.split(',')[2].strip(),
+					'produk_serial':mydata.split(',')[3].strip(),
+					'produk_produsen':mydata.split(',')[4].strip()
 					}
 				x.append(y)
 			except:
