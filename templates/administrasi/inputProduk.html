@@ -1,16 +1,16 @@
-{% extends 'base.html'%}
+{% extends 'menu_produk1.html'%}
 {% load static %}
 {% block contents %}
-	<div class="container d-flex py-3 justify-content-center">
+	<div class="container d-flex justify-content-center">
 		<div class="row">
 			<div class="col-8 p-3">
 				<div class="h1 my-3 ">
 					
 					<strong>Input Produk</strong>	
 				</div>
-				<div class="rounded shadow p-4 border border-primary">
+				<div class="rounded shadow p-4 border border-danger">
 					<div class="d-flex justify-content-end">
-						<img class="shadow border rounded border-primary bg-white p-2" src="{% static 'img/input.png'%}" style="width: 50px;margin-top:-50px;height: 50px; margin-right: -40px;">	
+						<img class="shadow border rounded border-danger bg-white p-2" src="{% static 'img/input.png'%}" style="width: 50px;margin-top:-50px;height: 50px; margin-right: -40px;">	
 					</div>
 					
 					<form method="POST" enctype="multipart/form-data" action="">
@@ -22,19 +22,25 @@
 				
 			</div>
 			<div class="col-4 p-3" style="margin-top:77px">
-				<div class="card p-3 border border-primary shadow" style="background: rgba(255,255,0,0.1);">
+				<div class="card p-3 border border-danger shadow" style="background: rgba(255,255,0,0.1);">
 					<h3><strong>Upload File</strong></h3>
 					<form method="POST" enctype="multipart/form-data" action="/adm/upload/produk/">
 						{% csrf_token %}
 						<div class="justify-content-end d-flex">
-						<div ><img class="p-2 border border-primary bg-white rounded shadow" style="width:50px;height:50px;margin-top:-130px;margin-right:-40px""  src="{% static 'img/files.png'%}""></div>							
+						<div ><img class="p-2 border border-danger bg-white rounded shadow" style="width:50px;height:50px;margin-top:-130px;margin-right:-40px""  src="{% static 'img/files.png'%}""></div>							
 						</div>
 
 						<p><input type="file" name="myfile" class="form-control"></p>
 						<p><input type="submit" name="submit" class="btn btn-outline-primary" value="Upload data!"></p>
+						<p><input type="button" id="Download" class="btn btn-outline-primary" value="Download Template" onclick="downloadme()"></p>
 					</form>
 				</div>
 			</div>	
 		</div>
 	</div>
+	<script type="text/javascript">
+		function downloadme() {
+			window.location.href="{% url 'downTemplateProduk' %}";
+		}
+	</script>
 {% endblock%}

@@ -39,3 +39,19 @@ class readdata:
 			except:
 				pass
 		return jumlah_data
+
+
+	def createTemplateProduk():
+		mykategori = kategoriProduk.objects.all()
+		kategorinya=""
+		for kat in mykategori:
+			kategorinya=kategorinya + kat.kategori + "/ "
+
+		f = open(os.path.join(settings.BASE_DIR,'produk_template.csv'),'w')
+		f.write("----awal bagian untuk dihapus sebelum upload----\n")
+		f.write("Silakan Isikan dengan format di bawah ini menggunakan koma\n")
+		f.write("Untuk Pilihan Kategori Bisa ditulis %s (pilih salah satu\n"%kategorinya)
+		f.write("Untuk Pilihan Negara Asal Bisa ditulis: Indonesia/Tiongkok/Eropa/Amerika (pilih salah satu)\n")
+		f.write("----akhir bagian untuk dihapus sebelum upload----\n")
+		f.write("kategori,kode_sku,nama_produk,merek_produk,asal_produk,stok_awal\n")
+		f.close()

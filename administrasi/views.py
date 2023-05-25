@@ -89,3 +89,12 @@ def updateProduk(request,produk_kode):
 	print(mydata)
 
 	return render(request,'administrasi/updateProduk.html',{'myforms':myforms})
+
+def downTemplateProduk(request):
+	#create template data file
+	readdata.createTemplateProduk()
+
+	f=open(os.path.join(settings.BASE_DIR,'produk_template.csv'),'r')
+	responsenya = HttpResponse(f,content_type="text/plain")
+	responsenya['Content-Disposition'] = 'attachment; filename=produk_template.csv'
+	return responsenya

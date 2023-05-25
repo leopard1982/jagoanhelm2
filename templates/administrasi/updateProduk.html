@@ -1,8 +1,8 @@
-{% extends 'base.html'%}
+{% extends 'menu_produk1.html'%}
 {% block contents %}
 	<div class="containers d-flex justify-content-center py-3">
 		<div class="col-10">
-			<h1>Detail Produk</h1>
+			<h1 class="fw-bold">Detail Produk</h1>
 			<form action="" method="POST" enctype="multipart/form-data">
 			{% csrf_token %}
 			{{myforms.as_p}}			

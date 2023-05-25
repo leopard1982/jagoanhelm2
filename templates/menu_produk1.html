@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static%}
+{% block menu%}
+
+<nav class="navbar navbar-expand-lg navbar-light shadow" style="background: rgba(255,0,0,1);">
+  <div class="container-fluid">
+    <img class="img rounded rounded-circle border border-1 border-warning shadow" src="{% static 'img/jagoanhelm.jpeg'%}" style="width: 50px;height: 50px;"><a class="mx-2 navbar-brand fw-bold text-light" href="#">jagoanhelm.com</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+      	<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Master Data
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="{% url 'inputKategoriProduk'%}">Menambah/ Upload Kategori</a></li>
+            <li><a class="dropdown-item" href="{% url 'inputProduk'%}">Menambah/ Upload Produk</a></li>
+            <li><a class="dropdown-item separator" href="#"></a></li>
+            <li><a class="dropdown-item" href="#">Menampilkan/Update Kategori</a></li>
+            <li><a class="dropdown-item" href="{% url 'viewProduk'%}">Menampilkan/Update Produk</a></li>
+
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Master Data
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock%}

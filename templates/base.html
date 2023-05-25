@@ -12,16 +12,25 @@
 	<title>Jagoan Helm</title>
 </head>
 <body>
-	<div class="container">
-		{% for msg in  messages %}
-			<div class="py-3 my-3 text-center rounded alert alert-warning alert-dismissible fade show" role="alert">
-			  <strong>{{msg}}</strong>
-			  </button>
-			</div>
-		{% endfor %}
+	<div style="background: rgba(255,255,0,0.3);" class="container-fluid">
+		<div class="container-fluid rounded">
+		{% block menu %}
+		{% endblock %}	
+		</div>
 		
-		{% block contents%}
-		{% endblock %}
+		<div class="container bg-white shadow rounded">
+			{% for msg in  messages %}
+				<div class="py-3 my-3 text-center rounded alert alert-warning alert-dismissible fade show" role="alert">
+				  <strong>{{msg}}</strong>
+				  </button>
+				</div>
+			{% endfor %}
+			<div class="container">
+			{% block contents%}
+			{% endblock %}	
+			</div>
+			
+		</div>		
 	</div>
 </body>
 </html>
