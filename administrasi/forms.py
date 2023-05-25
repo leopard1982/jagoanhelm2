@@ -9,7 +9,8 @@ class formInputKategori(ModelForm):
 
 		widgets = {
 			'kategori':forms.TextInput(attrs={'class':'form-control'}),
-			'deskripsi':forms.TextInput(attrs={'class':'form-control'})
+			'deskripsi':forms.TextInput(attrs={'class':'form-control'}),
+			'gambar': forms.FileInput(attrs={'class':'form-control'})
 		}
 
 class formInputProduk(ModelForm):
