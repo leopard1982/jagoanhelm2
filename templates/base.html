@@ -11,14 +11,14 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Jagoan Helm</title>
 </head>
-<body>
-	<div style="background: rgba(255,255,0,0.3);" class="container-fluid">
-		<div class="container-fluid rounded">
+<body style="background: rgba(255,255,0,0.3);">
+	<div  class="container-fluid">
+		<div class="rounded">
 		{% block menu %}
 		{% endblock %}	
 		</div>
 		
-		<div class="container bg-white shadow rounded">
+		<div class="container bg-white shadow rounded" style="padding-bottom:10px">
 			{% for msg in  messages %}
 				<div class="py-3 my-3 text-center rounded alert alert-warning alert-dismissible fade show" role="alert">
 				  <strong>{{msg}}</strong>
@@ -28,9 +28,18 @@
 			<div class="container">
 			{% block contents%}
 			{% endblock %}	
+			</div>			
+			<div class="container col-6 border border-3 rounded shadow  p-2 my-2" style="margin-top: 30px; !important">
+				<foooter >		  <!-- Copyright -->
+				  <div class="text-center">			      
+				    <span class="button fw-bold"> &copy; 2022 - {% now "Y" %}<br>by: leopard, inc &amp; jagoanhelm.com</span>
+				  </div>
+				  <!-- Copyright -->
+				</footer>
+			<!-- Footer -->
 			</div>
-			
-		</div>		
+		</div>	
+		
 	</div>
 </body>
 </html>

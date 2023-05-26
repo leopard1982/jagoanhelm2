@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load static%}
 {% block menu%}
+<div class="container shadow rounded" style="background:rgba(255,140,0,1);">
+  <nav class=" navbar navbar-expand-lg navbar-light" style="background:rgba(255,140,0,1);">
 
-<nav class="navbar navbar-expand-lg navbar-light shadow" style="background: rgba(255,0,0,1);">
-  <div class="container-fluid">
-    <img class="img rounded rounded-circle border border-1 border-warning shadow" src="{% static 'img/jagoanhelm.jpeg'%}" style="width: 50px;height: 50px;"><a class="mx-2 navbar-brand fw-bold text-light" href="#">jagoanhelm.com</a>
+    <img class="img rounded rounded-circle border border-1 border-warning shadow" src="{% static 'img/jagoanhelm.jpeg'%}" style="width: 80px;height: 80px;"><a class="mx-2 navbar-brand fw-bold text-light" href="#"><strong>jagoanhelm.com</strong></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -45,6 +45,6 @@
         </li>
       </ul>
     </div>
-  </div>
-</nav>
+  </nav>
+</div>
 {% endblock%}
