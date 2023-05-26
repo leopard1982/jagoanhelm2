@@ -4,9 +4,8 @@
 	<div class="container d-flex justify-content-center">
 		<div class="row">
 			<div class="col-8 p-3">
-				<div class="h1 my-3 ">
-					
-					input <strong>Kategori Produk</strong>	
+				<div class="h5 my-3 ">
+					master data <strong> &raquo; menambah kategori produk</strong>					
 				</div>
 				<div class="rounded shadow p-4 border border-danger">
 					<div class="d-flex justify-content-end">
@@ -24,10 +23,10 @@
 			<div class="col-4 p-3" style="margin-top:77px">
 				<div class="card p-3 border border-danger shadow" style="background: rgba(255,255,0,0.1);">
 					<h3><strong>Upload File</strong></h3>
-					<form method="POST" enctype="multipart/form-data" action="/adm/upload/produk/">
+					<form method="POST" enctype="multipart/form-data" action="/adm/upload/kategori/">
 						{% csrf_token %}
 						<div class="justify-content-end d-flex">
-						<div ><img class="p-2 border border-danger bg-white rounded shadow" style="width:50px;height:50px;margin-top:-130px;margin-right:-40px""  src="{% static 'img/files.png'%}""></div>							
+						<div ><img class="p-2 border border-danger bg-white rounded shadow" style="width:50px;height:50px;margin-top:-130px;margin-right:-40px"  src="{% static 'img/files.png' %}"></div>							
 						</div>
 
 						<p><input type="file" name="myfile" class="form-control"></p>
@@ -40,7 +39,7 @@
 	</div>
 	<script type="text/javascript">
 		function downloadme() {
-			window.location.href="{% url 'downTemplateProduk' %}";
+			window.location.href="{% url 'downTemplateKategori' %}";
 		}
 	</script>
 {% endblock%}

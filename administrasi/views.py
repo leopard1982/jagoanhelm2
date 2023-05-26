@@ -3,13 +3,13 @@ from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirec
 from django.db import transaction
 
 from administrasi.forms import formInputKategori, formInputProduk, UploadFiles
-from administrasi.forms import formUpdateProduk
+from administrasi.forms import formUpdateProduk, UploadFilesKategori
 
 from administrasi.reads import readdata
 
 from django.core.files.base import ContentFile
 
-from administrasi.models import upFiles
+from administrasi.models import upFiles, upFilesKategori
 
 from django.conf import settings
 
@@ -70,6 +70,28 @@ def upload_Produk(request):
 				messages.success(request,"Ini file CSV bung bukan gambar euy!!!")
 	return HttpResponseRedirect("/adm/input/produk/")
 
+def upload_Kategori(request):
+	if request.method=="POST":
+		myform=UploadFilesKategori(request.POST,request.FILES)
+		if myform.is_valid():
+			try:
+				myform.save()
+				####yes bisa!
+				mydata = upFilesKategori.objects.all().order_by("-id")[0]
+				#dapatkan pathnya dari file
+				#print(os.path.join(settings.BASE_DIR,"media/" + str(mydata.myfile)))
+				myfile=os.path.join(settings.BASE_DIR,"media/" + str(mydata.myfile))
+				#proses ke insert!
+				jumlah_data = readdata.insertToTableKategori(myfile)
+				if(jumlah_data==0):
+					messages.success(request,"Upload gagal! Apakah ada duplikat data atau format file csv salah?")
+				else:
+					messages.success(request,"Upload Sukses, ditambahkan %i data!"%jumlah_data)
+			except:
+				messages.success(request,myform)
+	return HttpResponseRedirect("/adm/input/kategori/")
+
+
 def viewProduk(request):
 	mydata = Produk.objects.all()
 	return render(request,'administrasi/tampilProduk.html',{'mydata':mydata})
@@ -97,4 +119,13 @@ def downTemplateProduk(request):
 	f=open(os.path.join(settings.BASE_DIR,'produk_template.csv'),'r')
 	responsenya = HttpResponse(f,content_type="text/plain")
 	responsenya['Content-Disposition'] = 'attachment; filename=produk_template.csv'
+	return responsenya
+
+def downTemplateKategori(request):
+	#create template data file
+	readdata.createTemplateKategori()
+
+	f=open(os.path.join(settings.BASE_DIR,'kategori_template.csv'),'r')
+	responsenya = HttpResponse(f,content_type="text/plain")
+	responsenya['Content-Disposition'] = 'attachment; filename=kategori_template.csv'
 	return responsenya

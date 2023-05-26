@@ -11,7 +11,7 @@ asal_negara = [
 
 class kategoriProduk(models.Model):
 	kategori = models.CharField(max_length=100,verbose_name="Nama Kategori:",primary_key=True,blank=False,null=False)
-	deskripsi = models.CharField(max_length=100,verbose_name="Deskripsi Kategori")
+	deskripsi = models.CharField(max_length=100,verbose_name="Deskripsi Kategori",null=False,blank=False)
 	gambar = models.ImageField(verbose_name="Gambar Kategori",null=True,upload_to="kategori")
 	
 	def __str__ (self):
@@ -47,4 +47,7 @@ class Produk(models.Model):
 		return self.produk_nama
 
 class upFiles(models.Model):
-	myfile = models.FileField(upload_to="csv",null=True)
+	myfile = models.FileField(upload_to="csv_produk",null=True)
+
+class upFilesKategori(models.Model):
+	myfile = models.FileField(upload_to="csv_kategori",null=True)

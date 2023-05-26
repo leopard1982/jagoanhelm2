@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from administrasi.models import kategoriProduk, Produk, upFiles
+from administrasi.models import kategoriProduk, Produk, upFiles, upFilesKategori
 
 class formInputKategori(ModelForm):
 	class Meta:
@@ -74,4 +74,8 @@ class UploadFiles(ModelForm):
 		model = upFiles
 		fields = ["myfile",]
 
-	
+
+class UploadFilesKategori(ModelForm):
+	class Meta:
+		model = upFilesKategori
+		fields = ["myfile",]
