@@ -38,6 +38,7 @@ class readdata:
 				
 			except:
 				pass
+		os.remove(pathnya)
 		return jumlah_data
 
 	def insertToTableKategori(pathnya):
@@ -63,6 +64,8 @@ class readdata:
 				jumlah_data+=1
 			except:
 				pass
+
+		os.remove(pathnya)
 		# for xx in x:
 		# 	print(xx)
 		# 	try:
