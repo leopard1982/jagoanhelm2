@@ -93,7 +93,7 @@ def upload_Kategori(request):
 
 
 def viewProduk(request):
-	mydata = Produk.objects.all()
+	mydata = Produk.objects.all().order_by("-created_at")
 	return render(request,'administrasi/tampilProduk.html',{'mydata':mydata})
 
 def updateProduk(request,produk_kode):
@@ -108,7 +108,7 @@ def updateProduk(request,produk_kode):
 		else:
 			messages.success(request,"data Gagal diupdate! coba cek apakah ada data yang salah?")
 	myforms = formUpdateProduk(instance=mydata)
-	print(mydata)
+	
 
 	return render(request,'administrasi/updateProduk.html',{'myforms':myforms})
 

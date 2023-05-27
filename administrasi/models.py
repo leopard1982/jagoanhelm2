@@ -13,7 +13,7 @@ class kategoriProduk(models.Model):
 	kategori = models.CharField(max_length=100,verbose_name="Nama Kategori:",primary_key=True,blank=False,null=False)
 	deskripsi = models.CharField(max_length=100,verbose_name="Deskripsi Kategori",null=False,blank=False)
 	gambar = models.ImageField(verbose_name="Gambar Kategori",null=True,upload_to="kategori")
-	
+	created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 	def __str__ (self):
 		return self.kategori
 
@@ -42,7 +42,7 @@ class Produk(models.Model):
 	grosir1 = models.IntegerField(verbose_name="Harga Grosir Tingkat #1",default=0)
 	grosir2 = models.IntegerField(verbose_name="Harga Grosir Tingkat #2",default=0)
 	grosir3 = models.IntegerField(verbose_name="Harga Grosir Tingkat #3",default=0)
-
+	created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 	def __str__(self):
 		return self.produk_nama
 

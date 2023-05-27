@@ -3,11 +3,22 @@
 	<div class="containers d-flex justify-content-center py-3">
 		<div class="col-10">
 			<h1 class="fw-bold">Detail Produk</h1>
-			<form action="" method="POST" enctype="multipart/form-data">
-			{% csrf_token %}
-			{{myforms.as_p}}			
-			<p><input type="submit" value="Update!"></p>
-			</form>
-		</div>
+			<div class="row">
+				<div class="col-3">
+					{% if myforms.gambar.value %}
+					<img src="/media/{{myforms.gambar.value}}" class="rounded shadow" style="width: 100%;height: 150px">
+					{% else %}
+					<div class="rounded shadow" style="background: rgba(0, 0, 0, 0.2); width: 100%;height: 150px;"><p class="p-5 text-center">no picture</p></div>
+					{% endif %}
+				</div>
+				<div class="col-9 shadow rounded p-3 border border-secondary ">
+					<form action="" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{myforms.as_p}}			
+					<p class="d-flex justify-content-center"><input type="submit" value="Update {{myforms.produk_kode.value}}!" class="btn btn-outline-secondary "></p>
+					</form>				
+				</div>
+			</div>
+			</div>
 	</div>
 {% endblock%}

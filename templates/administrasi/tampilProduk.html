@@ -1,12 +1,9 @@
 {% extends 'menu_produk1.html' %}
 {% load static %}
 {% block contents%}
-	<div class="container h1 text-start fw-bold col-10">
-		Daftar Produk
-	</div>
 	<div class="row d-flex justify-content-center">
-		{% for data in mydata %}
-		<div class="col-10">
+		
+		<!-- <div class="col-10">
 			<div class="row m-2">
 				<div class="col-4 btn btn-outline-primary" onclick="klikid('{{data.produk_kode}}')">
 					{% if data.gambar %}
@@ -24,12 +21,58 @@
 					<p>Negara Produsen: {{data.produk_asal}}</p>
 				</div>
 			</div>
-		</div>
-		{% endfor%}
+		</div> -->
+		<h1 class="text-center py-3 fw-bold">
+		Daftar Produk
+		</h1>
+
+		<table class="my-3">
+			<tr>
+				<td>Filter:</td>
+				<td><input type="text" class="form-control" id="myInput"></td>
+			</tr>	
+		</table>
+		<table class="table  table-striped table-hover">
+			<thead>
+				<th class="text-center">No.</th>
+				<th class="text-center">Gambar</th>
+				<th class="text-center">Kode SKU</th>
+				<th class="text-center">Nama Barang</th>
+				<th class="text-center">Merek Barang</th>
+				<th class="text-center">Asal Negara</th>
+			</thead>
+			<tbody id="myTable">
+				{% for data in mydata %}
+				<tr>
+					<th class="text-center">{{forloop.counter}}</th>
+					<td class="d-flex justify-content-center">
+						{% if data.gambar %}
+						<img src={{data.gambar.url}} class="rounded" style="width: 100px;height: 100px;"  onclick="klikid('{{data.produk_kode}}')" onmouseover="">
+						{% else %}
+						<a class="btn btn-primary" href="/adm/update/{{data.produk_kode}}/produk/">no picture</a>
+						{% endif %}
+					</td>
+					<th class="text-center">{{data.produk_kode}}</th>
+					<td class="text-center">{{data.produk_nama}}</td>
+					<td class="text-center">{{data.produk_merek}}</td>
+					<td class="text-center">{{data.produk_asal}}</td>
+				</tr>
+				{% endfor%}
+			</tbody>
+		</table>
+		
 	</div>
 	<script type="text/javascript">
 		function klikid(mydata) {
 			window.location.href="/adm/update/" + mydata + "/produk/";
 		};
+		$(document).ready(function(){
+		  $("#myInput").on("keyup", function() {
+		    var value = $(this).val().toLowerCase();
+		    $("#myTable tr").filter(function() {
+		      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		    });
+		  });
+		});
 	</script>
 {% endblock%}
