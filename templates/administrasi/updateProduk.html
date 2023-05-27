@@ -4,14 +4,27 @@
 		<div class="col-10">
 			<h1 class="fw-bold">Detail Produk</h1>
 			<div class="row">
-				<div class="col-3">
+				<div class="col-4 p-2 border">
 					{% if myforms.gambar.value %}
 					<img src="/media/{{myforms.gambar.value}}" class="rounded shadow" style="width: 100%;height: 150px">
 					{% else %}
 					<div class="rounded shadow" style="background: rgba(0, 0, 0, 0.2); width: 100%;height: 150px;"><p class="p-5 text-center">no picture</p></div>
 					{% endif %}
+
+					{% if myforms.gambar1.value %}
+					<img src="/media/{{myforms.gambar1.value}}" class="rounded shadow my-2" style="width: 100%;height: 150px">
+					{% endif %}
+	
+					{% if myforms.gambar2.value %}
+					<img src="/media/{{myforms.gambar2.value}}" class="rounded shadow my-2" style="width: 100%;height: 150px">
+					{% endif %}
+	
+					{% if myforms.gambar3.value %}
+					<img src="/media/{{myforms.gambar3.value}}" class="rounded shadow my-2" style="width: 100%;height: 150px">
+					{% endif %}
+
 				</div>
-				<div class="col-9 shadow rounded p-3 border border-secondary ">
+				<div class="col-8 shadow rounded p-3 border border-secondary ">
 					<form action="" method="POST" enctype="multipart/form-data">
 					{% csrf_token %}
 					{{myforms.as_p}}			
