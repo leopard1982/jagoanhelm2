@@ -13,6 +13,10 @@ from administrasi.models import upFiles, upFilesKategori
 
 from django.conf import settings
 
+from django.core.paginator import Paginator
+
+from django.db.models import Q
+
 import os
 
 from django.contrib import messages
@@ -94,7 +98,27 @@ def upload_Kategori(request):
 
 def viewProduk(request):
 	mydata = Produk.objects.all().order_by("-created_at")
-	return render(request,'administrasi/tampilProduk.html',{'mydata':mydata})
+	p=Paginator(mydata,5)
+	if(request.method=="POST"):
+		if request.POST['filter'] != "":
+			mydata=mydata.filter(Q(produk_kode__startswith=request.POST['filter']) | Q(produk_merek__startswith=request.POST['filter']) | Q(produk_asal__startswith=request.POST['filter']) |Q(produk_nama__startswith=request.POST['filter']))	
+			p=Paginator(mydata,mydata.count())
+
+	halaman=1
+	if request.GET.get("p") is not None :
+		try:
+			halaman=int(request.GET.get("p"))
+		except:
+			halaman=1
+	else:
+		halaman=1
+
+	try:
+		page = p.get_page(halaman)
+	except:
+		page = None
+
+	return render(request,'administrasi/tampilProduk.html',{'page':page})
 
 def updateProduk(request,produk_kode):
 	mydata = Produk.objects.get(produk_kode=produk_kode)

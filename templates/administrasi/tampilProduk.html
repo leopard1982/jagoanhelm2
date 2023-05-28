@@ -22,17 +22,19 @@
 				</div>
 			</div>
 		</div> -->
-		<h1 class="text-center py-3 fw-bold">
-		Daftar Produk
-		</h1>
+		<div class="text-start py-3 fw-bold shadow p-2 my-2 rounded">
+			<span class="h1"><img src="{% static 'img/logoproduk.png' %}" style="width:50px;height:50px"/> Daftar Produk
+			</span>			
+			<div class="d-flex justify-content-end">
+				<form method="POST" action="">
+					{% csrf_token %}
+					<input type="text" placeholder="silakan cari kode/nama" name="filter" class="p-1 rounded shadow" style="width: 300px;" /><input type="submit" class="btn btn-secondary shadow"  value="cari"/></div>
+				</form>
+			</div>
+		</div>
 
-		<table class="my-3">
-			<tr>
-				<td>Filter:</td>
-				<td><input type="text" class="form-control" id="myInput"></td>
-			</tr>	
-		</table>
-		<table class="table  table-striped table-hover">
+{% if page %}
+		<table class="table  table-striped table-hover shadow">
 			<thead>
 				<th class="text-center">No.</th>
 				<th class="text-center">Gambar</th>
@@ -42,7 +44,7 @@
 				<th class="text-center">Asal Negara</th>
 			</thead>
 			<tbody id="myTable">
-				{% for data in mydata %}
+				{% for data in page %}
 				<tr>
 					<th class="text-center">{{forloop.counter}}</th>
 					<td class="d-flex justify-content-center">
@@ -62,17 +64,19 @@
 		</table>
 		
 	</div>
+	<div class="text-center">
+		{% if page.has_previous %}<a class="btn btn-success" href="?p={{page.previous_page_number}}">&lt;prev</a>{%endif%} 
+		<strong><span class=" p-2 rounded shadow">&laquo; {{page.number}} of {{page.paginator.num_pages}} &raquo;</span></strong>
+		{% if page.has_next %}<a class="btn btn-success" href="?p={{page.next_page_number}}">next&gt;</a>{% endif %}
+	</div>
+{% else %}
+	<h3 class="text-center p-2 ">Data yang dicari tidak ditemukan!</h3>
+{% endif%}
+
+
 	<script type="text/javascript">
 		function klikid(mydata) {
 			window.location.href="/adm/update/" + mydata + "/produk/";
 		};
-		$(document).ready(function(){
-		  $("#myInput").on("keyup", function() {
-		    var value = $(this).val().toLowerCase();
-		    $("#myTable tr").filter(function() {
-		      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-		    });
-		  });
-		});
 	</script>
 {% endblock%}
