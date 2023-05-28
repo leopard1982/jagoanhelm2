@@ -1,12 +1,12 @@
 {% extends 'menu_produk1.html'%}
 {% load static %}
 {% block contents %}
-	<div class="container d-flex justify-content-center">
+	
 		<div class="row">
-			<div class="col-8 p-3">
-				<div class="h5 my-3 ">
-					master data <strong> &raquo; menambah kategori produk</strong>					
+			<div class="text-start py-3 fw-bold shadow p-2 my-2 rounded">
+				<img src="{% static 'img/add2.jpeg' %}" class="rounded border border-success p-2" style="width:50px;height:50px;margin-top:-20px"/> <span class="h1 m-2">Menambah Kategori Produk</span>			
 				</div>
+			<div class="col-8 p-3">
 				<div class="rounded shadow p-4 border border-danger" style="margin-top: 40px;">
 					<div class="d-flex justify-content-end">
 						<img class="shadow border rounded border-danger bg-white p-2" src="{% static 'img/input.png'%}" style="width: 50px;margin-top:-50px;height: 50px; margin-right: -40px;">	
@@ -20,7 +20,7 @@
 				</div>
 				
 			</div>
-			<div class="col-4 p-3" style="margin-top:79px">
+			<div class="col-4 p-3" style="margin-top:39px">
 				<div class="card p-3 border border-danger shadow" style="background: rgba(255,255,0,0.1);">
 					<h3><strong>Upload File</strong></h3>
 					<form method="POST" enctype="multipart/form-data" action="/adm/upload/kategori/">
@@ -36,7 +36,7 @@
 				</div>
 			</div>	
 		</div>
-	</div>
+
 	<script type="text/javascript">
 		function downloadme() {
 			window.location.href="{% url 'downTemplateKategori' %}";

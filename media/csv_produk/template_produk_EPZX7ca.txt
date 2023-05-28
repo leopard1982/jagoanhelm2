@@ -1,0 +1,4 @@
+Elektronik,EL004,Telp Genggam 14,Samsung,Tiongkok,100
+Elektronik,EL0024,Telp Genggam 24,Samsung,Tiongkok,100
+Elektronik,EL0034,Telp Genggam 34,Samsung,Tiongkok,100
+Elektronik,EL0044,Telp Genggam 44,Samsung,Tiongkok,100

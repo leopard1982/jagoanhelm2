@@ -38,6 +38,7 @@ class readdata:
 				
 			except:
 				pass
+		file.close()
 		os.remove(pathnya)
 		return jumlah_data
 
@@ -64,7 +65,7 @@ class readdata:
 				jumlah_data+=1
 			except:
 				pass
-
+		file.close()
 		os.remove(pathnya)
 		# for xx in x:
 		# 	print(xx)

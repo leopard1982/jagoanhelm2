@@ -3,7 +3,7 @@ from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirec
 from django.db import transaction
 
 from administrasi.forms import formInputKategori, formInputProduk, UploadFiles
-from administrasi.forms import formUpdateProduk, UploadFilesKategori
+from administrasi.forms import formUpdateProduk, UploadFilesKategori, formUpdateKategori
 
 from administrasi.reads import readdata
 
@@ -54,6 +54,24 @@ def input_Produk(request):
 	forms=formInputProduk()
 	return render(request,'administrasi/inputProduk.html',{'forms':forms})
 
+def delete_Produk(request,produk_kode):
+	try:
+		Produk.objects.get(produk_kode=produk_kode).delete()
+		messages.success(request,"Produk dengan kode %s berhasil dihapus!"%produk_kode)
+	except:
+		messages.success(request,"Produk dengan kode %s gagal dihapus, apakah ada salah memasukkan kode?"%produk_kode)
+
+	return redirect('viewProduk')
+
+def delete_Kategori(request,kategori):
+	try:
+		kategoriProduk.objects.get(kategori=kategori).delete()
+		messages.success(request,"Kategori Produk %s berhasil dihapus!"%kategori)
+	except:
+		messages.success(request,"Kategori dengan kode %s gagal dihapus karena sudah memiliki produk!"%kategori)
+
+	return redirect('viewkategoriProduk')
+
 def upload_Produk(request):
 	if request.method=="POST":
 		myform=UploadFiles(request.POST,request.FILES)
@@ -71,7 +89,8 @@ def upload_Produk(request):
 				else:
 					messages.success(request,"Upload Sukses, ditambahkan %i data!"%jumlah_data)
 			except:
-				messages.success(request,"Ini file CSV bung bukan gambar euy!!!")
+				print(myform)
+				messages.success(request,"Format file harus csv! Upload dibatalkan!")
 	return HttpResponseRedirect("/adm/input/produk/")
 
 def upload_Kategori(request):
@@ -92,7 +111,7 @@ def upload_Kategori(request):
 				else:
 					messages.success(request,"Upload Sukses, ditambahkan %i data!"%jumlah_data)
 			except:
-				messages.success(request,myform)
+				messages.success(request,"Format file harus csv! Upload dibatalkan!")
 	return HttpResponseRedirect("/adm/input/kategori/")
 
 
@@ -120,6 +139,25 @@ def viewProduk(request):
 
 	return render(request,'administrasi/tampilProduk.html',{'page':page})
 
+def viewkategoriProduk(request):
+	mydata = kategoriProduk.objects.all()
+	p=Paginator(mydata,5)
+	halaman=1
+	if request.GET.get("p") is not None :
+		try:
+			halaman=int(request.GET.get("p"))
+		except:
+			halaman=1
+	else:
+		halaman=1
+
+	try:
+		page = p.get_page(halaman)
+	except:
+		page = None
+
+	return render(request,'administrasi/tampilKategori.html',{'page':page})
+
 def updateProduk(request,produk_kode):
 	mydata = Produk.objects.get(produk_kode=produk_kode)
 
@@ -135,6 +173,22 @@ def updateProduk(request,produk_kode):
 	
 
 	return render(request,'administrasi/updateProduk.html',{'myforms':myforms})
+
+def updateKategori(request,kategori):
+	mydata = kategoriProduk.objects.get(kategori=kategori)
+
+	if request.method=="POST":
+		myforms = formUpdateKategori(request.POST, request.FILES,instance=mydata)
+		if myforms.is_valid():
+			myforms.save()
+			messages.success(request,"Data Kategori: %s berhasil diupdate!"%kategori)
+			return HttpResponseRedirect('/adm/view/kategoriproduk/')
+		else:
+			messages.success(request,"Data Kategori %s Gagal diupdate! coba cek apakah ada data yang salah?"%kategori)
+	myforms = formUpdateKategori(instance=mydata)
+	
+
+	return render(request,'administrasi/updateKategori.html',{'myforms':myforms})
 
 def downTemplateProduk(request):
 	#create template data file

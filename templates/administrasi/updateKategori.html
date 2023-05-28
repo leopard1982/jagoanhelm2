@@ -1,0 +1,24 @@
+{% extends 'menu_produk1.html'%}
+{% load static %}
+{% block contents %}
+
+	<div class="containers d-flex justify-content-center py-3">
+		<div class="col-12 my-2">
+			<h1 class="fw-bold shadow p-2 rounded"><img src="{% static 'img/kategori.png'%}" style="width:50px;height:50px"/ > Detail Kategori Produk</h1>
+			<div class="row">
+				<div class="col-4 p-2 border">
+					{% if myforms.gambar.value %}
+					<img src="/media/{{myforms.gambar.value}}" class="rounded shadow" style="width: 100%;height: 150px">
+					{% endif %}
+				</div>
+				<div class="col-8 shadow rounded p-3 border border-secondary ">
+					<form action="" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{myforms.as_p}}			
+					<p class="d-flex justify-content-center"><input type="submit" value="Update {{myforms.kategori.value}}!" class="btn btn-outline-secondary "></p>
+					</form>				
+				</div>
+			</div>
+			</div>
+	</div>
+{% endblock%}

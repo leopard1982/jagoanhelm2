@@ -1,0 +1,74 @@
+{% extends 'menu_produk1.html' %}
+{% load static %}
+{% block contents%}
+	<div class="row d-flex justify-content-center">
+		
+		<!-- <div class="col-10">
+			<div class="row m-2">
+				<div class="col-4 btn btn-outline-primary" onclick="klikid('{{data.produk_kode}}')">
+					{% if data.gambar %}
+					<img src="{{data.gambar.url}}" class="rounded " style="width: 100%;height: 100%;">
+					{% else %}
+					<div class="container-fluid rounded " style="background: rgba(0,0,0,0.1); width: 100%; height: 100%;">
+						
+					</div>
+					{% endif %}
+				</div>
+				<div class="col-8 p-2 rounded border  border-primary">
+					<p>Kode SKU Barang: {{data.produk_kode}}</p>
+					<p>Nama Barang: {{data.produk_nama}}</p>
+					<p>Merek Barang: {{data.produk_merek}}</p>
+					<p>Negara Produsen: {{data.produk_asal}}</p>
+				</div>
+			</div>
+		</div> -->
+		<div class="text-start py-3 fw-bold shadow p-2 my-2 rounded">
+			<span class="h1"><img src="{% static 'img/kategori.png' %}" style="width:50px;height:50px"/> Daftar Kategori Produk
+			</span>			
+		</div>
+
+{% if page %}
+		<table class="table  table-striped table-hover shadow">
+			<thead>
+				<th class="text-center">No.</th>
+				<th class="text-center">Gambar</th>
+				<th class="text-center">Nama Kategori</th>
+				<th class="text-center">Deskripsi</th>
+				<th></th>
+			</thead>
+			<tbody id="myTable">
+				{% for data in page %}
+				<tr>
+					<th class="text-center">{{forloop.counter}}</th>
+					<td class="d-flex justify-content-center">
+						{% if data.gambar %}
+						<img src={{data.gambar.url}} class="rounded" style="width: 200px;height: 200px;"  onclick="klikid('{{data.kategori}}')" onmouseover="">
+						{% else %}
+						<a class="btn btn-primary" href="/adm/update/{{data.kategori}}/kategori/">no picture</a>
+						{% endif %}
+					</td>
+					<th class="text-center">{{data.kategori}}</th>
+					<td class="text-center">{{data.deskripsi}}</td>
+					<td class="text-center"><a href="/adm/delete/{{data.kategori}}/kategori/" class="btn rounded shadow rounded p-2 btn-danger h3 border border-1 border-danger">&nbsp;X&nbsp;</a></td>
+				</tr>
+				{% endfor%}
+			</tbody>
+		</table>
+		
+	</div>
+	<div class="text-center">
+		{% if page.has_previous %}<a class="btn btn-success" href="?p={{page.previous_page_number}}">&lt;prev</a>{%endif%} 
+		<strong><span class=" p-2 rounded shadow">&laquo; {{page.number}} of {{page.paginator.num_pages}} &raquo;</span></strong>
+		{% if page.has_next %}<a class="btn btn-success" href="?p={{page.next_page_number}}">next&gt;</a>{% endif %}
+	</div>
+{% else %}
+	<h3 class="text-center p-2 ">Data yang dicari tidak ditemukan!</h3>
+{% endif%}
+
+
+	<script type="text/javascript">
+		function klikid(mydata) {
+			window.location.href="/adm/update/" + mydata + "/kategori/";
+		};
+	</script>
+{% endblock%}

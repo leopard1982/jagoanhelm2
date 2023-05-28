@@ -13,6 +13,18 @@ class formInputKategori(ModelForm):
 			'gambar': forms.FileInput(attrs={'class':'form-control'})
 		}
 
+class formUpdateKategori(ModelForm):
+	class Meta:
+		model = kategoriProduk
+		fields = ["kategori","deskripsi","gambar"]
+
+		widgets = {
+			'kategori':forms.TextInput(attrs={'class':'form-control','readonly':'readonly'}),
+			'deskripsi':forms.TextInput(attrs={'class':'form-control'}),
+			'gambar': forms.FileInput(attrs={'class':'form-control'})
+		}
+
+
 class formInputProduk(ModelForm):
 	class Meta:
 		model = Produk
