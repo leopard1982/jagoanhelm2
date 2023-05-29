@@ -24,7 +24,10 @@ from administrasi.models import Produk, kategoriProduk
 
 # Create your views here.
 def dashboard(request):
-	return render(request,'administrasi/dashboard.html')
+	jumlah_produk = Produk.objects.all().count()
+	lima_stok = Produk.objects.all().order_by("-created_at")[0:5]
+	jumlah_kategori = kategoriProduk.objects.all().count()
+	return render(request,'administrasi/dashboard.html',{'jumlah_produk':jumlah_produk,'jumlah_kategori':jumlah_kategori,'lima_stok':lima_stok})
 
 def input_kategoriProduk(request):
 	# read data from files
