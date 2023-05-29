@@ -42,7 +42,7 @@
 				<th class="text-center">Nama Barang</th>
 				<th class="text-center">Merek Barang</th>
 				<th class="text-center">Asal Negara</th>
-				<th></th>
+				<th class="text-end" style="width:200px">Status</th>
 			</thead>
 			<tbody id="myTable">
 				{% for data in page %}
@@ -59,7 +59,14 @@
 					<td class="text-center">{{data.produk_nama}}</td>
 					<td class="text-center">{{data.produk_merek}}</td>
 					<td class="text-center">{{data.produk_asal}}</td>
-					<td class="text-center"><a href="/adm/delete/{{data.produk_kode}}/produk/" class="btn rounded shadow rounded p-2 btn-danger h3 border border-1 border-danger">&nbsp;X&nbsp;</a></td>
+					<td class="text-end">
+						{% if data.aktif %}
+							<a class="btn btn-warning" href="/adm/update/produk/status/?pk={{data.produk_kode}}&st=1">aktif</a>
+						{% else %}
+							<a class="btn btn-secondary" href="/adm/update/produk/status/?pk={{data.produk_kode}}&st=0">tidak aktif</a>
+						{% endif%}
+						<a href="/adm/delete/{{data.produk_kode}}/produk/" class="btn rounded shadow rounded btn-danger">&nbsp;X&nbsp;</a>
+					</td>
 				</tr>
 				{% endfor%}
 			</tbody>

@@ -4,6 +4,7 @@ from django.db import transaction
 
 from administrasi.forms import formInputKategori, formInputProduk, UploadFiles
 from administrasi.forms import formUpdateProduk, UploadFilesKategori, formUpdateKategori
+from administrasi.forms import UpdateAktifProduk
 
 from administrasi.reads import readdata
 
@@ -27,7 +28,9 @@ def dashboard(request):
 	jumlah_produk = Produk.objects.all().count()
 	lima_stok = Produk.objects.all().order_by("-created_at")[0:5]
 	jumlah_kategori = kategoriProduk.objects.all().count()
-	return render(request,'administrasi/dashboard.html',{'jumlah_produk':jumlah_produk,'jumlah_kategori':jumlah_kategori,'lima_stok':lima_stok})
+	produk_aktif = Produk.objects.all().filter(aktif=True).count()
+	produk_nonaktif = Produk.objects.all().filter(aktif=False).count()
+	return render(request,'administrasi/dashboard.html',{'produk_aktif':produk_aktif,'produk_nonaktif':produk_nonaktif,'jumlah_produk':jumlah_produk,'jumlah_kategori':jumlah_kategori,'lima_stok':lima_stok})
 
 def input_kategoriProduk(request):
 	# read data from files
@@ -59,11 +62,16 @@ def input_Produk(request):
 
 def delete_Produk(request,produk_kode):
 	try:
-		Produk.objects.get(produk_kode=produk_kode).delete()
-		messages.success(request,"Produk dengan kode %s berhasil dihapus!"%produk_kode)
+		if Produk.objects.get(produk_kode=produk_kode).ada_transaksi==False:
+			try:
+				Produk.objects.get(produk_kode=produk_kode).delete()
+				messages.success(request,"Produk dengan kode %s berhasil dihapus!"%produk_kode)
+			except:
+				messages.success(request,"Produk dengan kode %s gagal dihapus, apakah ada salah memasukkan kode?"%produk_kode)
+		else:
+			messages.success(request,"Produk Tidak Dapat dihapus, karena sudah ada transaksi!")
 	except:
-		messages.success(request,"Produk dengan kode %s gagal dihapus, apakah ada salah memasukkan kode?"%produk_kode)
-
+		pass
 	return redirect('viewProduk')
 
 def delete_Kategori(request,kategori):
@@ -210,3 +218,23 @@ def downTemplateKategori(request):
 	responsenya = HttpResponse(f,content_type="text/plain")
 	responsenya['Content-Disposition'] = 'attachment; filename=kategori_template.csv'
 	return responsenya
+
+def updateStatusProduk(request):
+	produk_kode=request.GET.get('pk')
+	produk_status = request.GET.get('st')
+
+	print(produk_status)
+	status=True
+
+	if produk_status == "1":
+		status=False
+	if produk_status== "0":
+		status=True
+
+
+	
+	mypro = Produk.objects.get(produk_kode=produk_kode)
+	mypro.aktif=status
+	mypro.save()
+	
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

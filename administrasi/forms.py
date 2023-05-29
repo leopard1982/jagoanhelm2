@@ -28,7 +28,7 @@ class formUpdateKategori(ModelForm):
 class formInputProduk(ModelForm):
 	class Meta:
 		model = Produk
-		fields = ['kategori','produk_kode','produk_nama','produk_merek','produk_asal','stok_awal','stok_rusak','gambar','gambar1','gambar2','gambar3','berat','deskripsi','harga','jumlah1','grosir1','jumlah2','grosir2','jumlah3','grosir3']
+		fields = ['kategori','produk_kode','produk_nama','produk_merek','produk_asal','stok_awal','gambar','gambar1','gambar2','gambar3','berat','deskripsi','harga','jumlah1','grosir1','jumlah2','grosir2','jumlah3','grosir3']
 		
 		widgets = {
 			'kategori':forms.Select(attrs={'class':'form-control'}),
@@ -37,7 +37,6 @@ class formInputProduk(ModelForm):
 			'produk_merek':forms.TextInput(attrs={'class':'form-control'}),
 			'produk_asal':forms.Select(attrs={'class':'form-control'}),
 			'stok_awal':forms.NumberInput(attrs={'class':'form-control'}),
-			'stok_rusak':forms.NumberInput(attrs={'class':'form-control'}),
 			'gambar':forms.FileInput(attrs={'class':'form-control'}),
 			'gambar1':forms.FileInput(attrs={'class':'form-control'}),
 			'gambar2':forms.FileInput(attrs={'class':'form-control'}),
@@ -56,7 +55,7 @@ class formInputProduk(ModelForm):
 class formUpdateProduk(ModelForm):
 	class Meta:
 		model = Produk
-		fields = ['produk_kode','produk_nama','produk_merek','produk_asal','stok_awal','stok_rusak','gambar','gambar1','gambar2','gambar3','berat','deskripsi','harga','jumlah1','grosir1','jumlah2','grosir2','jumlah3','grosir3']
+		fields = ['produk_kode','produk_nama','produk_merek','produk_asal','stok_awal','gambar','gambar1','gambar2','gambar3','berat','deskripsi','harga','jumlah1','grosir1','jumlah2','grosir2','jumlah3','grosir3','aktif']
 		
 		widgets = {
 			'produk_kode':forms.TextInput(attrs={'class':'form-control','readonly':'readonly'}),
@@ -91,3 +90,8 @@ class UploadFilesKategori(ModelForm):
 	class Meta:
 		model = upFilesKategori
 		fields = ["myfile",]
+
+class UpdateAktifProduk(ModelForm):
+	class Meta:
+		model = Produk
+		fields= ['produk_kode','aktif']

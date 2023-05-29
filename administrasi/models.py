@@ -43,6 +43,9 @@ class Produk(models.Model):
 	grosir2 = models.IntegerField(verbose_name="Harga Grosir Tingkat #2",default=0)
 	grosir3 = models.IntegerField(verbose_name="Harga Grosir Tingkat #3",default=0)
 	created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+	aktif = models.BooleanField(default=True)
+	ada_transaksi = models.BooleanField(default=False)
+
 	def __str__(self):
 		return self.produk_nama
 
