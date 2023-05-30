@@ -4,7 +4,7 @@ from django.db import transaction
 
 from administrasi.forms import formInputKategori, formInputProduk, UploadFiles
 from administrasi.forms import formUpdateProduk, UploadFilesKategori, formUpdateKategori
-from administrasi.forms import UpdateAktifProduk
+from administrasi.forms import UpdateAktifProduk, FormInputStokRusak, FormUpdateStokRusak
 
 from administrasi.reads import readdata
 
@@ -16,21 +16,30 @@ from django.conf import settings
 
 from django.core.paginator import Paginator
 
-from django.db.models import Q
+from django.db.models import Q, F
 
 import os
 
 from django.contrib import messages
-from administrasi.models import Produk, kategoriProduk
+from administrasi.models import Produk, kategoriProduk, rusakProduk
 
+def updateRusakProdukResult():
+	x=rusakProduk.objects.all()
+	x.update(jumlah_akhir=F('jumlah_rusak')-F('jumlah_ready'))
+
+def updateMasterProduk():
+	Produk.objects.all().update(stok_akhir=F('stok_awal')+F('stok_masuk')-F('stok_keluar')-F('stok_rusak'))
+	Produk.objects.all().filter(Q(stok_masuk__gt=0) | Q(stok_keluar__gt=0) | Q(stok_rusak__gt=0)).update(ada_transaksi=True)
 # Create your views here.
+
 def dashboard(request):
 	jumlah_produk = Produk.objects.all().count()
 	lima_stok = Produk.objects.all().order_by("-created_at")[0:5]
 	jumlah_kategori = kategoriProduk.objects.all().count()
 	produk_aktif = Produk.objects.all().filter(aktif=True).count()
 	produk_nonaktif = Produk.objects.all().filter(aktif=False).count()
-	return render(request,'administrasi/dashboard.html',{'produk_aktif':produk_aktif,'produk_nonaktif':produk_nonaktif,'jumlah_produk':jumlah_produk,'jumlah_kategori':jumlah_kategori,'lima_stok':lima_stok})
+	followup_repair = rusakProduk.objects.all().filter(selesai=False).count()
+	return render(request,'administrasi/dashboard.html',{'followup_repair':followup_repair,'produk_aktif':produk_aktif,'produk_nonaktif':produk_nonaktif,'jumlah_produk':jumlah_produk,'jumlah_kategori':jumlah_kategori,'lima_stok':lima_stok})
 
 def input_kategoriProduk(request):
 	# read data from files
@@ -52,6 +61,7 @@ def input_Produk(request):
 		myform = formInputProduk(request.POST, request.FILES)
 		if myform.is_valid():
 			myform.save()
+			updateMasterProduk()
 			messages.success(request,"Data Berhasil Tersimpan!")
 		else:
 			messages.success(request,"Data Gagal disimpan! Apakah ada duplikat data?")
@@ -67,7 +77,7 @@ def delete_Produk(request,produk_kode):
 				Produk.objects.get(produk_kode=produk_kode).delete()
 				messages.success(request,"Produk dengan kode %s berhasil dihapus!"%produk_kode)
 			except:
-				messages.success(request,"Produk dengan kode %s gagal dihapus, apakah ada salah memasukkan kode?"%produk_kode)
+				messages.success(request,"Produk dengan kode %s gagal dihapus karena sudah pernah ada transaksi."%produk_kode)
 		else:
 			messages.success(request,"Produk Tidak Dapat dihapus, karena sudah ada transaksi!")
 	except:
@@ -99,6 +109,7 @@ def upload_Produk(request):
 					messages.success(request,"Upload gagal! Apakah ada duplikat data atau format file csv salah?")
 				else:
 					messages.success(request,"Upload Sukses, ditambahkan %i data!"%jumlah_data)
+					updateMasterProduk()
 			except:
 				print(myform)
 				messages.success(request,"Format file harus csv! Upload dibatalkan!")
@@ -177,6 +188,7 @@ def updateProduk(request,produk_kode):
 		if myforms.is_valid():
 			myforms.save()
 			messages.success(request,"data berhasil diupdate!")
+			updateMasterProduk()
 			return HttpResponseRedirect('/adm/view/produk')
 		else:
 			messages.success(request,"data Gagal diupdate! coba cek apakah ada data yang salah?")
@@ -238,3 +250,93 @@ def updateStatusProduk(request):
 	mypro.save()
 	
 	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def inputStokRusak(request,produk_kode):
+	if request.method=="POST":
+		forms = FormInputStokRusak(request.POST)
+		if forms.is_valid():
+			forms.save()
+			updateRusakProdukResult() #untuk update table rusakProduk
+			messages.success(request,"Permintaan Pengajuan Stok Rusak diterima!")
+		else:
+			messages.success(request,"Permintaan Pengajuan Stok Rusak gagal!")
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	mydata = Produk.objects.get(produk_kode=produk_kode)
+	forms = FormInputStokRusak(instance=mydata)
+	return render(request,'administrasi/inputRusak.html',{'forms':forms})
+
+@transaction.atomic()
+def updateStokRusak(request,pk):
+	if request.method=="POST":
+		try:
+			mydata = rusakProduk.objects.get(id=pk)
+			jumlah_rusak = int(request.POST['jumlah_rusak'])
+			jumlah_ready = int(request.POST['jumlah_ready'])
+			jumlah_akhir = jumlah_rusak - jumlah_ready
+			produk_kode = request.POST['produk_kode']
+			keterangan = request.POST['keterangan']
+
+			if jumlah_rusak < jumlah_ready:
+				messages.success(request,"Update Stok Rusak Gagal Karena Jumlah Stok Ready > Jumlah Stok Rusak")
+			else:
+				if Produk.objects.get(produk_kode=produk_kode).stok_akhir > jumlah_akhir:			
+					try:
+						selesai = request.POST['selesai']
+						selesai = True
+					except:
+						selesai = False
+					mydata.jumlah_ready = jumlah_ready
+					mydata.jumlah_akhir = jumlah_akhir
+					mydata.jumlah_rusak = jumlah_rusak
+					mydata.keterangan = keterangan
+					mydata.selesai = selesai
+					mydata.save()
+
+					if selesai:
+						#UPDATE PRODUK TABLE
+						Produk.objects.all().filter(produk_kode=produk_kode).update(stok_rusak = F('stok_rusak')+jumlah_akhir)
+						Produk.objects.all().filter(produk_kode=produk_kode).update(stok_akhir = F('stok_akhir')-jumlah_akhir)
+						messages.success(request,"Status Repair Stok Selesai!")
+					else:
+						messages.success(request,"Update Status Stok Berhasil!")
+					return redirect("viewStatusStokRusak")
+				else:
+					messages.success(request,"Jumlah Stok Rusak Melebihi Jumlah Stok Produk yang Ada! Silakan Perbaiki Inputan Terlebih dahulu!")
+		except:
+			messages.success(request,"Maaf, Update Status Stok Gagal!")
+		return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	mydata = rusakProduk.objects.get(id=pk)
+	forms = FormUpdateStokRusak(instance=mydata)
+	return render(request,'administrasi/inputRusak.html',{'forms':forms})
+
+def viewStatusStokRusak(request):
+	mydata = rusakProduk.objects.all().order_by("-id")
+	p=Paginator(mydata,10)
+	halaman=1
+	if request.GET.get("p") is not None :
+		try:
+			halaman=int(request.GET.get("p"))
+		except:
+			halaman=1
+	else:
+		halaman=1
+
+	try:
+		page = p.get_page(halaman)
+	except:
+		page = None
+	return render(request,'administrasi/fuRusak.html',{'page':page})
+
+def deleterusakProduk(request,pk):
+	try:
+		if rusakProduk.objects.get(id=pk).selesai==False:
+			try:
+				rusakProduk.objects.get(id=pk).delete()
+				messages.success(request,"Laporan Perbaikan Produk dengan nomor %i berhasil dihapus!"%pk)
+			except:
+				messages.success(request,"Laporan Perbaikan Produk dengan nomor %i gagal dihapus, apakah ada salah memasukkan nomor Pelaporan?"%produk_kode)
+		else:
+			messages.success(request,"Laporan Perbaikan %i sudah dinyatakan selesai, tidak bisa dihapus!")
+	except:
+		pass
+	return redirect('viewStatusStokRusak')

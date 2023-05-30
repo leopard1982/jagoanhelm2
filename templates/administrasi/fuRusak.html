@@ -1,0 +1,60 @@
+{% extends 'menu_produk1.html'%}
+{% load static %}
+{% block contents %}
+<div class="py-3">
+	<h3>Daftar Laporan Kerusakan Produk</h3>
+	{% if page %}
+		<table class="table  table-striped table-hover shadow">
+		<thead>
+			<th>No.</th>
+			<th>Kode Produk</th>
+			<th>Nama Produk</th>
+			<th>Id Laporan</th>
+			<th>Stok Rusak</th>
+			<th>Stok Ready</th>
+			<th>Stok Akhir</th>
+			<th>Keterangan</th>
+			<th>Status</th>
+		</thead>
+		
+		{% for data in page %}
+		<tr>
+			<th>{{forloop.counter}}</th>
+			<th>
+				{% if data.selesai%}
+					<a class="btn btn-outline-primary disabled" href="#">	{{data.produk_kode_id}}</a>
+				{% else %}
+					<a class="btn btn-outline-primary" href="/adm/update/produk/rusak/{{data.id}}/">{{data.produk_kode_id}}</a>
+
+				{% endif%}
+			</th>
+			<th>{{data.produk_kode}}</th>
+			<td>{{data.id}}</td>
+			<td>{{data.jumlah_rusak}}</td>
+			<td>{{data.jumlah_ready}}</td>
+			<td>{{data.jumlah_akhir}}</td>
+			<td>{{data.keterangan}}</td>
+			<td class="d-flex justify-content-end">
+				{% if data.selesai %}
+					<a class="btn btn-success disabled">selesai</a>
+					<a class="btn btn-danger disabled">X</a>
+				{% else %}
+					<a class="btn btn-outline-success disabled">progress!</a>
+					<a class="btn btn-danger" href="/adm/delete/{{data.id}}/produk/rusak/">X</a>
+				{% endif %}
+			</td>
+		</tr>
+		{% endfor%}
+	</table>
+	<div class="text-center">
+		{% if page.has_previous %}<a class="btn btn-success" href="?p={{page.previous_page_number}}">&lt;prev</a>{%endif%} 
+		<strong><span class=" p-2 rounded shadow">&laquo; {{page.number}} of {{page.paginator.num_pages}} &raquo;</span></strong>
+		{% if page.has_next %}<a class="btn btn-success" href="?p={{page.next_page_number}}">next&gt;</a>{% endif %}
+	</div>
+
+	{% else %}
+		<h4 class="p-5 text-center">Maaf, Belum ada Laporan Kerusakan Produk dibuat!</h4>
+	{% endif %}
+</div>
+
+{% endblock%}

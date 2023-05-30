@@ -1,6 +1,8 @@
 from django.forms import ModelForm
 from django import forms
 from administrasi.models import kategoriProduk, Produk, upFiles, upFilesKategori
+from administrasi.models import rusakProduk
+from django.db.models import F
 
 class formInputKategori(ModelForm):
 	class Meta:
@@ -55,7 +57,7 @@ class formInputProduk(ModelForm):
 class formUpdateProduk(ModelForm):
 	class Meta:
 		model = Produk
-		fields = ['produk_kode','produk_nama','produk_merek','produk_asal','stok_awal','gambar','gambar1','gambar2','gambar3','berat','deskripsi','harga','jumlah1','grosir1','jumlah2','grosir2','jumlah3','grosir3','aktif']
+		fields = ['produk_kode','produk_nama','produk_merek','produk_asal','stok_awal','stok_masuk','stok_rusak','stok_akhir','gambar','gambar1','gambar2','gambar3','berat','deskripsi','harga','jumlah1','grosir1','jumlah2','grosir2','jumlah3','grosir3','aktif']
 		
 		widgets = {
 			'produk_kode':forms.TextInput(attrs={'class':'form-control','readonly':'readonly'}),
@@ -63,7 +65,9 @@ class formUpdateProduk(ModelForm):
 			'produk_merek':forms.TextInput(attrs={'class':'form-control'}),
 			'produk_asal':forms.Select(attrs={'class':'form-control'}),
 			'stok_awal':forms.NumberInput(attrs={'class':'form-control'}),
-			'stok_rusak':forms.NumberInput(attrs={'class':'form-control'}),
+			'stok_masuk':forms.NumberInput(attrs={'class':'form-control','readonly':'readonly'}),
+			'stok_rusak':forms.NumberInput(attrs={'class':'form-control','readonly':'readonly'}),
+			'stok_akhir':forms.NumberInput(attrs={'class':'form-control','readonly':'readonly'}),
 			'gambar':forms.FileInput(attrs={'class':'form-control'}),
 			'gambar1':forms.FileInput(attrs={'class':'form-control'}),
 			'gambar2':forms.FileInput(attrs={'class':'form-control'}),
@@ -95,3 +99,52 @@ class UpdateAktifProduk(ModelForm):
 	class Meta:
 		model = Produk
 		fields= ['produk_kode','aktif']
+
+class FormInputStokRusak(ModelForm):
+	class Meta:
+		model = rusakProduk
+		fields = ['id','produk_kode','jumlah_rusak','jumlah_ready','jumlah_akhir','keterangan','selesai']
+		
+		widgets = {
+			'produk_kode': forms.TextInput(attrs={
+				'class':'form-control',
+				'readonly':'readonly'
+				}),
+			'jumlah_rusak': forms.NumberInput(attrs={
+				'class':'form-control'
+				}),
+			'jumlah_ready': forms.NumberInput(attrs={
+				'class':'form-control'
+				}),
+			'jumlah_akhir': forms.NumberInput(attrs={
+				'class':'form-control',
+				'readonly':'readonly'
+				}),
+		}
+
+class FormUpdateStokRusak(ModelForm):
+	class Meta:
+		model = rusakProduk
+		fields = ['id','produk_kode','jumlah_rusak','jumlah_ready','jumlah_akhir','keterangan','selesai']
+		
+		widgets = {
+			'id':forms.NumberInput(attrs={
+				'class':'form-control',
+				'readonly':'readonly'
+				}),
+			'produk_kode': forms.TextInput(attrs={
+				'class':'form-control',
+				'readonly':'readonly'
+				}),
+			'jumlah_rusak': forms.NumberInput(attrs={
+				'class':'form-control'
+				}),
+			'jumlah_ready': forms.NumberInput(attrs={
+				'class':'form-control'
+				}),
+			'jumlah_akhir': forms.NumberInput(attrs={
+				'class':'form-control',
+				'readonly':'readonly'
+				}),
+		}
+		

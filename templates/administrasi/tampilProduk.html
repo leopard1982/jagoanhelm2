@@ -52,7 +52,7 @@
 						{% if data.gambar %}
 						<img src={{data.gambar.url}} class="rounded" style="width: 100px;height: 100px;"  onclick="klikid('{{data.produk_kode}}')" onmouseover="">
 						{% else %}
-						<a class="btn btn-primary" href="/adm/update/{{data.produk_kode}}/produk/">no picture</a>
+						<a class="btn btn-outline-primary" href="/adm/update/{{data.produk_kode}}/produk/">no picture</a>
 						{% endif %}
 					</td>
 					<th class="text-center">{{data.produk_kode}}</th>
@@ -63,8 +63,9 @@
 						{% if data.aktif %}
 							<a class="btn btn-warning" href="/adm/update/produk/status/?pk={{data.produk_kode}}&st=1">aktif</a>
 						{% else %}
-							<a class="btn btn-secondary" href="/adm/update/produk/status/?pk={{data.produk_kode}}&st=0">tidak aktif</a>
+							<a class="btn btn-secondary" href="/adm/update/produk/status/?pk={{data.produk_kode}}&st=0">arsip</a>
 						{% endif%}
+						<a href="/adm/input/produk/rusak/{{data.produk_kode}}" class="btn btn-info">repair</a>
 						<a href="/adm/delete/{{data.produk_kode}}/produk/" class="btn rounded shadow rounded btn-danger">&nbsp;X&nbsp;</a>
 					</td>
 				</tr>

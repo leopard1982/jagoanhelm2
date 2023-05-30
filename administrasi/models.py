@@ -54,3 +54,15 @@ class upFiles(models.Model):
 
 class upFilesKategori(models.Model):
 	myfile = models.FileField(upload_to="csv_kategori",null=True)
+
+class rusakProduk(models.Model):
+	produk_kode = models.ForeignKey(Produk,on_delete=models.RESTRICT,null=False,blank=False,verbose_name="Kode Produk")
+	created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+	jumlah_rusak = models.IntegerField(default=0,null=False,blank=False,verbose_name="Jumlah Stok Rusak")
+	jumlah_ready = models.IntegerField(default=0,null=False,blank=False,verbose_name="Jumlah Stok Diperbaiki/Retur")
+	jumlah_akhir = models.IntegerField(default=0,null=False,blank=False,verbose_name="Result Jumlah Stok Akhir Rusak")
+	keterangan = models.TextField(max_length=200,verbose_name="Keterangan",null=True,blank=True)
+	selesai = models.BooleanField(default=False,blank=False,null=False)
+
+	def __str__(self):
+		return self.produk_kode

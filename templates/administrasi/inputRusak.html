@@ -1,0 +1,14 @@
+{% extends 'menu_produk1.html'%}
+{% load static %}
+{% block contents %}
+	<div class="container py-3">
+		<h3>Formulir Kerusakan Produk</h3>
+		<form method="post" action="">
+		{% csrf_token %}
+		{{forms.as_p}}
+		<input type="submit" name="submit" value="Proses" class="btn btn-success">
+		</form>
+		
+	</div>
+
+{% endblock%}
