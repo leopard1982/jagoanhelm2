@@ -2,7 +2,7 @@
 {% load static %}
 {% block contents %}
 <div class="py-3">
-	<h1 style="margin-bottom:30px;"><img src="{% static 'img/repair_logo.png'%}" style="width: 50px;height: 50px;"> Daftar Laporan Kerusakan Produk</h1>
+	<h1 style="margin-bottom:30px;"><img src="{% static 'img/revisi_stok_logo.png'%}" style="width: 50px;height: 50px;"> Daftar Laporan Revisi Jumlah Stok</h1>
 	{% if page %}
 		<table class="my-2 table  table-striped table-hover shadow">
 		<thead>
@@ -10,10 +10,9 @@
 			<th>Kode Produk</th>
 			<th>Nama Produk</th>
 			<th>Id Laporan</th>
-			<th>Jmlh Pengajuan Rusak</th>
-			<th>Jmlh Repaired</th>
-			<th>Stok Rusak</th>
+			<th>Jmlh Pengajuan Revisi</th>
 			<th>Keterangan</th>
+			<th>Tanggal</th>
 			<th>Status</th>
 		</thead>
 		
@@ -24,23 +23,22 @@
 				{% if data.selesai%}
 					<a class="btn btn-outline-primary disabled" href="#">	{{data.produk_kode_id}}</a>
 				{% else %}
-					<a class="btn btn-outline-primary" href="/adm/update/produk/rusak/{{data.id}}/">{{data.produk_kode_id}}</a>
+					<a class="btn btn-outline-primary" href="/adm/update/produk/revisi/{{data.id}}/">{{data.produk_kode_id}}</a>
 
 				{% endif%}
 			</th>
 			<th>{{data.produk_kode}}</th>
 			<td>{{data.id}}</td>
-			<td>{{data.jumlah_rusak}}</td>
-			<td>{{data.jumlah_ready}}</td>
-			<td>{{data.jumlah_akhir}}</td>
+			<td>{{data.jumlah_revisi}}</td>
 			<td>{{data.keterangan}}</td>
+			<td>{{data.created_at}}</td>
 			<td class="d-flex justify-content-end">
 				{% if data.selesai %}
 					<a class="btn btn-success disabled">selesai</a>
 					<a class="btn btn-danger disabled">X</a>
 				{% else %}
 					<a class="btn btn-outline-success disabled">progress!</a>
-					<a class="btn btn-danger" href="/adm/delete/{{data.id}}/produk/rusak/">X</a>
+					<a class="btn btn-danger" href="/adm/delete/{{data.id}}/produk/revisi/">X</a>
 				{% endif %}
 			</td>
 		</tr>

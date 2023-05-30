@@ -11,7 +11,7 @@ asal_negara = [
 
 class kategoriProduk(models.Model):
 	kategori = models.CharField(max_length=100,verbose_name="Nama Kategori:",primary_key=True,blank=False,null=False)
-	deskripsi = models.CharField(max_length=100,verbose_name="Deskripsi Kategori",null=False,blank=False)
+	deskripsi = models.TextField(max_length=100,verbose_name="Deskripsi Kategori",null=False,blank=False)
 	gambar = models.ImageField(verbose_name="Gambar Kategori",null=True,upload_to="kategori")
 	created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 	def __str__ (self):
@@ -26,6 +26,7 @@ class Produk(models.Model):
 	produk_asal = models.CharField(choices=asal_negara, max_length=200,verbose_name='Asal Negara',null=True,blank=True)
 	stok_awal = models.IntegerField(default=0,verbose_name='Stok Awal')
 	stok_masuk = models.IntegerField(default=0,verbose_name='Stok Masuk')
+	stok_revisi = models.IntegerField(default=0,verbose_name="Stok Revisi (Penambahan/ Pengurangan Manual)")
 	stok_keluar = models.IntegerField(default=0,verbose_name='Stok Keluar')
 	stok_rusak = models.IntegerField(default=0,verbose_name="Stok Rusak")
 	stok_akhir = models.IntegerField(default=0,verbose_name='Stok Akhir')
@@ -43,7 +44,7 @@ class Produk(models.Model):
 	grosir2 = models.IntegerField(verbose_name="Harga Grosir Tingkat #2",default=0)
 	grosir3 = models.IntegerField(verbose_name="Harga Grosir Tingkat #3",default=0)
 	created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
-	aktif = models.BooleanField(default=True)
+	aktif = models.BooleanField(default=True,verbose_name="Klik apabila status Produk Aktif")
 	ada_transaksi = models.BooleanField(default=False)
 
 	def __str__(self):
@@ -62,7 +63,17 @@ class rusakProduk(models.Model):
 	jumlah_ready = models.IntegerField(default=0,null=False,blank=False,verbose_name="Jumlah Stok Diperbaiki/Retur")
 	jumlah_akhir = models.IntegerField(default=0,null=False,blank=False,verbose_name="Result Jumlah Stok Akhir Rusak")
 	keterangan = models.TextField(max_length=200,verbose_name="Keterangan",null=True,blank=True)
-	selesai = models.BooleanField(default=False,blank=False,null=False)
+	selesai = models.BooleanField(default=False,blank=False,null=False,verbose_name="Klik apabila status selesai")
+
+	def __str__(self):
+		return self.produk_kode
+
+class revisiProduk(models.Model):
+	produk_kode = models.ForeignKey(Produk,on_delete=models.RESTRICT,null=False,blank=False,verbose_name="Kode Produk")
+	created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+	jumlah_revisi = models.IntegerField(default=0,null=False,blank=False,verbose_name="Jumlah Revisi Penambahan/ Pengurangan")
+	keterangan = models.TextField(max_length=200,verbose_name="Keterangan",null=True,blank=True)
+	selesai = models.BooleanField(default=False,blank=False,null=False,verbose_name="Klik apabila status selesai")
 
 	def __str__(self):
 		return self.produk_kode
