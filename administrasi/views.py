@@ -40,7 +40,8 @@ def dashboard(request):
 	produk_aktif = Produk.objects.all().filter(aktif=True).count()
 	produk_nonaktif = Produk.objects.all().filter(aktif=False).count()
 	followup_repair = rusakProduk.objects.all().filter(selesai=False).count()
-	return render(request,'administrasi/dashboard.html',{'followup_repair':followup_repair,'produk_aktif':produk_aktif,'produk_nonaktif':produk_nonaktif,'jumlah_produk':jumlah_produk,'jumlah_kategori':jumlah_kategori,'lima_stok':lima_stok})
+	revisi_stok = revisiProduk.objects.all().filter(selesai=False).count()
+	return render(request,'administrasi/dashboard.html',{'revisi_stok':revisi_stok,'followup_repair':followup_repair,'produk_aktif':produk_aktif,'produk_nonaktif':produk_nonaktif,'jumlah_produk':jumlah_produk,'jumlah_kategori':jumlah_kategori,'lima_stok':lima_stok})
 
 def input_kategoriProduk(request):
 	# read data from files
