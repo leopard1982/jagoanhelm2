@@ -323,7 +323,7 @@ def viewStatusStokRusak(request):
 	if request.method=="POST":
 		filternya=request.POST['filter']
 	if(filternya!=""):
-		mydata = rusakProduk.objects.all().order_by("-id").filter(produk_kode_id=filternya)
+		mydata = rusakProduk.objects.all().order_by("-id").filter(Q(produk_kode_id=filternya) | Q(keterangan__startswith=filternya))
 	p=None
 
 	if mydata.count()>0:
@@ -429,7 +429,7 @@ def viewStatusRevisiStok(request):
 	if request.method=="POST":
 		filternya=request.POST['filter']
 	if(filternya!=""):
-		mydata = revisiProduk.objects.all().order_by("-id").filter(produk_kode_id=filternya)
+		mydata = revisiProduk.objects.all().order_by("-id").filter(Q(produk_kode_id=filternya) | Q(keterangan__startswith=filternya))
 	p=None
 
 	if mydata.count()>0:
