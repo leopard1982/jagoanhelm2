@@ -318,7 +318,22 @@ def updateStokRusak(request,pk):
 
 def viewStatusStokRusak(request):
 	mydata = rusakProduk.objects.all().order_by("-id")
-	p=Paginator(mydata,10)
+
+	filternya =""
+	if request.method=="POST":
+		filternya=request.POST['filter']
+	if(filternya!=""):
+		mydata = rusakProduk.objects.all().order_by("-id").filter(produk_kode_id=filternya)
+	p=None
+
+	if mydata.count()>0:
+		if filternya=="":
+			p=Paginator(mydata,10)
+		else:
+			p=Paginator(mydata,mydata.count())
+	else:
+		p=None
+
 	halaman=1
 	if request.GET.get("p") is not None :
 		try:
@@ -410,7 +425,21 @@ def InputRevisiStokManual(request,produk_kode):
 
 def viewStatusRevisiStok(request):
 	mydata = revisiProduk.objects.all().order_by("-id")
-	p=Paginator(mydata,10)
+	filternya =""
+	if request.method=="POST":
+		filternya=request.POST['filter']
+	if(filternya!=""):
+		mydata = revisiProduk.objects.all().order_by("-id").filter(produk_kode_id=filternya)
+	p=None
+
+	if mydata.count()>0:
+		if filternya=="":
+			p=Paginator(mydata,10)
+		else:
+			p=Paginator(mydata,mydata.count())
+	else:
+		p=None
+
 	halaman=1
 	if request.GET.get("p") is not None :
 		try:
