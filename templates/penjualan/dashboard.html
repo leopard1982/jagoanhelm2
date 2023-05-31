@@ -9,7 +9,7 @@
 			<p class="text-center rounded bg-secondary text-light p-2 border border-secondary"><strong>{{data.produk_nama | title}}</strong></p>
 			<div class="card-body text-start rounded"  style="background:rgba(0,0,0,0.2);height: 200px;">
 				<strong>produk ini:</strong><br/>
-				{{data.deskripsi|truncatechars:150}}
+				{{data.deskripsi|truncatechars:150|linebreaks}}
 			</div>
 			{% if data.gambar %}
 				<img src="{{data.gambar.url}}" class="w-100 rounded shadow" style="height: 150px;">

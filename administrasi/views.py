@@ -356,7 +356,7 @@ def deleterusakProduk(request,pk):
 				rusakProduk.objects.get(id=pk).delete()
 				messages.success(request,"Laporan Perbaikan Produk dengan nomor %i berhasil dihapus!"%pk)
 			except:
-				messages.success(request,"Laporan Perbaikan Produk dengan nomor %i gagal dihapus, apakah ada salah memasukkan nomor Pelaporan?"%produk_kode)
+				messages.success(request,"Laporan Perbaikan Produk dengan nomor %i gagal dihapus, apakah ada salah memasukkan nomor Pelaporan?"%pk)
 		else:
 			messages.success(request,"Laporan Perbaikan %i sudah dinyatakan selesai, tidak bisa dihapus!")
 	except:
