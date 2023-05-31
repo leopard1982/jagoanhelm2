@@ -144,7 +144,7 @@ def viewProduk(request):
 	p=Paginator(mydata,5)
 	if(request.method=="POST"):
 		if request.POST['filter'] != "":
-			mydata=mydata.filter(Q(produk_kode__startswith=request.POST['filter']) | Q(produk_merek__startswith=request.POST['filter']) | Q(produk_asal__startswith=request.POST['filter']) |Q(produk_nama__startswith=request.POST['filter']))	
+			mydata=mydata.filter(Q(produk_kode__icontains=request.POST['filter']) | Q(produk_merek__icontains=request.POST['filter']) | Q(produk_asal__icontains=request.POST['filter']) |Q(produk_nama__icontains=request.POST['filter']))	
 			p=Paginator(mydata,mydata.count())
 
 	halaman=1
@@ -323,7 +323,7 @@ def viewStatusStokRusak(request):
 	if request.method=="POST":
 		filternya=request.POST['filter']
 	if(filternya!=""):
-		mydata = rusakProduk.objects.all().order_by("-id").filter(Q(produk_kode_id=filternya) | Q(keterangan__startswith=filternya))
+		mydata = rusakProduk.objects.all().order_by("-id").filter(Q(produk_kode_id=filternya) | Q(keterangan__icontains=filternya))
 	p=None
 
 	if mydata.count()>0:
@@ -429,7 +429,7 @@ def viewStatusRevisiStok(request):
 	if request.method=="POST":
 		filternya=request.POST['filter']
 	if(filternya!=""):
-		mydata = revisiProduk.objects.all().order_by("-id").filter(Q(produk_kode_id=filternya) | Q(keterangan__startswith=filternya))
+		mydata = revisiProduk.objects.all().order_by("-id").filter(Q(produk_kode_id=filternya) | Q(keterangan__icontains=filternya))
 	p=None
 
 	if mydata.count()>0:
