@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django import forms
 from administrasi.models import kategoriProduk, Produk, upFiles, upFilesKategori
-from administrasi.models import rusakProduk, revisiProduk
+from administrasi.models import rusakProduk, revisiProduk, bannerToko
 from django.db.models import F
 
 class formInputKategori(ModelForm):
@@ -174,4 +174,18 @@ class FormInputRevisiStok(ModelForm):
 				'class':'form-control',
 				'required':'required',
 				}),
+		}
+
+class FormInputBanner(ModelForm):
+	class Meta:
+		model = bannerToko
+		fields = ['banner','deskripsi']
+
+		widgets = {
+		'banner': forms.FileInput(attrs={
+			'class':'form-control'
+			}),
+		'deskripsi': forms.Textarea(attrs={
+			'class':'form-control'
+			}),
 		}

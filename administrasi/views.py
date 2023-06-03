@@ -5,13 +5,13 @@ from django.db import transaction
 from administrasi.forms import formInputKategori, formInputProduk, UploadFiles
 from administrasi.forms import formUpdateProduk, UploadFilesKategori, formUpdateKategori
 from administrasi.forms import UpdateAktifProduk, FormInputStokRusak, FormUpdateStokRusak
-from administrasi.forms import FormInputRevisiStok
+from administrasi.forms import FormInputRevisiStok, FormInputBanner
 
 from administrasi.reads import readdata
 
 from django.core.files.base import ContentFile
 
-from administrasi.models import upFiles, upFilesKategori
+from administrasi.models import upFiles, upFilesKategori, bannerToko
 
 from django.conf import settings
 
@@ -468,3 +468,18 @@ def deleteRevisiProduk(request,pk):
 	except:
 		pass
 	return HttpResponseRedirect('/adm/view/produk/revisi/')
+
+def inputBannerToko(request):
+
+	if request.method=="POST":
+		forms = FormInputBanner(request.POST, request.FILES)
+		if(forms.is_valid()):
+			forms.save()
+			messages.success(request,"Banner Toko Berhasil ditambahkan!")
+			return HttpResponseRedirect('/adm/input/banner/')
+		else:
+			messages.success(request,"Banner Toko Gagal ditambahkan! Apakah Anda Salah memilih File?")
+			return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+	forms = FormInputBanner()
+	mydata = bannerToko.objects.all()
+	return render(request,'administrasi/inputBanner.html',{'forms':forms,'mydata':mydata})

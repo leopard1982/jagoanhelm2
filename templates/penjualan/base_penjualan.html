@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="{% static 'js/jquery.3.6.4.js'%}"></script>
+    <script src="{% static 'js/chart.js'%}"></script>
+    <script src="{% static 'js/bootstrap5.bundle.min.js'%}"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="600">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap5.min.css'%}">
+    <title>jagoanhelm.com</title>
+</head>
+<body>
+   <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container-fluid">
+    <div class="border rounded shadow border-danger col-12 col-xxl-2 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-xs-12   my-2  p-1 ">
+        <div class="text-center">
+	        <img src="{% static 'img/jagoanhelm.jpeg'%}" class="img-thumbnail border border-danger rounded rounded-circle" style="width: 80px;height: 80px;"  alt="">
+	        <div class="container rounded rounded-pill  my-1 p-1 bg-danger">
+	        	<a class="navbar-brand h5 fw-bold  text-light" style="width: 200px;" id="header1">jagoanhelm.com</a>
+	        </div>   
+        </div>
+        
+    </div>
+    
+
+    <div class="d-flex col-12 col-xxl-10 col-xl-9 col-lg-8 col-md-9 col-sm-9 rounded rounded-pill bg-danger shadow mx-2 p-2">
+        <button class="navbar-toggler mx-2 bg-warning rounded rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">    
+        <span class="fw-bold">&darr;</span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active text-light fw-bold" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light fw-bold" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle  text-light fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Kategori
+              </a>
+              <ul class="dropdown-menu rounded" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item text-danger" href="?kat=">Semua Kategori</a>
+                {% for kategori in mykategori%}
+                <li><a class="dropdown-item text-danger" href="?kat={{kategori.kategori}}">{{kategori.kategori}}</a></li>
+                {% endfor%}
+                
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle  text-light fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu rounded" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item text-danger" href="#">Action</a></li>
+                <li><a class="dropdown-item text-danger" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item text-danger" href="#">Something else here</a></li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link disabled text-light fw-bold" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-10 col-lg-4 col-md-10 col-sm-10">
+            <form class="d-flex justify-content-center">
+                <input class="form-control border border-danger rounded rounded-pill"  type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-warning rounded rounded-pill mx-2"  type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+  </div>
+</nav>
+	<div style="margin-top:230px" class="container">
+
+		<div class="d-flex justify-content-center">
+			<div style="margin-top: 20px;">
+				{% block banners%}
+				{% endblock%}
+			</div>
+		</div>
+
+    {% block contents%}
+    {% endblock %}
+	
+	</div>
+	<br/><br/><br/><br/>
+<div class="footer text-center bg-white fixed-bottom">
+	<hr class="hr"/>
+	<span class="fw-bold">&copy; 2022 - {% now 'Y'%}</span><br/>
+	<span>by: jagoanhelm.com &amp; leopard, inc</span>
+</div>
+
+<script type="text/javascript">
+		$(document).ready(function() {
+			var tulisan="";
+			var counter=0;
+			setInterval(function() {
+				if (counter==0) {
+					tulisan="jagoanhelm.com";
+					counter++;
+				} else if (counter==1) {
+					tulisan="j_";
+					counter++;
+				} else if (counter==2) {
+					tulisan="ja_";
+					counter++;
+				} else if (counter==3) {
+					tulisan="jag_";
+					counter++;
+				} else if (counter==4) {
+					tulisan="jago_";
+					counter++;
+				} else if (counter==5) {
+					tulisan="jagoa_";
+					counter++;
+				} else if (counter==6) {
+					tulisan="jagoan_";
+					counter++;
+				}else if (counter==7) {
+					tulisan="jagoanh_";
+					counter++;
+				}else if (counter==8) {
+					tulisan="jagoanhe_";
+					counter++;
+				}else if (counter==9) {
+					counter++;
+					tulisan="jagoanhel_";
+				}else if (counter==10) {
+					tulisan="jagoanhelm_";
+					counter++;
+				}else if (counter==11) {
+					tulisan="jagoanhelm._";
+					counter++;
+				} else if (counter==12) {
+					tulisan="jagoanhelm.c_";
+					counter++;
+				}else if (counter==13) {
+					tulisan="jagoanhelm.co_";
+					counter++;
+				}else if (counter==14) {
+					tulisan="jagoanhelm.com";
+					counter++;
+					counter=0;
+				};
+
+				
+				$("#header1").html(tulisan);
+			}, 300)
+		})
+	</script>
+</body>
+</html>

@@ -4,6 +4,7 @@
 <head>
 	<script type="text/javascript" src="{% static 'js/jquery.3.6.4.js'%}"></script>
 	<script type="text/javascript" src="{% static 'js/bootstrap5.bundle.min.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/chart.js'%}"></script>
 	<link rel="stylesheet" href="{% static 'css/bootstrap5.min.css'%}">
 	<link rel="icon" href="{% static 'img/jagoanhelm.ico'%}">
 	<style type="text/css">
@@ -33,10 +34,12 @@
 			{% block contents%}
 			{% endblock %}	
 			</div>			
-			<div class="container col-6 border border-3 rounded shadow  p-2 my-2" style="margin-top: 30px; !important">
+			<br/><br/><br/><br/>
+			<div class="container bg-white   p-2 my-2 fixed-bottom" >
 				<foooter >		  <!-- Copyright -->
-				  <div class="text-center">			      
-				    <span class="button fw-bold"> &copy; 2022 - {% now "Y" %}<br>by: leopard, inc &amp; jagoanhelm.com</span>
+				  <div class="text-center">
+				  	<hr class="hr"/>			      
+				    <span class="fw-bold"> &copy; 2022 - {% now "Y" %}<br>by: leopard, inc &amp; jagoanhelm.com</span>
 				  </div>
 				  <!-- Copyright -->
 				</footer>

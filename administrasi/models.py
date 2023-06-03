@@ -77,3 +77,9 @@ class revisiProduk(models.Model):
 
 	def __str__(self):
 		return self.produk_kode
+
+class bannerToko(models.Model):
+	banner = models.ImageField(upload_to="banner",null=True,blank=True,verbose_name="Pilih Gambar untuk Banner")
+	deskripsi = models.TextField(null=True,blank=True,verbose_name="Deskripsi Banner")
+	def __str__(self):
+		return self.deskripsi
