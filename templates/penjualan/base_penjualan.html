@@ -10,12 +10,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/bootstrap5.min.css'%}">
+    <link rel="icon" href="{% static 'img/jagoanhelm.ico'%}">
     <title>jagoanhelm.com</title>
 </head>
 <body>
    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
-    <div class="border rounded shadow border-danger col-12 col-xxl-2 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-xs-12   my-2  p-1 ">
+    <div class="border rounded mx-2 shadow border-danger col-12 col-xxl-2 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-xs-12   my-2  p-1 ">
         <div class="text-center">
 	        <img src="{% static 'img/jagoanhelm.jpeg'%}" class="img-thumbnail border border-danger rounded rounded-circle" style="width: 80px;height: 80px;"  alt="">
 	        <div class="container rounded rounded-pill  my-1 p-1 bg-danger">
@@ -26,8 +27,8 @@
     </div>
     
 
-    <div class="d-flex col-12 col-xxl-10 col-xl-9 col-lg-8 col-md-9 col-sm-9 rounded rounded-pill bg-danger shadow mx-2 p-2">
-        <button class="navbar-toggler mx-2 bg-warning rounded rounded-pill" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">    
+    <div class="d-flex col-12 col-xxl-10 col-xl-9 col-lg-8 col-md-9 col-sm-9 rounded rounded bg-danger shadow mx-2 p-2">
+        <button class="navbar-toggler mx-2 bg-warning rounded " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> 
         <span class="fw-bold">&darr;</span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -67,29 +68,28 @@
             </li>
           </ul>
         </div>
-        <div class="col-10 col-lg-4 col-md-10 col-sm-10">
-            <form class="d-flex justify-content-center">
-                <input class="form-control border border-danger rounded rounded-pill"  type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-warning rounded rounded-pill mx-2"  type="submit">Search</button>
-            </form>
-        </div>
+	        <div class="col-11 col-lg-4 col-md-11 col-sm-11" >
+	            <form class="d-flex " style="margin-right:20px">
+	                <input class="form-control  rounded rounded-pill rounded-end "  type="search" placeholder="Search" aria-label="Search"><button class="btn btn-warning rounded rounded-pill rounded-start"  type="submit">Search</button>
+	            </form>
+	        </div>
     </div>
   </div>
 </nav>
-	<div style="margin-top:230px" class="container">
+	<div style="margin-top:220px" class="container">
 
 		<div class="d-flex justify-content-center">
-			<div style="margin-top: 20px;">
+			
 				{% block banners%}
 				{% endblock%}
-			</div>
+			
 		</div>
 
     {% block contents%}
     {% endblock %}
 	
 	</div>
-	<br/><br/><br/><br/>
+	<br/><br/><br/><br/><br/><br/><br/><br/>
 <div class="footer text-center bg-white fixed-bottom">
 	<hr class="hr"/>
 	<span class="fw-bold">&copy; 2022 - {% now 'Y'%}</span><br/>

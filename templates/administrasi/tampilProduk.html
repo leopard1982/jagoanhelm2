@@ -50,9 +50,9 @@
 					<th class="text-center">{{forloop.counter}}</th>
 					<td class="d-flex justify-content-center">
 						{% if data.gambar %}
-						<img src={{data.gambar.url}} class="rounded" style="width: 100px;height: 100px;"  onclick="klikid('{{data.produk_kode}}')" onmouseover="">
+						<img src={{data.gambar.url}} class="rounded w-100" style="height: 100px">
 						{% else %}
-						<a class="btn btn-outline-primary" href="/adm/update/{{data.produk_kode}}/produk/">no picture</a>
+						<span class="p-2 rounded w-100 bg-secondary text-center">No Picture</span>
 						{% endif %}
 					</td>
 					<th class="text-center">{{data.produk_kode}}</th>
@@ -60,14 +60,29 @@
 					<td class="text-center">{{data.produk_merek}}</td>
 					<td class="text-center">{{data.produk_asal}}</td>
 					<td class="text-end">
-						{% if data.aktif %}
-							<a class="btn btn-warning" href="/adm/update/produk/status/?pk={{data.produk_kode}}&st=1">aktif</a>
-						{% else %}
-							<a class="btn btn-secondary" href="/adm/update/produk/status/?pk={{data.produk_kode}}&st=0">arsip</a>
-						{% endif%}
-						<a href="/adm/input/produk/rusak/{{data.produk_kode}}" class="btn btn-info">repair</a>
-						<a class="btn btn-success" href="/adm/input/produk/rev_stok/{{data.produk_kode}}/">revisi</a>
-						<a href="/adm/delete/{{data.produk_kode}}/produk/" class="btn rounded shadow rounded btn-danger">hapus</a>
+						<div class="dropdown">
+							<button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+								pengaturan
+							</button>
+							<ul class="dropdown-menu border shadow border-primary">
+								<a href="/adm/update/{{data.produk_kode}}/produk/" class="fw-bold dropdown-item">Tampilkan Detail Produk</a>
+								<li><hr class="dropdown-divider"></hr></li>
+								{% if data.aktif %}
+									<a class="dropdown-item " href="/adm/update/produk/status/?pk={{data.produk_kode}}&st=1">status: <strong>aktif</strong> <i>(ditampilkan)</i></a>
+								{% else %}
+									<a class="dropdown-item " href="/adm/update/produk/status/?pk={{data.produk_kode}}&st=0">status: <strong>diarsipkan</strong> <i>(tidak ditampilkan)</i></a>
+								{% endif%}
+								<li><hr class="dropdown-divider"></hr></li>
+								<a href="/adm/input/produk/rusak/{{data.produk_kode}}" class="dropdown-item">Pengajuan <strong>Perbaikan</strong> Stok Produk</a>
+								<li><hr class="dropdown-divider"></hr></li>
+								<a class="dropdown-item" href="/adm/input/produk/rev_stok/{{data.produk_kode}}/">Pengajuan <strong>Revisi</strong> Jumlah Stok Produk</a>
+								<li><hr class="dropdown-divider"></hr></li>
+								<a href="/adm/delete/{{data.produk_kode}}/produk/" class="dropdown-item text-danger fw-bold">Hapus Produk Ini!</a>
+
+							</ul>
+						</div>
+						
+						
 					</td>
 				</tr>
 				{% endfor%}

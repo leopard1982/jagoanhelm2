@@ -5,7 +5,7 @@ from administrasi.views import viewProduk, updateProduk, downTemplateProduk,down
 from administrasi.views import viewkategoriProduk, delete_Kategori, updateKategori, updateStatusProduk
 from administrasi.views import inputStokRusak, viewStatusStokRusak, updateStokRusak, deleterusakProduk
 from administrasi.views import InputRevisiStokManual, viewStatusRevisiStok, UpdateRevisiStokManual
-from administrasi.views import deleteRevisiProduk, inputBannerToko
+from administrasi.views import deleteRevisiProduk, inputBannerToko, deleteBanner, updateBanner
 
 urlpatterns = [
     path('', dashboard,name="dashboard"),
@@ -27,8 +27,10 @@ urlpatterns = [
     path('update/<str:kategori>/kategori/',updateKategori,name="updateKategori"),
     path('update/produk/rusak/<int:pk>/',updateStokRusak,name="updateStokRusak"),
     path('update/produk/revisi/<int:pk>/',UpdateRevisiStokManual,name="UpdateRevisiStokManual"),
+    path('update/banner/<int:pk>/',updateBanner,name="updateBanner"),
     path('delete/<str:produk_kode>/produk/',delete_Produk,name="deleteProduk"),
     path('delete/<str:kategori>/kategori/',delete_Kategori,name="deleteKategori"),
     path('delete/<int:pk>/produk/rusak/',deleterusakProduk,name="deleterusakProduk"),
     path('delete/<int:pk>/produk/revisi/',deleteRevisiProduk,name="deleteRevisiProduk"),
+    path('delete/<int:pk>/banner/',deleteBanner,name="deleteBanner"),
 ]

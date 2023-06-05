@@ -59,7 +59,7 @@ class formInputProduk(ModelForm):
 class formUpdateProduk(ModelForm):
 	class Meta:
 		model = Produk
-		fields = ['produk_kode','produk_nama','produk_merek','produk_asal','stok_awal','stok_masuk','stok_revisi','stok_rusak','stok_akhir','gambar','gambar1','gambar2','gambar3','berat','deskripsi','harga','jumlah1','grosir1','jumlah2','grosir2','jumlah3','grosir3','aktif']
+		fields = ['produk_kode','produk_nama','produk_merek','produk_asal','stok_awal','stok_masuk','stok_revisi','stok_rusak','stok_akhir','gambar','gambar1','gambar2','gambar3','berat','deskripsi','harga','jumlah1','grosir1','jumlah2','grosir2','jumlah3','grosir3','aktif','disc','disc_mulai','disc_selesai']
 		
 		widgets = {
 			'produk_kode':forms.TextInput(attrs={'class':'form-control','readonly':'readonly'}),
@@ -84,6 +84,9 @@ class formUpdateProduk(ModelForm):
 			'grosir2':forms.NumberInput(attrs={'class':'form-control'}),
 			'jumlah3':forms.NumberInput(attrs={'class':'form-control'}),
 			'grosir3':forms.NumberInput(attrs={'class':'form-control'}),
+			'disc':forms.NumberInput(attrs={'class':'form-control'}),
+			'disc_mulai':forms.DateInput(attrs={'class':'form-control','type':'date'}),
+			'disc_selesai':forms.DateInput(attrs={'class':'form-control','type':'date'})
 		}
 
 

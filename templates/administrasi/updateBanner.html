@@ -1,0 +1,14 @@
+{% extends 'menu_produk1.html'%}
+{% load static%}
+{% block contents%}
+<div class="container rounded border border-danger p-2 shadow bg-white border-3">
+	<div class="h1">Mengubah Banner</div><hr class="hr">
+	<form method="POST" action="" enctype="multipart/form-data">
+	{{forms.as_p}}
+	{% csrf_token %}
+	<input type="submit" name="" class="btn btn-success" value="Update Banner!">
+	</form>
+</div>
+
+
+{% endblock%}

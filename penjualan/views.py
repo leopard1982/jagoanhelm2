@@ -6,12 +6,17 @@ def dashboard(request):
 	tampilkan=True
 	filterby=request.GET.get('kat')
 	
+	mydata = Produk.objects.all().filter(aktif=True)
+	
 	if filterby != None:
 		tampilkan=False
 		if(len(filterby)==0):
-			filterby="Tampilkan Semua Kategori"
+			filterby="Semua"
+		else:
+			mydata = mydata.filter(kategori_id=filterby)
 	
-	mydata = Produk.objects.all().filter(aktif=True)
+	jumlah_data = mydata.count()
+
 	bannernya = bannerToko.objects.all()
 	mykategori = kategoriProduk.objects.all()
-	return render(request,'penjualan/dashboard.html',{'mykategori':mykategori,'mydata':mydata,'bannernya':bannernya,'tampilkan':tampilkan,'filterby':filterby})
+	return render(request,'penjualan/dashboard.html',{'jumlah_data':jumlah_data,'mykategori':mykategori,'mydata':mydata,'bannernya':bannernya,'tampilkan':tampilkan,'filterby':filterby})

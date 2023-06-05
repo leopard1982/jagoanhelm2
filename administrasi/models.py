@@ -46,6 +46,9 @@ class Produk(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 	aktif = models.BooleanField(default=True,verbose_name="Klik apabila status Produk Aktif")
 	ada_transaksi = models.BooleanField(default=False)
+	disc = models.IntegerField(default=0,blank=True,null=True,verbose_name="Jumlah Discount (dalam %)")
+	disc_mulai = models.DateField(auto_now_add=False,blank=True,null=True,verbose_name="Tanggal Mulai Discount")
+	disc_selesai = models.DateField(auto_now_add=False,blank=True,null=True,verbose_name="Tanggal Selesai Discount")
 
 	def __str__(self):
 		return self.produk_nama

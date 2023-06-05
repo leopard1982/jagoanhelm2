@@ -35,8 +35,8 @@
 	  </button>
 </div>
 {%else%}
-<div class="h5 text-start rounded rounded-pill bg-warning p-2">
-	filter by: {{filterby|title}}	
+<div class="fw-bold text-start ">
+	<h5><span class="badge bg-success" >Kategori:</span> <span class="badge bg-primary" style="padding-top: -10px;">{{filterby|title|truncatechars:10}} <span class="badge bg-light" style="color:black">{{jumlah_data}} item(s)</span></span> </h5> 
 </div>
 {%endif%}
 {% endblock%}

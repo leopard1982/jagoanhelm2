@@ -483,3 +483,31 @@ def inputBannerToko(request):
 	forms = FormInputBanner()
 	mydata = bannerToko.objects.all()
 	return render(request,'administrasi/inputBanner.html',{'forms':forms,'mydata':mydata})
+
+def deleteBanner(request,pk):
+	try:
+		x=bannerToko.objects.all().get(id=pk)
+		print(x)
+		x.delete()
+		messages.success(request,"Banner dengan deskripsi '%s' berhasil dihapus!"%x)
+	except:
+		messages.success(request,"Banner tidak berhasil dihapus! apakah ada kesalah input?")
+	return HttpResponseRedirect('/adm/input/banner/')
+
+def updateBanner(request,pk):
+	if request.method=="POST":
+		mydata = bannerToko.objects.all().get(id=pk)
+		forms = FormInputBanner(request.POST,request.FILES,instance=mydata)
+		if forms.is_valid():
+			forms.save()
+			messages.success(request,"Update Banner berhasil!")
+		else:
+			messages.success(request,"Ada kesalahan dalam update Banner")
+		return HttpResponseRedirect('/adm/input/banner/')
+	try:
+		mydata = bannerToko.objects.all().get(id=pk)
+		forms = FormInputBanner(instance=mydata)
+		return render(request,'administrasi/updateBanner.html',{'forms':forms})
+	except:
+		messages.success(request,'Update Banner gagal~ apakah data sudah terhapus?')
+		return HttpResponseRedirect('/adm/input/banner')

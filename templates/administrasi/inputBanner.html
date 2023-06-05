@@ -9,17 +9,19 @@
 	<input type="submit" name="" class="btn btn-success" value="Tambahkan Banner!">
 	</form>
 </div>
-<div class="container rounded border border-danger p-2 my-3 shadow bg-white ">
+<div class="container rounded border border-danger p-2 my-1 shadow bg-white ">
 	<div class="h3">Maintenance Banner Toko</div><hr class="hr">
 	<div class="row">
 		{% for data in mydata %}
-		<div class="col-4 my-2">
+		<div class="col-4 my-1">
 			<div class="card border border-danger">
 				<div class="card-body">
 					<img src="{{data.banner.url}}" class="w-100 rounded p-2 shadow" alt="{{data.deskripsi}}">
 				</div>
-				<div class="text-center card-header bg-warning rounded rounded-pill m-2">
-						<span class="card-text  h5 fw-bold">{{data.deskripsi|truncatechars:"20"}}</span>
+				<div class="text-center my-2">
+						<span class=" badge bg-success fw-bold p-2 my-1">{{data.deskripsi|truncatechars:"24"}}</span><br/>
+						<a class=" btn btn-danger fw-bold" href="/adm/delete/{{data.id}}/banner/" style="font-size: 10px;">hapus</a>
+						<a class=" btn btn-warning fw-bold" href="/adm/update/banner/{{data.id}}/" style="font-size: 10px;">revisi</a>
 				</div>
 			</div>
 		</div>
