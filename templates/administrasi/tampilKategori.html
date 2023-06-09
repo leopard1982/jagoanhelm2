@@ -34,7 +34,7 @@
 				<th class="text-center">Gambar</th>
 				<th class="text-center">Nama Kategori</th>
 				<th class="text-center">Deskripsi</th>
-				<th></th>
+				<!-- <th></th> -->
 			</thead>
 			<tbody id="myTable">
 				{% for data in page %}
@@ -49,7 +49,7 @@
 					</td>
 					<th class="text-center">{{data.kategori}}</th>
 					<td class="text-center">{{data.deskripsi}}</td>
-					<td class="text-center"><a href="/adm/delete/{{data.kategori}}/kategori/" class="btn rounded shadow rounded p-2 btn-danger h3 border border-1 border-danger">&nbsp;X&nbsp;</a></td>
+					<!-- <td class="text-center"><a href="/adm/delete/{{data.kategori}}/kategori/" class="btn rounded shadow rounded p-2 btn-danger h3 border border-1 border-danger">&nbsp;X&nbsp;</a></td> -->
 				</tr>
 				{% endfor%}
 			</tbody>

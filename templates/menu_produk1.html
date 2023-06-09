@@ -10,22 +10,34 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
-      	<li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Master Data
-          </a>
+      	<li class="nav-item dropdown mx-3">
+          <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Pengaturan Master Data</a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="{% url 'inputKategoriProduk'%}">Menambah Kategori Produk</a></li>
-            <li><a class="dropdown-item" href="{% url 'inputProduk'%}">Menambah Produk</a></li>
+            <!-- <li><a class="dropdown-item" href="{% url 'inputKategoriProduk'%}"><div class="spinner-grow spinner-grow-sm text-primary"></div> Sinkron Kategori Produk</a></li>
+            <li><a class="dropdown-item" href="{% url 'inputProduk'%}"><div class="spinner-grow spinner-grow-sm text-success"></div> Sinkron Produk</a></li>
+            <li><hr class="dropdown-divider"></li> -->
+            <li><a class="nav-link fw-bold" href="#"><div class="spinner-grow spinner-grow-sm text-warning"></div> Sinkron Master Data Online <div class="spinner-grow spinner-grow-sm text-warning"></div></a></li>
+            <li><a class="dropdown-item" href="{% url 'viewkategoriProduk'%}">&#9814; Menampilkan Kategori Produk</a></li>
+            <li><a class="dropdown-item" href="{% url 'viewProduk'%}">&#9815; Menampilkan Produk</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{% url 'viewkategoriProduk'%}">Menampilkan Kategori Produk</a></li>
-            <li><a class="dropdown-item" href="{% url 'viewProduk'%}">Menampilkan Produk</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="/adm/input/banner/">Mengatur Banner Toko</a></li>
+            <li><a class="dropdown-item" href="/adm/input/banner/">&#9816; Mengatur Banner Toko</a></li>
           </ul>
         </li>
-
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown mx-3">
+          <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+             <div class="spinner-border spinner-border-sm text-warning"></div> Penjualan <div class="spinner-border spinner-border-sm text-warning"></div>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <!-- <li><a class="dropdown-item" href="{% url 'inputKategoriProduk'%}"><div class="spinner-grow spinner-grow-sm text-primary"></div> Sinkron Kategori Produk</a></li>
+            <li><a class="dropdown-item" href="{% url 'inputProduk'%}"><div class="spinner-grow spinner-grow-sm text-success"></div> Sinkron Produk</a></li>
+            <li><hr class="dropdown-divider"></li> -->
+            <li><a class="dropdown-item" href="{% url 'viewkategoriProduk'%}">&#9814; Menampilkan Kategori Produk</a></li>
+            <li><a class="dropdown-item" href="{% url 'viewProduk'%}">&#9815; Menampilkan Produk</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/adm/input/banner/">&#9816; Mengatur Banner Toko</a></li>
+          </ul>
+        </li>
+        <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Maintenance Stok
           </a>
@@ -33,11 +45,11 @@
             <li><a class="dropdown-item" href="{% url 'viewStatusStokRusak'%}">Perbaikan Produk Rusak</a></li>
             <li><a class="dropdown-item" href="{% url 'viewStatusRevisiStok'%}">Laporan Revisi Jumlah Stok Manual</a></li>
           </ul>
+        </li> -->
+        <li class="nav-item mx-3 fw-bold" >
+          <a class="nav-link" href="#"><div class="spinner-grow spinner-grow-sm text-warning"></div> Sinkron Master Data Online <div class="spinner-grow spinner-grow-sm text-warning"></div></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
+       <!--  <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>
         </li>
         <li class="nav-item dropdown">
@@ -49,7 +61,7 @@
             <li><a class="dropdown-item" href="#">Another action</a></li>
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
-        </li>
+        </li> -->
       </ul>
     </div>
   </nav>
