@@ -17,6 +17,7 @@
 	<title>Jagoan Helm</title>
 </head>
 <body style="background: rgba(255,255,0,0.3);">
+	{% if user.is_superuser %}
 	<div  class="container-fluid">
 		<div class="rounded">
 		{% block menu %}
@@ -48,5 +49,40 @@
 		</div>	
 		
 	</div>
+	{% else %}
+	<div class="row d-flex justify-content-center my-2" style="margin-top:50px !important">
+		<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-8 col-sm-12 text-center h2 text-danger fw-bold">
+			<img src="{% static 'img/jagoanhelm.png' %}" style="height:50px">jagoanhelm.com
+		</div>		
+	</div>
+	<div class="container p-3 px-5 col-xxl-4 col-xl-4 col-lg-4 col-md-8 col-sm-12 rounded shadow bg-white my-2">
+		<form method="post" action="">
+			{% csrf_token %}
+			<div class="h4 p-2 border border-light text-center rounded rounded-pill " style="background: rgba(255,255,0,0.3);">Login Form</div>
+			<hr class="hr">
+			<div class="row">
+				<div class="col-3 p-2">
+					Username:
+				</div>
+				<div class="col-9">
+					<input type="text" name="txtUser" autocomplete = "off" class="form-control rounded rounded-pill" required>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-3 p-2">
+					Password:
+				</div>
+				<div class="col-9">
+					<input type="password" autocomplete = "off" name="txtPassword" class="form-control rounded rounded-pill" required>
+				</div>
+			</div>
+			<div class="row d-flex justify-content-center">
+				<div class="col-4 my-3">
+					<input type="submit" class="text-center form-control btn btn-warning" value="login">				
+				</div>
+			</div>
+		</form>
+	</div>
+	{% endif %}
 </body>
 </html>

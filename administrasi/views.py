@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirec
 
 from django.db import transaction
 
+from django.contrib.auth import authenticate,login,logout
+
 from administrasi.forms import formInputKategori, formInputProduk, UploadFiles
 from administrasi.forms import formUpdateProduk, UploadFilesKategori, formUpdateKategori
 from administrasi.forms import UpdateAktifProduk, FormInputStokRusak, FormUpdateStokRusak
@@ -33,7 +35,17 @@ def updateMasterProduk():
 	Produk.objects.all().filter(Q(stok_masuk__gt=0) | Q(stok_keluar__gt=0) | Q(stok_rusak__gt=0) | Q(stok_revisi__gt=0)).update(ada_transaksi=True)
 # Create your views here.
 
+def logoutNow(request):
+	logout(request)
+	return HttpResponseRedirect("/adm/")
+
 def dashboard(request):
+	if request.method=="POST":
+		user = authenticate(username=request.POST['txtUser'],password=request.POST['txtPassword'])
+		if user is not None:
+			login(request,user)
+			return HttpResponseRedirect("/adm/")
+
 	jumlah_produk = Produk.objects.all().count()
 	lima_stok = Produk.objects.all().order_by("-created_at")[0:5]
 	jumlah_kategori = kategoriProduk.objects.all().count()
@@ -42,6 +54,7 @@ def dashboard(request):
 	followup_repair = rusakProduk.objects.all().filter(selesai=False).count()
 	revisi_stok = revisiProduk.objects.all().filter(selesai=False).count()
 	return render(request,'administrasi/dashboard.html',{'revisi_stok':revisi_stok,'followup_repair':followup_repair,'produk_aktif':produk_aktif,'produk_nonaktif':produk_nonaktif,'jumlah_produk':jumlah_produk,'jumlah_kategori':jumlah_kategori,'lima_stok':lima_stok})
+	
 
 def input_kategoriProduk(request):
 	# read data from files

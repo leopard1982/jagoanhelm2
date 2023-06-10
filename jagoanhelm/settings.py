@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-_6t8(y0ru+an5j!o3huh^4p)+k^n&(u5dwhw9&f!#=&r9q&q1_
 DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.1.50','localhost','127.0.0.1']
-CSRF_TRUSTED_ORIGINS=['http://192.168.1.50:8787']
+CSRF_TRUSTED_ORIGINS=['http://192.168.1.50']
 
 
 # Application definition
@@ -74,12 +74,12 @@ WSGI_APPLICATION = 'jagoanhelm.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'jagoanhelm',
         'USER': 'admin',
         'PASSWORD': 'chandra1982',
         'HOST': '192.168.1.50',
-        'PORT': '3306'
+        'PORT': '5432'
     }
 }
 
@@ -128,3 +128,5 @@ STATIC_ROOT = os.path.join(BASE_DIR,'staticroot')
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

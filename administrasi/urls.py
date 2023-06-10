@@ -5,10 +5,11 @@ from administrasi.views import viewProduk, updateProduk, downTemplateProduk,down
 from administrasi.views import viewkategoriProduk, delete_Kategori, updateKategori, updateStatusProduk
 from administrasi.views import inputStokRusak, viewStatusStokRusak, updateStokRusak, deleterusakProduk
 from administrasi.views import InputRevisiStokManual, viewStatusRevisiStok, UpdateRevisiStokManual
-from administrasi.views import deleteRevisiProduk, inputBannerToko, deleteBanner, updateBanner
+from administrasi.views import deleteRevisiProduk, inputBannerToko, deleteBanner, updateBanner, logoutNow
 
 urlpatterns = [
     path('', dashboard,name="dashboard"),
+    path('logout/',logoutNow,name="logoutNow"),
     path('input/banner/',inputBannerToko,name="inputBannerToko"),
     path('input/kategori/',input_kategoriProduk,name="inputKategoriProduk"),
     path('input/produk/',input_Produk,name="inputProduk"),
