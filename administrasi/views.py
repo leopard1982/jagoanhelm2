@@ -2,6 +2,8 @@ from django.shortcuts import render, HttpResponse, redirect, HttpResponseRedirec
 
 from django.db import transaction
 
+import requests
+
 from django.contrib.auth import authenticate,login,logout
 
 from administrasi.forms import formInputKategori, formInputProduk, UploadFiles
@@ -37,6 +39,7 @@ def updateMasterProduk():
 
 def logoutNow(request):
 	logout(request)
+	messages.success(request,"Anda Telah Logout! Terima Kasih ^^")
 	return HttpResponseRedirect("/adm/")
 
 def dashboard(request):
@@ -44,11 +47,18 @@ def dashboard(request):
 		user = authenticate(username=request.POST['txtUser'],password=request.POST['txtPassword'])
 		if user is not None:
 			login(request,user)
-			return HttpResponseRedirect("/adm/")
-
+			if request.user.is_superuser: 
+				messages.success(request,"Login Berhasil! Selamat datang %s"%request.user.username)
+				return HttpResponseRedirect("/adm/")
+			else:
+				messages.success(request,"Anda Bukan Administrator!")
+				logout(request)
+				return HttpResponseRedirect("/adm/")
+		else:
+			messages.success(request,"Anda Bukan Administrator!")
 	jumlah_produk = Produk.objects.all().count()
 	lima_stok = Produk.objects.all().order_by("-created_at")[0:5]
-	jumlah_kategori = kategoriProduk.objects.all().count()
+	jumlah_kategori = None #kategoriProduk.objects.all().count()
 	produk_aktif = Produk.objects.all().filter(aktif=True).count()
 	produk_nonaktif = Produk.objects.all().filter(aktif=False).count()
 	followup_repair = rusakProduk.objects.all().filter(selesai=False).count()
@@ -524,3 +534,27 @@ def updateBanner(request,pk):
 	except:
 		messages.success(request,'Update Banner gagal~ apakah data sudah terhapus?')
 		return HttpResponseRedirect('/adm/input/banner')
+
+def sinkronData(request):
+	data_kategori = requests.get('http://127.0.0.1:8181/api/get/kategori/').json()
+	data_produk = requests.get('http://127.0.0.1:8181/api/get/produk/').json()
+
+	print("data kategorinya %s"%data_kategori)
+	print("data produknya %s"%data_produk)
+
+	for kategori in data_kategori:
+		kategoriProduk.objects.update_or_create(kategori=kategori['kategori'],defaults={
+			'kategori':kategori['kategori'],
+			'deskripsi':kategori['deskripsi']
+			})
+
+	for produk in data_produk:
+		Produk.objects.update_or_create(produk_kode=produk['produk_kode'],defaults={
+			'kategori':produk['kategori'],
+			'produk_kode':produk['produk_kode'],
+			'produk_nama':produk['produk_nama'],
+			'harga':produk['produk_harga'],
+			'stok_awal':produk['produk_stok']
+			})
+	messages.success(request,"Sinkronisasi Data Master Berhasil!")
+	return HttpResponseRedirect('/adm/')

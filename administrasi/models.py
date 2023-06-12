@@ -19,7 +19,7 @@ class kategoriProduk(models.Model):
 
 
 class Produk(models.Model):
-	kategori = models.ForeignKey(kategoriProduk,on_delete=models.RESTRICT,null=False,blank=False)
+	kategori = models.CharField(max_length=100,verbose_name="Kategori Produk",null=False,blank=False)
 	produk_kode =models.CharField(max_length=100,verbose_name='Kode Produk',null=False,blank=False,primary_key=True)
 	produk_nama =models.CharField(max_length=200,verbose_name='Nama Produk',null=False,blank=False)
 	produk_merek = models.CharField(max_length=200,verbose_name='Kode SKU Produk',null=True,blank=True)

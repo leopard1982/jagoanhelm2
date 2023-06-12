@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'pajak',
     'pembayaran',
     'pengiriman',
+    'django.contrib.humanize'
 ]
 
 MIDDLEWARE = [

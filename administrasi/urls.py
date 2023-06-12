@@ -6,9 +6,11 @@ from administrasi.views import viewkategoriProduk, delete_Kategori, updateKatego
 from administrasi.views import inputStokRusak, viewStatusStokRusak, updateStokRusak, deleterusakProduk
 from administrasi.views import InputRevisiStokManual, viewStatusRevisiStok, UpdateRevisiStokManual
 from administrasi.views import deleteRevisiProduk, inputBannerToko, deleteBanner, updateBanner, logoutNow
+from administrasi.views import sinkronData
 
 urlpatterns = [
     path('', dashboard,name="dashboard"),
+    path('sinkron/',sinkronData,name="sinkronData"),
     path('logout/',logoutNow,name="logoutNow"),
     path('input/banner/',inputBannerToko,name="inputBannerToko"),
     path('input/kategori/',input_kategoriProduk,name="inputKategoriProduk"),

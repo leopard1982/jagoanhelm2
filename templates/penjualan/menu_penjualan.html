@@ -2,9 +2,8 @@
 {% load static %}
 
 
-{% block banners%}
-test
-{% if tampilkan%}
+{% block banners%}	
+
 <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
 	  <div class="carousel-indicators">
 	  	{% for banner in bannernya%}
@@ -35,11 +34,9 @@ test
 	    <span class="visually-hidden">Next</span>
 	  </button>
 </div>
-{%else%}
-<div class="fw-bold text-start ">
-	<h5><span class="badge bg-success" >Kategori:</span> <span class="badge bg-primary" style="padding-top: -10px;">{{filterby|title|truncatechars:10}} <span class="badge bg-light" style="color:black">{{jumlah_data}} item(s)</span></span> </h5> 
-</div>
-{%endif%}
+
+
+
 {% endblock%}
 
 

@@ -15,6 +15,40 @@
 </head>
 <body>
 
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalLabel">Login Form</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-footer justify-content-center d-flex">
+      	<form action="" method="POST">   
+      	{% csrf_token %}   	
+      		<table>
+      			<tr>
+      				<td>Username:</td>
+      				<td><input type="text" name="txtUsername" class="form-control"></td>				
+      			</tr>
+      			<tr>
+      				<td>Password:</td>
+      				<td><input type="password" name="txtPassword" class="form-control"></td>
+      			</tr>
+      			<tr>
+      				<td colspan="2" class="text-center">
+      					<button type="submit" class="btn btn-primary">Login</button>		
+      				</td>
+      			</tr>
+		      </table>
+      	</form>
+      </div>
+    </div>
+  </div>
+</div>
+
 	 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
   <div class="container-fluid">
     <div class="border rounded mx-2 shadow border-danger col-12 col-xxl-2 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-xs-12   my-2  p-1 ">
@@ -53,27 +87,54 @@
               </ul>
             </li>
 
-            <li class="nav-item">
-              <a class="nav-link disabled text-light fw-bold" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+            <li class="nav-item mx-2">
+            	{% if user.is_authenticated %}
+	              <a class="nav-link  text-info fw-bold btn rounded rounded-pill btn-outline-light" href="/logout/" tabindex="-1" aria-disabled="false"> Logout </a>
+            	{% else%}
+	              <a class="nav-link  text-info fw-bold btn rounded rounded-pill btn-outline-light" href="#" tabindex="-1" aria-disabled="false" data-bs-toggle="modal" data-bs-target="#exampleModal"> Login </a>
+            	{% endif%}
             </li>
+           
+            {% if user.is_authenticated %}
+						<li class="nav-item mx-2">
+              <a class="nav-link  text-danger disabled bg-light rounded border border-danger text-center shadow" href="#" tabindex="-1" aria-disabled="true"> hi, <strong>{{user.username}}</strong></a>
+            </li>
+            {% endif %}
           </ul>
         </div>
 	        <div class="col-11 col-lg-4 col-md-11 col-sm-11" >
-	            <form class="d-flex " style="margin-right:20px">
-	                <input class="form-control  rounded rounded-pill rounded-end "  type="search" placeholder="Search" aria-label="Search"><button class="btn btn-warning rounded rounded-pill rounded-start"  type="submit">Search</button>
+	            <form class="d-flex" method="GET" action="/" style="margin-right:20px">
+	                <input class="form-control  rounded rounded-pill rounded-end "  type="search" placeholder="Search" aria-label="Search" name="q"><button class="btn btn-warning rounded rounded-pill rounded-start"  type="submit">Search</button>
 	            </form>
 	        </div>
     </div>
   </div>
 </nav>
 	<div style="margin-top:220px" class="container">
+			{% for msg in  messages %}
+				<div class="py-3 my-3 text-center rounded alert alert-warning alert-dismissible fade show" role="alert">
+				  <strong>{{msg}}</strong>
+				</div>
+			{% endfor %}
+
 
 		<div class="d-flex justify-content-center">
-			
 				{% block banners%}
-				{% endblock%}
-			
+				{% endblock%}			
 		</div>
+		<!-- untuk menampilkan filter -->
+		<div class="row justify-content-center d-flex" style="margin-top:30px">
+			<div class=" fw-bold text-center">
+				<h5><span class="badge bg-success" >Kategori:</span> <span class="badge bg-primary" style="padding-top: -10px;">
+					{% if filterby is None %}
+						Semua Kategori
+					{% else%}
+						{{filterby|title}} 
+					{% endif %}
+					<span class="badge bg-light" style="color:black">{{jumlah_data}} item(s)</span></span> </h5> 				
+			</div>
+		</div>
+
 
     {% block contents%}
     {% endblock %}

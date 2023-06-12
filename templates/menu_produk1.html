@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static%}
 {% block menu%}
+
 <div class="container shadow rounded" style="margin-bottom:120px;background:rgba(255,140,0,1);">
   <nav class=" navbar navbar-expand-lg navbar-light fixed-top p-3 container rounded shadow" style="margin-bottom:200px;background:rgba(255,140,0,1);">
 
@@ -16,7 +17,7 @@
             <!-- <li><a class="dropdown-item" href="{% url 'inputKategoriProduk'%}"><div class="spinner-grow spinner-grow-sm text-primary"></div> Sinkron Kategori Produk</a></li>
             <li><a class="dropdown-item" href="{% url 'inputProduk'%}"><div class="spinner-grow spinner-grow-sm text-success"></div> Sinkron Produk</a></li>
             <li><hr class="dropdown-divider"></li> -->
-            <li><a class="nav-link fw-bold" href="#"><div class="spinner-grow spinner-grow-sm text-warning"></div> Sinkron Master Data Online <div class="spinner-grow spinner-grow-sm text-warning"></div></a></li>
+            <li><a class="nav-link fw-bold" href="/adm/sinkron/"><div class="spinner-grow spinner-grow-sm text-warning"></div> Sinkron Master Data Online <div class="spinner-grow spinner-grow-sm text-warning"></div></a></li>
             <li><a class="dropdown-item" href="{% url 'viewkategoriProduk'%}">&#9814; Menampilkan Kategori Produk</a></li>
             <li><a class="dropdown-item" href="{% url 'viewProduk'%}">&#9815; Menampilkan Produk</a></li>
             <li><hr class="dropdown-divider"></li>
@@ -78,4 +79,6 @@
     </div>
   </nav>
 </div>
+
+
 {% endblock%}

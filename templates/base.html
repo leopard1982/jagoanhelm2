@@ -50,22 +50,30 @@
 		
 	</div>
 	{% else %}
+		{% for msg in  messages %}
+			<div class="d-flex justify-content-center text-center">
+				<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-8 col-sm-12 py-3 my-3 text-center rounded alert bg-white border border-1 border-warning shadow alert-warning alert-dismissible fade show" role="alert">
+				  <strong>{{msg}}</strong>
+				  </button>
+				</div>				
+			</div>
+			{% endfor %}
 	<div class="row d-flex justify-content-center my-2" style="margin-top:50px !important">
 		<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-8 col-sm-12 text-center h2 text-danger fw-bold">
 			<img src="{% static 'img/jagoanhelm.png' %}" style="height:50px">jagoanhelm.com
 		</div>		
 	</div>
-	<div class="container p-3 px-5 col-xxl-4 col-xl-4 col-lg-4 col-md-8 col-sm-12 rounded shadow bg-white my-2">
+	<div class="container border border-2 border-warning p-3 px-5 col-xxl-4 col-xl-4 col-lg-4 col-md-8 col-sm-12 rounded shadow bg-white my-2">
 		<form method="post" action="">
 			{% csrf_token %}
-			<div class="h4 p-2 border border-light text-center rounded rounded-pill " style="background: rgba(255,255,0,0.3);">Login Form</div>
+			<div class="h4 p-2 border border-warning text-center rounded rounded-pill " style="background: rgba(255,255,0,0.3);">Login Form</div>
 			<hr class="hr">
 			<div class="row">
 				<div class="col-3 p-2">
 					Username:
 				</div>
 				<div class="col-9">
-					<input type="text" name="txtUser" autocomplete = "off" class="form-control rounded rounded-pill" required>
+					<input type="text" name="txtUser" autocomplete = "off" class="form-control rounded rounded-pill border-warning" required placeholder="fill username" >
 				</div>
 			</div>
 			<div class="row">
@@ -73,7 +81,7 @@
 					Password:
 				</div>
 				<div class="col-9">
-					<input type="password" autocomplete = "off" name="txtPassword" class="form-control rounded rounded-pill" required>
+					<input type="password" autocomplete = "off" name="txtPassword" class="form-control rounded rounded-pill border-warning" required placeholder="fill password">
 				</div>
 			</div>
 			<div class="row d-flex justify-content-center">
