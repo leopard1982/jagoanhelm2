@@ -1,0 +1,45 @@
+{% extends 'penjualan/menu_penjualan.html'%} {% load static%} {% block
+penjualan%}
+<div
+  id="carouselExampleInterval"
+  class="carousel slide"
+  data-bs-ride="carousel"
+>
+  <div class="carousel-inner">
+    {% if data.gambar%}
+    <div class="carousel-item active" data-bs-interval="2000">
+      <img
+        src="{{data.gambar.url}}"
+        class="d-block w-100"
+        style="height: 200px"
+      />
+    </div>
+    {% endif%} {% if data.gambar1%}
+    <div class="carousel-item" data-bs-interval="2000">
+      <img
+        src="{{data.gambar1.url}}"
+        class="d-block w-100"
+        style="height: 200px"
+      />
+    </div>
+    {% endif %} {% if data.gambar2%}
+    <div class="carousel-item" data-bs-interval="2000">
+      <img
+        src="{{data.gambar2.url}}"
+        class="d-block w-100"
+        style="height: 200px"
+      />
+    </div>
+    {% endif %} {% if data.gambar3%}
+    <div class="carousel-item" data-bs-interval="2000">
+      <img
+        src="{{data.gambar3.url}}"
+        class="d-block w-100"
+        style="height: 200px"
+      />
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% endblock%}

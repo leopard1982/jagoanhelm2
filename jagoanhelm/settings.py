@@ -3,6 +3,15 @@
 from pathlib import Path
 import os
 
+# MAIL CONFIGURATIONS
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp-mail.outlook.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'suryoadhychandra@outlook.com'
+EMAIL_HOST_PASSWORD = 'Kebon1982'
+RECIPIENT_ADDRESS = 'suryoadhychandra@outlook.com'
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -16,8 +25,9 @@ SECRET_KEY = 'django-insecure-_6t8(y0ru+an5j!o3huh^4p)+k^n&(u5dwhw9&f!#=&r9q&q1_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.50','localhost','127.0.0.1']
-CSRF_TRUSTED_ORIGINS=['http://192.168.1.50']
+ALLOWED_HOSTS = ['192.168.1.50', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['http://192.168.1.50',
+                        'http://127.0.0.1:8000', 'http://127.0.0.1', 'http://localhost:8000']
 
 
 # Application definition
@@ -54,7 +64,7 @@ ROOT_URLCONF = 'jagoanhelm.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,12 +85,8 @@ WSGI_APPLICATION = 'jagoanhelm.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'jagoanhelm',
-        'USER': 'admin',
-        'PASSWORD': 'chandra1982',
-        'HOST': '192.168.1.50',
-        'PORT': '5432'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'jagoanhelm.sqlite3')
     }
 }
 
@@ -120,10 +126,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
-STATIC_ROOT = os.path.join(BASE_DIR,'staticroot')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticroot')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

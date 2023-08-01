@@ -1,0 +1,330 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="{% static 'js/bootstrap5.bundle.min.js'%}"></script>
+    <script src="{% static 'js/jquery.3.6.4.js'%}"></script>
+    <script src="{% static 'js/jquery-cookies.js'%}"></script>
+    <script src="{% static 'js/jquery.session.js'%}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap5.min.css'%}">
+    <title>Document</title>
+    <style>
+        img:hover,
+        .badge,
+        .buttonku {
+          cursor: pointer;
+        }
+      </style>
+</head>
+<body style="background-color: rgba(255, 0, 0, 0.5);font-size:14px;">
+  {% csrf_token %}
+    <main>
+        <div class="fixed-top">
+            <div class="bg-light text-danger justify-content-between d-flex">
+              <div class="d-flex" style="cursor:pointer" onclick="window.location.href='/'">
+                <img src="{% static 'img/jagoanhelm.png'%}" class="mx-2" style="height: 75px;width: 75px;"  alt="">
+                <p id="header" class="h2 fw-bold" style="width: 300px;margin-top: 15px; font-size: 40;"></p>
+              </div>
+              <div class="align-contents-center py-4 d-flex ">
+                  <div class="d-flex    p-1 mx-2" style="width: 230px;border-top:1px solid red;border-left: 1px solid red;">
+                      <div class="dropdown">
+                        <span class="mx-3"><img alt="" src="{% static 'img/shopping-cart.png' %}"  style="height: 20px; width: 20px;"/> <a href="#"  class="text-danger dropdown-toggle" data-bs-toggle="dropdown">shopping cart</a> 
+                        {% if sc %}
+                        <ul class="dropdown-menu border border-danger border-2 p-2 shadow" style="width: 400px;overflow-x: hidden; overflow-y: auto;max-height: 300px;">
+                          <li class="py-2 text-white" style="background-color: rgba(255,0,0,0.8);">
+                            <p style="text-align: center;font-size: 12px;">Segera Checkout yah sebelum kehabisan!</p>
+                            <div class="justify-content-center d-flex " ><button style="border-color:red;font-size:  12px;border-radius:5px;" onclick="checkout_men()">Checkout</button></div>
+                          </li>
+                          <li>
+                            <p style="background-color: rgba(255,0,0,0.6);padding:5px;margin-top:20px;text-align: center;font-size: 12px;font-weight: bold;">Daftar Keranjangmu:</p>
+                          </li>
+                          {% for mychart in sc %}
+                          <li>
+                            <div class="d-flex m-1 border border-danger border-1 rounded p-1" style="font-size: 12px; cursor:pointer;">
+                              <div class="col-4 justify-content-center">
+                                <div class="justify-content-center">
+                                  <img src="{{mychart.gambar}}" class="rounded-circle w-75 " style="height:100px"   alt="">
+                                </div>
+                              </div>
+                              <div class="col-8 p-1">
+                                <div onclick="detail_produk('{{mychart.produk_kode}}')" class="p-2 row" style="border-left: 1px solid red" title="Klik untuk melihat detail">
+                                  <p><strong>{{mychart.produk_nama}}</strong> [id: {{mychart.produk_kode}}]<br/>
+                                  <p>Jumlah Item: <strong>{{mychart.jumlah}}</strong> pcs</p>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button style="font-size: 12px;font-weight:bold;border-radius:5px;border: 1px solid red;margin-bottom: 10px;" onclick="delete_cart('{{mychart.produk_kode}}')">hapus</button>  
+                                    <button style="font-size: 12px;font-weight:bold;border-radius:5px;border: 1px solid blue;margin-bottom: 10px;" onclick="tambah_kurang_cart('{{mychart.produk_kode}}','tambah')">tambah &uarr;</button>
+                                    <button style="font-size: 12px;font-weight:bold;border-radius:5px;border: 1px solid green;margin-bottom: 10px;" onclick="tambah_kurang_cart('{{mychart.produk_kode}}','kurang')">kurang &darr;</button>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                          {% endfor%}
+                        </ul>
+                        {% else %}
+                        <ul class="dropdown-menu border border-danger border-2 p-2 shadow" style="width: 400px;overflow-x: hidden; overflow-y: auto;">
+                          <li>
+                          Hai, belum ada barang di shopping chartmu... yuk mulai belanja... ^^
+                          </li>
+                        </ul>
+                        {% endif%}
+                      </div>
+                     <span class="badge bg-danger">
+                      {%if shopping_chart_jml > 99%} 99+
+                      {%else%}{{shopping_chart_jml}}
+                      {%endif%}
+
+                     </span>&nbsp;&nbsp;&nbsp;</span>
+                  </div>
+                  <div class="d-flex  p-1 mx-2"  style="width: 180px;;border-top:1px solid red;border-right: 1px solid red;">
+                    <div class="dropdown">
+                      <span class="mx-3">&#128147;<a href="#"  class="text-danger dropdown-toggle" data-bs-toggle="dropdown">wishlist</a> 
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Link 1</a></li>
+                        <li><a class="dropdown-item" href="#">Link 2</a></li>
+                        <li><a class="dropdown-item" href="#">Link 3</a></li>
+                      </ul>
+                    </div>
+                    <span class="badge bg-danger">
+                      {%if wishlist > 99%} 99+
+                      {%else%}{{wishlist}}
+                      {%endif%}
+                    </span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                  </div>                
+                  <div class="d-flex  p-1 mx-4"  style="width: 170px;border-top:1px solid red;border-left: 1px solid red;border-right: 1px solid red;">
+                    <div class="dropdown">
+                      <span class="mx-3">&#128100;<a href="#"  class="text-danger dropdown-toggle" data-bs-toggle="dropdown">my account</a> 
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Link 1</a></li>
+                        <li><a class="dropdown-item" href="#">Link 2</a></li>
+                        <li><a class="dropdown-item" href="#">Link 3</a></li>
+                      </ul>
+                    </div></span>
+                  </div>
+              </div>
+              
+            </div>
+            <nav class="navbar navbar-expand-lg navbar-light bg-danger navbar-dark shadow">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="#">Bootstrap 5 <span class="badge bg-white text-danger">Mega Menu</span></a>
+                  <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-content">
+                    <div class="hamburger-toggle">
+                      <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </div>
+                    </div>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbar-content">
+                    <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+                      <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                      </li>
+                      <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">Multilevel</a>
+                        <ul class="dropdown-menu shadow">
+                          <li><a class="dropdown-item" href="#">Gallery</a></li>
+                          <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+                          <li class="dropstart">
+                            <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">Submenu Left</a>
+                            <ul class="dropdown-menu shadow">
+                              <li><a class="dropdown-item" href=""> Third level 1</a></li>
+                              <li><a class="dropdown-item" href=""> Third level 2</a></li>
+                              <li><a class="dropdown-item" href=""> Third level 3</a></li>
+                              <li><a class="dropdown-item" href=""> Third level 4</a></li>
+                              <li><a class="dropdown-item" href=""> Third level 5</a></li>
+                            </ul>
+                          </li>
+                          <li class="dropend">
+                            <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside">Submenu Right</a>
+                            <ul class="dropdown-menu shadow">
+                              <li><a class="dropdown-item" href=""> Second level 1</a></li>
+                              <li><a class="dropdown-item" href=""> Second level 2</a></li>
+                              <li><a class="dropdown-item" href=""> Second level 3</a></li>
+                              <li class="dropend">
+                                <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown">Let's go deeper!</a>
+                                <ul class="dropdown-menu dropdown-submenu shadow">
+                                  <li><a class="dropdown-item" href=""> Third level 1</a></li>
+                                  <li><a class="dropdown-item" href=""> Third level 2</a></li>
+                                  <li><a class="dropdown-item" href=""> Third level 3</a></li>
+                                  <li><a class="dropdown-item" href=""> Third level 4</a></li>
+                                  <li><a class="dropdown-item" href=""> Third level 5</a></li>
+                                </ul>
+                              </li>
+                              <li><a class="dropdown-item" href=""> Third level 5</a></li>
+                            </ul>
+                          </li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                      </li>
+                      <li class="nav-item dropdown dropdown-mega position-static">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">[PROMO]</a>
+                        <div class="dropdown-menu shadow">
+                          <div class="mega-content px-4">
+                            <div class="container-fluid">
+                              <div class="row">
+                                <div class="col-12 col-sm-4 col-md-3 py-4">
+                                  <h5>Pages</h5>
+                                  <div class="list-group">
+                                    <a class="list-group-item" href="#">Accomodations</a>
+                                    <a class="list-group-item" href="#">Terms & Conditions</a>
+                                    <a class="list-group-item" href="#">Privacy</a>
+                                  </div>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-3 py-4">
+                                  <h5>Card</h5>
+                                  <div class="card">
+                              <img src="img/banner-image.jpg" class="img-fluid" alt="image">
+                              <div class="card-body">
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                                </div>
+                                <div class="col-12 col-sm-4 col-md-3 py-4">
+                                  <h5>About CodeHim</h5>
+                                    <p><b>CodeHim</b> is one of the BEST developer websites that provide web designers and developers with a simple way to preview and download a variety of free code & scripts.</p>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-3 py-4">
+                                  <h5>Damn, so many</h5>
+                                  <div class="list-group">
+                                    <a class="list-group-item" href="#">Accomodations</a>
+                                    <a class="list-group-item" href="#">Terms & Conditions</a>
+                                    <a class="list-group-item" href="#">Privacy</a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                      </li>
+                    </ul>
+                    <form class="d-flex ms-auto">
+                        <div class="input-group">
+                            <input class="form-control border-0 mr-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-primary border-0" type="submit">Search</button>
+                        </div>
+                    </form>
+                  </div>
+                </div>
+              </nav>
+            <!-- END Mega Menu HTML -->
+        </div>
+        <!-- Start Mega Menu HTML -->
+        </main>
+        <div style="margin-top: 100px;">
+            
+            {% block contents %} {% endblock %}
+        </div>
+        <script type="text/javascript">
+          $(document).ready(function() {
+            var tulisan="";
+            var counter=0;
+            setInterval(function() {
+              if (counter==0) {
+                tulisan="jagoanhelm.com";
+                counter++;
+              } else if (counter==1) {
+                tulisan="j_";
+                counter++;
+              } else if (counter==2) {
+                tulisan="ja_";
+                counter++;
+              } else if (counter==3) {
+                tulisan="jag_";
+                counter++;
+              } else if (counter==4) {
+                tulisan="jago_";
+                counter++;
+              } else if (counter==5) {
+                tulisan="jagoa_";
+                counter++;
+              } else if (counter==6) {
+                tulisan="jagoan_";
+                counter++;
+              }else if (counter==7) {
+                tulisan="jagoanh_";
+                counter++;
+              }else if (counter==8) {
+                tulisan="jagoanhe_";
+                counter++;
+              }else if (counter==9) {
+                counter++;
+                tulisan="jagoanhel_";
+              }else if (counter==10) {
+                tulisan="jagoanhelm_";
+                counter++;
+              }else if (counter==11) {
+                tulisan="jagoanhelm._";
+                counter++;
+              } else if (counter==12) {
+                tulisan="jagoanhelm.c_";
+                counter++;
+              }else if (counter==13) {
+                tulisan="jagoanhelm.co_";
+                counter++;
+              }else if (counter==14) {
+                tulisan="jagoanhelm.com";
+                counter++;
+                counter=0;
+              };
+      
+              
+              $("#header").html(tulisan);
+            }, 300)
+          });
+
+          function delete_cart(kode_produk) {
+            csrf_token = $("input[name=csrfmiddlewaretoken]").val();
+            $.ajax(
+              {
+                type: 'POST',
+                url: '/t/d/',
+                data: {
+                  'csrfmiddlewaretoken': csrf_token,
+                  'produk_kode':kode_produk,
+                },
+                success: function() {
+                  window.location.reload();
+                }
+              }
+            );
+          };
+
+          function tambah_kurang_cart(kode_produk,tambah_kurang) {
+            let crsf = $("input[name=csrfmiddlewaretoken]").val();
+            $.ajax(
+              {
+                type: 'POST',
+                url: '/t/tk/',
+                data: {
+                  'csrfmiddlewaretoken': crsf,
+                  'produk_kode':kode_produk,
+                  'tambah_kurang':tambah_kurang,
+                },
+                success: function() {
+                  window.location.reload();
+                }
+              }
+            );
+          };
+
+          function checkout_men() {
+            window.location.href="/c/";
+          }
+
+          function detail_produk(kode_produk) {
+            window.location.href = "/d/?pid=" + kode_produk;
+          }
+        </script>
+</body>
+</html>

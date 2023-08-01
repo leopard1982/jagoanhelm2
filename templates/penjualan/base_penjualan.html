@@ -49,22 +49,20 @@
   </div>
 </div>
 
-	 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-  <div class="container-fluid">
-    <div class="border rounded mx-2 shadow border-danger col-12 col-xxl-2 col-xl-3 col-lg-4 col-md-12 col-sm-12 col-xs-12   my-2  p-1 ">
-        <div class="text-center">
-	        <img src="{% static 'img/jagoanhelm.jpeg'%}" class="img-thumbnail border border-danger rounded rounded-circle" style="width: 80px;height: 80px;"  alt="">
-	        <div class="container rounded rounded-pill  my-1 p-1 bg-danger">
+<nav class="navbar  navbar-expand-lg navbar-light bg-danger fixed-top">
+	
+    <div class=" col-xxl-3 col-xl-3 col-lg-3 col-md-7 col-sm-7 mx-2">
+        <div class="text-start d-flex">
+	        <img src="{% static 'img/jagoanhelm.jpeg'%}" class=" border border-danger rounded rounded-circle" style="height: 80px; width:100px"  alt="">
+	        <div class="container  my-4 p-1 bg-danger">
 	        	<a class="navbar-brand h5 fw-bold  text-light" style="width: 200px;" id="header1">jagoanhelm.com</a>
 	        </div>   
         </div>
-        
     </div>
     
-
-    <div class="d-flex col-12 col-xxl-10 col-xl-9 col-lg-8 col-md-9 col-sm-9 rounded rounded bg-danger shadow mx-2 p-2">
-        <button class="navbar-toggler mx-2 bg-warning rounded " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> 
-        <span class="fw-bold">&darr;</span>
+    <div class="col-xxl-9 col-xl-9 col-lg-8 col-md-1 col-sm-1 justify-content-start mx-1 p-2">
+        <button class="navbar-toggler  bg-white rounded " type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> 
+        <span class="fw-bold">&equiv;</span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -75,23 +73,28 @@
               <a class="nav-link text-light fw-bold" href="#">Link</a>
             </li>
             
+            <li class="nav-item">
+              <a class="nav-link text-light fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Keranjangku <span class="badge rounded bg-light text-danger" style="margin-top:-20px !important">99</span>
+              </a>
+            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle  text-light fw-bold" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
+                Pembelianku
               </a>
               <ul class="dropdown-menu rounded" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item text-danger" href="#">Action</a></li>
-                <li><a class="dropdown-item text-danger" href="#">Another action</a></li>
+                <li><a class="dropdown-item text-danger" href="#">History Pembelian</a></li>
+                <li><a class="dropdown-item text-danger" href="#">History Pembayaran</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item text-danger" href="#">Something else here</a></li>
               </ul>
             </li>
 
-            <li class="nav-item mx-2">
+            <li class="nav-item">
             	{% if user.is_authenticated %}
-	              <a class="nav-link  text-info fw-bold btn rounded rounded-pill btn-outline-light" href="/logout/" tabindex="-1" aria-disabled="false"> Logout </a>
+	              <a class="nav-link  text-info fw-bold btn rounded rounded-pill btn-outline-light" href="/logout/" tabindex="-1" style="font-size: 15px;" aria-disabled="false"> Logout </a>
             	{% else%}
-	              <a class="nav-link  text-info fw-bold btn rounded rounded-pill btn-outline-light" href="#" tabindex="-1" aria-disabled="false" data-bs-toggle="modal" data-bs-target="#exampleModal"> Login </a>
+	              <a class="nav-link  text-info fw-bold btn rounded rounded-pill btn-outline-light" href="#" tabindex="-1" style="font-size: 15px;" aria-disabled="false" data-bs-toggle="modal" data-bs-target="#exampleModal"> Login </a>
             	{% endif%}
             </li>
            
@@ -101,16 +104,17 @@
             </li>
             {% endif %}
           </ul>
-        </div>
-	        <div class="col-11 col-lg-4 col-md-11 col-sm-11" >
+
+	        <div class="col-md-12 col-sm-12 justify-content-end" >
 	            <form class="d-flex" method="GET" action="/" style="margin-right:20px">
 	                <input class="form-control  rounded rounded-pill rounded-end "  type="search" placeholder="Search" aria-label="Search" name="q"><button class="btn btn-warning rounded rounded-pill rounded-start"  type="submit">Search</button>
 	            </form>
 	        </div>
-    </div>
-  </div>
+	      </div>
+  	</div>
+
 </nav>
-	<div style="margin-top:220px" class="container">
+	<div style="margin-top:120px" class="container">
 			{% for msg in  messages %}
 				<div class="py-3 my-3 text-center rounded alert alert-warning alert-dismissible fade show" role="alert">
 				  <strong>{{msg}}</strong>
@@ -118,20 +122,21 @@
 			{% endfor %}
 
 
-		<div class="d-flex justify-content-center">
+		<div class="d-flex justify-content-center container-fluid w-100">
 				{% block banners%}
 				{% endblock%}			
 		</div>
 		<!-- untuk menampilkan filter -->
+		
 		<div class="row justify-content-center d-flex" style="margin-top:30px">
-			<div class=" fw-bold text-center">
-				<h5><span class="badge bg-success" >Kategori:</span> <span class="badge bg-primary" style="padding-top: -10px;">
+			<div class=" fw-bold text-center   rounded  p-2" style="background: rgba(0,0,0,0.2);">
+				<h5><span class="badge bg-success p-2" >Kategori:</span> <span class="badge bg-primary p-2" style="padding-top: -10px;">
 					{% if filterby is None %}
 						Semua Kategori
 					{% else%}
 						{{filterby|title}} 
 					{% endif %}
-					<span class="badge bg-light" style="color:black">{{jumlah_data}} item(s)</span></span> </h5> 				
+					<span class="bg-light px-2 rounded" style="color:black">{{jumlah_data}}</span> item(s)</span> </h5> 				
 			</div>
 		</div>
 
@@ -142,8 +147,7 @@
 	</div>
 
 	<br/><br/><br/><br/><br/><br/><br/><br/>
-<div class="footer text-center bg-white fixed-bottom">
-	<hr class="hr"/>
+<div class="footer text-center bg-danger fixed-bottom text-light fw-bold">
 	<span class="fw-bold">&copy; 2022 - {% now 'Y'%}</span><br/>
 	<span>by: jagoanhelm.com &amp; leopard, inc</span>
 </div>

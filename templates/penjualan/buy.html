@@ -1,0 +1,339 @@
+{% extends 'base_menu.html'%} {% load static%} {% load humanize %} {% block contents%}
+<div
+  class="container-fluid col-11"
+  style="background-color: white; margin-top: -20px; padding-top: 40px"
+>
+  <input type="hidden" id="foto_produk" 
+    {% if detail_datanya.gambar %}
+    value="{{detail_datanya.gambar.url}}"
+    {% else %}
+    value=""
+    {% endif %}
+    />
+  
+    <div class="row p-2 m-3 justify-content-between">
+    <div class="col-4 bg-light p-3 mx-3">
+      <div class="d-block" style="margin-top: 80px">
+        <div class="row justify-content-center p-2 border border-dark rounded">
+          <img
+            alt=""
+            {% if detail_datanya.gambar%}
+            src="{{detail_datanya.gambar.url}}"
+            {% else %}
+            src="{% static 'img/jagoanhelm.png'%}"
+            {% endif%}
+            class="w-75"
+            id="utama"
+            style="height: 300px"
+          />
+        </div>
+        <div class="row mx-3 overflow-auto p-2 rounded border">
+          <div class="d-flex no-wrap justify-content-center overflow-y-hidden">
+            {% if detail_datanya.gambar%}
+            <img
+              alt=""
+              src="{{detail_datanya.gambar.url}}"
+              class="w-25 rounded shadow border border-dark border-1 p-2"
+              onclick="setImage('{{detail_datanya.gambar.url}}')"
+              style="margin-left: 10px; cursor: pointer"
+            />
+            {% endif%}
+            {% if detail_datanya.gambar1%}
+            <img
+              alt=""
+              src="{{detail_datanya.gambar1.url}}"
+              class="w-25 mx-2 border border-dark border-1 rounded shadow p-2"
+              onclick="setImage('{{detail_datanya.gambar1.url}}')"
+              style="cursor: pointer"
+            />
+            {% endif%}
+            {% if detail_datanya.gambar2%}
+            <img
+              alt=""
+              src="{{detail_datanya.gambar2.url}}"
+              class="w-25 mx-2 border border-dark border-1 rounded shadow p-2"
+              onclick="setImage('{{detail_datanya.gambar2.url}}')"
+              style="cursor: pointer"
+            />
+            {% endif %}
+            {% if detail_datanya.gambar3 %}
+            <img
+              alt=""
+              src="{{detail_datanya.gambar3.url}}"
+              class="w-25 mx-2 border border-dark border-1 rounded shadow p-2"
+              onclick="setImage('{{detail_datanya.gambar3.url}}')"
+              style="cursor: pointer"
+            />
+            {% endif%}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-7 bg-light p-2 overflow-x-hidden">
+      <div class="row">
+        <div class="d-flex">
+          <input type="hidden" value="{{detail_datanya.produk_nama}}" id="nama_produk"/>
+          <input type="hidden" value="{{detail_datanya.produk_kode}}" id="kode_produk"/>
+          <input type="hidden" value="{{ csrf_token }}" id="csrf_token"/>
+
+          <span class="h1 fw-bold">{{detail_datanya.produk_nama}}</span>
+          {% if detail_datanya.set_new %}
+          <img src ="{% static 'img/new.png'%}" style="width:60px;height:50px;margin-left:-15px;margin-right:-15px;margin-top:-10px"/>
+          {% endif %}
+          {% comment %} <p
+            class="bg-info rounded mx-2 p-2 fw-bold text-danger rounded shadow"
+            style="font-size:12px;height:35px"
+          >
+            NEW!
+          </p> {% endcomment %}
+          {% if detail_datanya.disc_active %}
+          <p
+            class="bg-success rounded mx-2 p-2 fw-bold text-white rounded shadow"
+            style="font-size:12px;height:35px"
+          >
+            DISC!
+          </p>
+          {% endif%}
+          {% if detail_datanya.gratis_ongkir_active %}
+          <p
+            class="bg-danger rounded mx-2 p-2 text-white rounded shadow"
+            style="font-size:12px;height:35px"
+          >
+            FREE ONGKIR!
+          </p>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row overflow-auto">
+        <!-- <div class="d-flex rounded-top rounded-2 " style="background-color: rgba(0,0,0,0.2);">
+                            <p class="p-2 my-2 rounded-top mx-1 border border-dark buttonku fw-bold" style="background-color: rgba(0,0,0,0.2);">Deskripsi</p>
+                            <p class="p-2 my-2 rounded-top mx-1 border border-dark buttonku"  style="background-color: white;">Volume Barang</p>
+                        </div> -->
+        <div class="p-2">
+          <div>
+            <div
+              class="d-flex justify-content-between rounded-top"
+              style="background-color: rgba(0, 0, 0, 0.7); color: white"
+            >
+              <span class="p-2 fw-bold">Deskripsi Produk</span>
+              <span class="p-2"
+                ><button
+                  type="button"
+                  class="btn-warning rounded"
+                  onclick="fademe('#deskripsi')"
+                >
+                  -
+                </button></span
+              >
+            </div>
+            <div id="deskripsi" class="p-2 border border-dark rounded-bottom">
+              {{detail_datanya.deskripsi}}
+            </div>
+          </div>
+          <div class="my-2"></div>
+          <div>
+            <div
+              class="d-flex justify-content-between rounded-top"
+              style="background-color: rgba(0, 0, 0, 0.7); color: white"
+            >
+              <span class="p-2 fw-bold">Kelengkapan Produk</span>
+              <span class="p-2"
+                ><button
+                  type="button"
+                  class="btn-warning rounded"
+                  onclick="fademe('#volume')"
+                >
+                  -
+                </button></span
+              >
+            </div>
+            <div
+              id="volume"
+              class="p-2 border border-dark rounded-bottom"
+              style="margin-bottom: 20px"
+            >
+              <p>
+                <strong>Kelengkapan Produk:</strong> {{detail_datanya.kelengkapan_produk}}
+              </p>
+              <p><strong>Volume Produk:</strong> {{detail_datanya.dimensi_produk}}</p>
+              <p><strong>Jasa Kurir:</strong> GoJek, GrabJek 
+                {% if detail_datanya.gratis_ongkir_active %}
+                <span class="badge bg-danger fw-bold text-white">FREE ONGKIR: Rp.{{detail_datanya.gratis_ongkir|intcomma}}.00</span>
+                {% endif %}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="d-block rounded p-2 rounded-2 my-2"
+          style="background-color: rgba(0, 0, 0, 0.1)"
+        >
+        {% if detail_datanya.disc_active %}
+          <p>
+            Harga Normal: <i><del>Rp.{{detail_datanya.harga|intcomma}}.00</del></i>
+            <span class="badge bg-danger"> -{{detail_datanya.disc|intcomma}}</span>
+          </p>
+          <p>
+            Harga Sekarang: <strong>Rp.{{detail_datanya.harga_nett|intcomma}}.00</strong>
+            <span class="badge bg-success">best price!</span>
+          </p>
+        {% else %}
+        <p>
+          Harga: <strong>Rp.{{detail_datanya.harga|intcomma}}.00</strong>
+          <span class="badge bg-success">best price!</span>
+        </p>
+        {% endif%}
+        {% if jumlah_awal %}
+        <p>
+          Di Shopping Chart ada: <strong>{{jumlah_awal|intcomma}}</strong> pcs. Mau kamu tambah? <span class="badge bg-info " onclick="kurang()">-</span>
+          <strong><span id="jumlah">0</span></strong> <span class="badge bg-info fw-bold" onclick="tambah()">+</span> pcs
+        </p>
+        {% else %}
+        <p>
+          Mau beli berapa? <span class="badge bg-info" onclick="kurang()">-</span>
+          <strong><span id="jumlah">0</span></strong> <span class="badge bg-info" onclick="tambah()">+</span> pcs
+        </p>
+        {% endif %}
+
+          <div class="d-flex justify-content-evenly">
+            <div
+              class="buttonku col-5 shadow p-1 border border-white border-2 my-2 bg-primary rounded d-flex justify-content-center"
+              onclick="troli()">
+              <img
+                src="{% static 'img/shop.png' %}"
+                style="width: 50px; height: 50px"
+                alt=""
+              /><span class="mx-2 p-2 fw-bold" style="color: white"
+                >Tambahkan Ke Troli</span
+              >
+            </div>
+            <div
+              class="buttonku col-5 p-1 shadow border border-white border-2 my-2 mx-2 bg-success rounded d-flex justify-content-center" 
+               >
+              <img
+                src="{% static 'img/ok.png'%}"
+                style="width: 40px; height: 40px"
+                alt=""
+              /><span class="mx-2 p-2 fw-bold" style="color: white"
+                >Beli Sekarang!</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <p class="h3">Produk Lain yang kamu suka?</p>
+    <div
+      class="row p-2 justify-content-between rounded"
+      style="background: rgba(0, 0, 0, 0.1)"
+    >
+      {% for produks in produk %}
+      <div class="col-3 mx-1 my-2 p-2">
+        <div class="card shadow" onclick="window.location.href='/d/?pid={{produks.produk_kode}}'" title="Klik untuk melihat Detail Produk Ini">
+          <div
+            class="card-header h4 fw-bold"
+            style="background: rgba(0, 0, 0, 0.3)"
+          >
+            {{produks.produk_nama | title}}
+          </div>
+          <div class="card-body" style="background: white">
+            {% if produks.gambar%}
+              <img alt="" src="{{produks.gambar.url}}"  class="w-100" style="height:200px"/>
+            {% else %}
+              <img alt="" src="{% static 'img/jagoanhelm.png'%}" class="w-100"  style="height:200px"/>
+            {% endif %}
+            {% if produks.set_new %}
+              <img src="{% static 'img/new.png'%}" style="height:50px;width:60px;margin-left:-15px;margin-top:-400px;"/>
+            {% endif%}
+            {% if produks.disc_active or produks.gratis_ongkir_active%}
+              <div style="margin-top:-30px" class="justify-content-center d-flex">
+                {% if produks.disc_active %}
+                  <span class="badge bg-success fw-bold p-2 mx-2 text-white">Discount!</span>
+                {% endif %} 
+                {% if produks.gratis_ongkir_active %}
+                  <span class="badge mx-2 bg-danger fw-bold p-2 text-white">Gratis Ongkir!</span>
+                {% endif %}
+              </div>
+            {% endif %}
+            </div>
+          <div class="card-footer" style="font-size:14px;background: rgba(0, 0, 0, 0.3)">
+            Harga: 
+            {% if produks.disc_active %} 
+            <strong><s>Rp.{{produks.harga|intcomma}}.00</s>
+            <span class="badge bg-success"
+              >-{{produks.disc|intcomma}}</span
+            ></strong>
+            Harga Spesial: <strong>Rp.{{produks.harga_nett|intcomma}}.00</strong> 
+            {% else %}
+            <strong>Rp.{{produks.harga|intcomma}}.00</strong><p></p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script>
+  function setImage(locationnya) {
+    $("#utama").attr("src", locationnya);
+    $("#utama").fadeIn(slow);
+  }
+
+  function fademe(lokasi) {
+    $(lokasi).toggle(500);
+  }
+
+  function kurang() {
+    jumlah = $("#jumlah").text();
+    jumlah = parseInt(jumlah);
+    if(jumlah> 0) {
+      jumlah --;
+    } else {
+      jumlah=0;
+    }
+    $("#jumlah").text(jumlah);
+  }
+
+  function tambah() {
+    jumlah = $("#jumlah").text();
+    jumlah = parseInt(jumlah);
+    jumlah++;
+    $("#jumlah").text(jumlah);
+  }
+
+  function troli() {
+    jumlah = $("#jumlah").text();
+    kode_produk = $("#kode_produk").val();
+    nama_produk = $("#nama_produk").val();
+    csrf_token = $("#csrf_token").val();
+    gambar_produk = $("#foto_produk").val();
+    
+
+    if (parseInt(jumlah)>0) {
+      $.ajax({
+        type:'POST',
+        url: '/t/',
+        data: {
+          'csrfmiddlewaretoken':csrf_token,
+          'kode_produk':kode_produk,
+          'nama_produk':nama_produk,
+          'jumlah':jumlah,
+          'gambar':gambar_produk,
+        },
+        success: function() {
+          window.location.reload();
+        }
+      });
+    } else {
+      alert("Pembelian Minimal 1 pcs!");
+    }
+ 
+  }
+
+  
+</script>
+{% endblock %}

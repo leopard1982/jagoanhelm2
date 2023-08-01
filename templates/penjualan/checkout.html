@@ -1,0 +1,482 @@
+{% extends 'base_menu.html'%} {% load static%} {% load humanize %} 
+
+{% block contents%}
+{% csrf_token %}
+
+
+<!-- Modal Isi data-->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Anda Belum Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container rounded border border-danger border-1 p-2">
+            <p class="text-center">Tau ga ada keuntungan banyak sebagai member <strong>jagoanhelm.com</strong>?</p>
+            <p class="text-center">Kalau mau beli saja juga boleh, lengkapi data di bawah ini yah...</p>
+            <div class="container">
+                <form>
+                    <p><input type="text" id="input_nama_pembeli" placeholder="nama kamu" required class="form-control border border-danger border-1"></p>
+                    <p><input type="email" id="input_email_pembeli" placeholder="email kamu"  required class="form-control border border-danger border-1"></p>
+                    <p><input type="number" id="input_telpon_pembeli" placeholder="nomor whatsapp kamu (0812xxxxxxxx)" required class="form-control border border-danger border-1"></p>
+                    <p><input type="text" id="input_alamat1_pembeli" placeholder="alamat kamu" required class="form-control border border-danger border-1"></p>
+                    <div class="row d-flex">
+                        <div class="col-4 p-2">Provinsi</div>
+                        <div class="col-8">
+                            <select class="form-select" id="provinsi"> 
+                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row d-flex">
+                        <div class="col-4 p-2">Kota</div>
+                        <div class="col-8">
+                            <select class="form-select" id="kota">
+                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row d-flex">
+                        <div class="col-4 p-2">Kecamatan</div>
+                        <div class="col-8">
+                            <select class="form-select" id="kecamatan">
+                                
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+                      
+        </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Login Dulu</button>
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="tampilkan_beli()">Beli sebagai Tamu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="container rounded p-2" style="margin-top:150px;background-color:white" id="cobacoba">
+    <div class="row d-flex">
+        <div class="col-6 vh-100 overflow-auto no-wrap" style="border-right:1px solid grey">
+            {% for cart in sc %}
+            <div class="my-2 container border border-danger p-2 border-1 rounded card">
+                <div class="card-header fw-bold h4 bg-danger text-white">
+                    <input type="checkbox" id="checkbox{{forloop.counter0}}" harga="" jumlah=""  name="{{cart.produk_kode}}" value="{{cart.produk_nama}}" onchange="cek_checked()">
+                    {{cart.produk_nama|title}}
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="{% static 'img/jagoanhelm.png'%}" class="w-100" id="image{{forloop.counter0}}"
+                            onclick="ganti()"/>
+                        </div>
+                        <div class="col-8">
+                            <div class="p-2 rounded border border-danger border-1">
+                                <p>Produk ID: <strong>{{cart.produk_kode}}</strong></p>
+                                <p>Jumlah Dibeli: <strong><span id="jumlah{{forloop.counter0}}">{{cart.jumlah}}</span></strong> pcs</p>
+                                <p>Harga per pcs: <strong><span id="harga{{forloop.counter0}}"></span></strong></p>
+                                <p>Total Harga : <strong><span id="total{{forloop.counter0}}"></span></strong></p>        
+                                <div id="diskonnya{{forloop.counter0}}" hidden>
+                                    <p>Total Discount : <strong><span id="diskon_total{{forloop.counter0}}"></span></strong></p>
+                                    <p>Net Price : <strong><span id="net_price{{forloop.counter0}}"></span></strong></p>
+                                </div>
+                                <input type="text" id="keterangan{{forloop.counter0}}" class="border border-danger border-1 form-control" placeholder="masukkan requestmu yah!">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor%}
+        </div>
+        <div class="col-6 ">
+            <div class="container  border border-danger p-2 rounded border-1" style="margin-top:10px">
+                <p class="h3 fw-bold w-100 text-center p-2 border border-danger border-1 rounded " style="background:rgba(255,0,0,0.2)">Ringkasan Belanjaku</p>
+                <div class="p-2 overflow-x-hidden" style="background:rgba(255,0,0,0.1)">
+                    <div class="d-flex justify-content-between">
+                        <div class="justify-content-start col-8">
+                            <p class="h5 fw-bold">Nama Barang:</p>
+                            <div id="listbarang"></div>
+                        </div>
+                        <div class="justify-content-end col-4">
+                            <p class="text-end h5 fw-bold">Harga</p>
+                            <div class="text-end" id="hargabarang"></div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="d-flex justify-content-between">
+                        <div class="col-8">
+                            <p style="font-style:italic;font-weight:bold">Total Belanjamu:</p>
+                            <p style="font-style:italic;font-weight:bold">Total Item Belanjamu:</p>
+                        </div>
+                        <div class="col-4">
+                            <p class="text-end"><span style="font-weight:bold" id="totalan">Rp.0,00</span></p>
+                            <p class="text-end"><span style="font-weight:bold" id="jumlah_item">0</span> pcs</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="my-2 justify-content-center">
+                <input type="button" name="Pembayaran" hidden id="Pembayaran" class="text-center btn fw-bold form-control btn-outline-danger" value="Bayar Sekarang" data-bs-toggle="modal" data-bs-target="#staticBackdrop"/>
+                <div hidden id="informasi_pembeli" class="container p-2 border border-danger border-1 rounded shadow bg-white my-2">
+                    <strong class="h4" >Informasi Pembeli:</strong>
+                    <hr>
+                    <div class="row">
+                        <div class="col-4">
+                            <p>Nama kamu:</p>
+                        </div>
+                        <div class="col-8 fw-bold" id="nama_pembeli"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <p>Email kamu::</p>
+                        </div>
+                        <div class="col-8 fw-bold" id="email_pembeli"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <p>No. whatsapp:</p>
+                        </div>
+                        <div class="col-8 fw-bold" id="telpon_pembeli"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <p>Alamat Kamu:</p>
+                        </div>
+                        <div class="col-8">
+                            <p><strong><span id="alamat1"></span></strong></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <p>Kecamatan:</p> 
+                        </div>
+                        <div class="col-8">
+                            <p><strong><span id="nama_kecamatan"></span></strong></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <p>Kota:</p>
+                        </div>
+                        <div class="col-8">
+                            <p><strong><span id="nama_kota"></span></strong></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <p>Provinsi:</p> 
+                        </div>
+                        <div class="col-8">
+                            <p><strong><span id="nama_provinsi"></span></strong></p>
+                        </div>
+                    </div>
+                    <hr>
+                    <p class="text-center my-2">apakah data sudah benar?</p>
+                    <div class="d-flex justify-content-between">
+                        <input type="button" class="btn btn-secondary" value="< Mau diubah?" data-bs-toggle="modal" data-bs-target="#staticBackdrop"/>
+                        <input type="button" class="btn btn-danger" value="Beli Sekarang >" onclick="yes_checkout()"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    
+
+<script>  
+        let siap_checkout = false;
+
+        let nama_kecamatan="";
+        let nama_kota="";
+        let nama_provinsi ="";
+
+        let csrf_token="";
+
+        function yes_checkout() {
+            let emailnya = $("#email_pembeli").text();
+            let namanya = $("#nama_pembeli").text();
+            let no_wa = $("#telpon_pembeli").text();
+            let alamat = $("#alamat1").text();
+            let kecamatan = $("#kecamatan").val();
+            let kabupaten = $("#kabupaten").val();
+            let provinsi = $("#provinsi").val();
+            let total_belanja = $("#totalan").text();
+            let jumlah_item = $("#jumlah_item").text();
+            
+            $.ajax({
+                type: "POST",
+                url: '/c/ok/',
+                data: {
+                    'csrfmiddlewaretoken':csrf_token,
+                    'emailnya':emailnya,
+                    'namanya':namanya,
+                    'no_wa':no_wa,
+                    'alamat':alamat,
+                    'kecamatan':kecamatan,
+                    'kabupaten':kabupaten,
+                    'provinsi':provinsi,
+                    'total_belanja':total_belanja,
+                    'jumlah_item':jumlah_item
+                },
+                success: function(data) {
+                    window.location.href="/";
+                }
+
+            });
+        }
+        
+        function reset_kota() {
+            $("#kota").empty();
+            $("#kota").append("<option value=''>[Pilih Kota]</option");
+        }
+        function reset_kecamatan() {
+            $("#kecamatan").empty();
+            $("#kecamatan").append("<option value=''>[Pilih Kecamatan]</option");
+        }
+
+        $("#provinsi").change(function() {
+
+            if(this.value!="[Pilih Provinsi]") {
+                nama_provinsi = this.value;
+                nama_kota="";
+                nama_kecamatan="";
+                $.ajax({
+                    type: "POST",
+                    url: '/adm/api/master/kota/',
+                    data: {
+                        'csrfmiddlewaretoken':csrf_token,
+                        'prov':nama_provinsi
+                    },
+                    success: function(data) {
+                        reset_kota();
+                        reset_kecamatan();
+                        $.each(data.result,function(key,value) {
+                            $("#kota").append("<option value='"+value.nama_kota+"'>"+value.nama_kota + "</option>");
+                            console.log(value);
+                        })
+                    }
+                });
+    
+            } else {
+                nama_provinsi = "";
+                nama_kecamatan="";
+                nama_kota="";
+                reset_kota();
+                reset_kecamatan();
+            }
+        });
+
+        $("#kota").change(function() {
+            if(this.value!="[Pilih Kota]") {
+                nama_kota = this.value;
+            
+                nama_kecamatan="";
+                
+                $.ajax({
+                    type: "POST",
+                    url: '/adm/api/master/desa/',
+                    data: {
+                        'csrfmiddlewaretoken':csrf_token,
+                        'prov':nama_provinsi,
+                        'kota':nama_kota,
+                    },
+                    success: function(data) {
+                        reset_kecamatan();
+                        $.each(data.result,function(key,value) {
+                            $("#kecamatan").append("<option value='"+value.nama_desa+"'>"+value.nama_desa + "</option>");
+                            //console.log(value);
+                        })
+                    }
+                });
+            } else {
+                nama_kota="";
+                nama_kecamatan="";
+                reset_kecamatan();
+            }
+
+        });
+
+        $("#kecamatan").change(function() {
+            if(this.value!="[Pilih Kecamatan]") {
+                nama_kecamatan=this.value;
+            } else {
+                nama_kecamatan="";
+            }
+        });
+
+        function convertHarga(nilai) {
+            let nilai_string=nilai.toString();
+            let panjang_nilai = nilai_string.length-1;
+            let nilai_akhir ="";
+            let i=1
+            while(panjang_nilai>-1) {
+                nilai_akhir=nilai_string[panjang_nilai]+nilai_akhir;
+                if(i==3 && panjang_nilai>0) {
+                    nilai_akhir = "." + nilai_akhir;
+                }
+                panjang_nilai--;
+                i++;
+                if(i==4) {
+                    i=1;
+                }
+            }
+            return "Rp." + nilai_akhir + ",00";
+        }  
+
+        function cek_checked() {
+            let i=1;
+            let total=0;
+            let total_item=0;
+            $("#listbarang").text("");
+            $("#hargabarang").text("");
+            $("input[type=checkbox]:checked").each(function() {
+                $("#listbarang").append("<p>"+i.toString() + ". " + this.value.toUpperCase() +" (<strong>" + $("input[name="+ this.name +"]").attr("jumlah") + "</strong> pcs)</p>");
+                $("#hargabarang").append("<p>" + convertHarga(parseInt($("input[name="+this.name+"]").attr("harga"))) + "</p>");
+                i++;
+                total=total+parseInt($("input[name="+this.name+"]").attr("harga"));
+                total_item=total_item+parseInt($("input[name="+this.name+"]").attr("jumlah"));
+            });
+            /**/
+
+            if(i>1) {
+                $("#Pembayaran").removeAttr("hidden");
+            } else {
+                $("#Pembayaran").attr("hidden",true);;
+            }
+
+            $("#totalan").text(convertHarga(total));
+            $("#jumlah_item").text(total_item.toString());
+            $("#informasi_pembeli").attr("hidden",true);
+        };
+
+        function tampilkan_beli() {
+            console.log(nama_provinsi);
+            console.log(nama_kota);
+            console.log(nama_kecamatan);
+            if(nama_provinsi!="" && nama_kota!="" && nama_kecamatan!="" && $("#input_nama_pembeli").val().length>0 && $("#input_email_pembeli").val().length>0 && $("#input_alamat1_pembeli").val().length>0 && $("#input_telpon_pembeli").val().length>0) {
+                $("#nama_pembeli").text($("#input_nama_pembeli").val().toUpperCase());
+                $("#email_pembeli").text($("#input_email_pembeli").val().toUpperCase());
+                $("#alamat1").text($("#input_alamat1_pembeli").val().toUpperCase());
+                $("#telpon_pembeli").text($("#input_telpon_pembeli").val());
+                $("#nama_kecamatan").text(nama_kecamatan);
+                $("#nama_kota").text(nama_kota);
+                $("#nama_provinsi").text(nama_provinsi);
+                $("#informasi_pembeli").removeAttr("hidden");
+                $("#Pembayaran").attr("hidden",true)
+            }
+            else {
+                alert("Nama, Email, Alamat dan Nomor Telpon Kamu harus diisi lengkap yah.... ^^");
+            }
+        }
+
+
+        $(document).ready(function() {
+            csrf_token = $("input[name=csrfmiddlewaretoken]").val();
+            let list_checkbox=[];
+            
+            $("#provinsi").append("<option>[Pilih Provinsi]</option");
+            reset_kota();
+            reset_kecamatan();
+            //get provinsi
+            $.ajax({
+                type:"POST",
+                url:"/adm/api/master/provinsi/",
+                data: {
+                    'csrfmiddlewaretoken': csrf_token,
+                    'prov':'provinsi',//formalitas :-)
+                },
+                success: function (data) {
+                    $.each(data.result,function(key,value) {
+                        $("#provinsi").append("<option value='"+value.nama_provinsi + "'>" + value.nama_provinsi + "</option>");
+                    })
+                }
+                
+            });
+
+            $("input[type=checkbox]").each(function() {
+                list_checkbox.push(this.name);
+                console.log("input[name="+ this.name + "]");
+                $("input[name="+ this.name + "]").attr("harga","2000");
+                console.log($("input[name="+ this.name + "]").attr("harga"));
+            });
+            $.ajax({
+                type: "POST",
+                url: "/api/get/produk/",
+                data: {
+                    'csrfmiddlewaretoken':csrf_token,
+                    'datanya': list_checkbox
+                },
+                success: function (data) {
+                    $.each(data,function(index,element) {
+                        let jumlah = $("#jumlah" + index.toString()).text();
+                        let harga_string = element.harga.toString();
+                        let panjang = harga_string.length-1;
+                        let harga_now="";
+                        let i=1;
+                        let total_harga = parseInt(element.harga)*parseInt(jumlah);
+                        let total_harga_string = total_harga.toString();
+                        let total_harga_now ="";
+                        let panjang_total_harga = total_harga_string.length-1;
+                        let diskon = parseInt(element.diskon);
+                        let total_diskon = diskon *parseInt(jumlah);
+                        let net_price = total_harga - total_diskon;
+
+                        let total_diskon_string = total_diskon.toString();
+                        let net_price_string = net_price.toString();
+                        /*
+                        set atribute buat discount harga nama barang kode barang gambar
+                        */
+                        $("#image" + index.toString()).attr("src",element.gambar);
+                        $("input[name="+ element.produk_kode + "]").attr("harga",net_price);
+                        $("input[name="+ element.produk_kode + "]").attr("jumlah",jumlah);
+                        console.log($("input[name="+ element.produk_kode + "]").attr("harga"));
+
+                        /*
+                        end of setting atribute
+                        */
+                        
+                        while(panjang>-1) {
+                            harga_now=harga_string[panjang]+harga_now;
+                            if(i==3 && panjang>0) {
+                                harga_now = "." + harga_now;
+                            }
+                            panjang--;
+                            i++;
+                            if(i==4) {
+                                i=1;
+                            }
+                        }
+
+                        i=1;
+                        while(panjang_total_harga>-1) {
+                            total_harga_now=total_harga_string[panjang_total_harga]+total_harga_now;
+                            if(i==3 && panjang_total_harga>0) {
+                                total_harga_now = "." + total_harga_now;
+                            }
+                            panjang_total_harga--;
+                            i++;
+                            if(i==4) {
+                                i=1;
+                            }
+                        }
+
+                        $("#harga" + index).text("Rp." + harga_now + ",00");
+                        $("#total" + index).text("Rp." + total_harga_now + ",00");
+                        $("#diskon_total" + index).text(convertHarga(total_diskon_string));
+                        $("#net_price" + index).text(convertHarga(net_price_string));
+
+                        if (diskon>0) {
+                            $("#diskonnya" + index).removeAttr("hidden");
+                            $("#total" + index).addClass("text-decoration-line-through");
+                        }
+                    });
+                }
+            });
+        });
+</script>
+{% endblock%}

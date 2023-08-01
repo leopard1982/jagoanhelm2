@@ -1,0 +1,59 @@
+{% extends 'menu_produk1.html'%}
+{% block contents %}
+<div class="row">
+    <div class="col-7">
+        <div class="w-100 p-2  text-center bg-primary text-white fw-bold">
+            Daftar Kota
+        </div>
+        <div class=" my-2">
+            <div class=" overflow-x-hidden">
+                <table class="table">
+                    <thead>
+                        <th>No.</th>
+                        <th>Kode Kota</th>
+                        <th>Nama Kota</th>
+                        <th>Nama Provinsi</th>
+                        <th></th>
+                    </thead>
+                    {% for data in provinsinya %}
+                    <tr>
+                        <th>{{forloop.counter}}</th>
+                        <td>{{data.kode_kota}}</td>
+                        <td>{{data.nama_kota}}</td>
+                        <td>{{data.kode_provinsi}}</td>
+                        <td><button style="font-size:10px" class="fw-bold bg-danger rounded" title="Klik Untuk Menghapus" onclick="window.location.href='/adm/master/kota/d/?kota={{data.kode_kota}}'">X</button></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-5">
+        <div class="w-100 p-2  text-center bg-success text-white fw-bold">
+            Pengaturan Master Kota
+        </div>
+        <div class="my-2">
+            <div class="p-2 border border-danger border-1 rounded">
+                <strong><u>Menambahkan Master Kota</u></strong>
+                <form class="p-2" action="" method="POST">
+                    {% csrf_token %}
+                    {{formnya.as_p}}
+                    <input type="submit" value="Tambahkan" class="btn btn-primary">
+                </form>
+                
+            </div>
+
+            <div class="p-2 my-2 border border-danger border-1 rounded">
+                <strong><u>Upload Master Provinsi (CSV)</u></strong>
+                <form class="p-2" action="/adm/master/kota/u/" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{uploadform.as_p}}
+                    <input type="submit" value="Tambahkan" class="btn btn-primary">
+                </form>
+                
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

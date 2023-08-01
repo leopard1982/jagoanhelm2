@@ -1,4 +1,4 @@
-{% extends 'penjualan/menu_penjualan.html'%}
+{% extends 'base_menu.html'%}
 
 {% load humanize %}
 
@@ -7,33 +7,33 @@
 {% block contents%}
 
 
-<div class="rounded p-2 container-fluid border border-danger" style="margin-top: 30px;">
+<div class="rounded p-2 container border border-danger bg-white" style="margin-top: 170px;">
 	<div class="rounded rounded-pill bg-danger fw-bold text-light col-xl-1 col-lg-3 col-md-6 col-sm-6 text-center p-2" style="margin-top: -30px;">
 		Kategori
 	</div>
 	<div class="row my-2 p-2 d-flex justify-content-between">
 			<!-- semua kategori
 			-->
-			<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 my-2 shadow mybox" onclick="tampilkan('')">	
+			<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 my-2 shadow mybox" onclick="filterkan('')">	
 				<div class=" text-center">
-					<img src="{% static 'img/all_categories.jpeg'%}" class="w-100 rounded" style="height: 200px;">
+					<img src="{% static 'img/all_categories.jpeg'%}" class="w-100 rounded" style="height: 100px;">
 					<div class="d-flex justify-content-center">
-						<div class="rounded shadow  text-center border border-danger bg-danger w-75 text-light fw-bold" style="height:30px;margin-top:-50px">
+						<div class="rounded shadow  text-center border border-danger bg-danger w-75 text-light fw-bold" style="height:30px;margin-top:-35px">
 							Semua Kategori
 						</div>					
 					</div>
 				</div>
 			</div>
 			{% for kategori in mykategori %}
-			<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 my-2 shadow mybox" onclick="tampilkan('{{kategori.kategori}}')">	
+			<div class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 my-2 shadow mybox" onclick="filterkan('{{kategori.kategori}}')">	
 				<div class=" text-center">
 					{% if kategori.gambar %}
-					<img src="{{kategori.gambar.url}}" class="w-100 rounded" style="height: 200px;">
+					<img src="{{kategori.gambar.url}}" class="w-100 rounded" style="height: 100px;">
 					{% else %}
-					<div class="w-100 rounded bg-secondary text-center" style="height: 200px;">no pict</div>
+					<div class="w-100 rounded bg-secondary text-center" style="height: 100px;">no pict</div>
 					{% endif%}
 					<div class="d-flex justify-content-center">
-						<div class="rounded shadow  text-center border border-danger bg-danger w-75 text-light fw-bold" style="height:30px;margin-top:-50px">
+						<div class="rounded shadow  text-center border border-danger bg-danger w-75 text-light fw-bold" style="height:30px;margin-top:-35px">
 							{{kategori.kategori}}
 						</div>					
 					</div>
@@ -45,57 +45,77 @@
 </div>
 <br/>
 <!-- produk tampilkan -->
-<div class="rounded p-2 container-fluid  border border-danger" style="margin-top: 30px;">
+<div class="rounded p-2 container bg-white  border border-danger" style="margin-top: 30px;">
 	<div class="rounded rounded-pill bg-danger fw-bold text-light col-xl-4 col-lg-4 col-md-6 col-sm-6 text-center p-2" style="margin-top: -30px;">
 		Produk jagoanhelm.com
 	</div>
 	
 
 	<div class="row my-2 p-2 d-flex justify-content-between">
+		{% if produknya.paginator.count == 0 %}
+			<div class="container text-center">
+				<p class="h4">Maaf Produk yang Kamu Cari Sedang dalam Proses Upload...</p>
+				<p class="h5 fst-italic">silakan cek berkala apabila produk yang kamu inginkan sudah diupload ^^</p>				
+			</div>
+
 			<!-- semua kategori
 			-->
+		{% else %}
 			{% for produk in produknya %}
-			<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 my-2 shadow mybox" onclick="tampilkan('{{produk.produk_kode}}')">	
-				<div class=" text-center">
+			<div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-6 my-2  mybox" onclick="tampilkan('{{produk.produk_kode}}')">	
+				<div class="rounded shadow border border-danger text-center">
 					{% if produk.gambar %}
-					<img src="{{produk.gambar.url}}" class="w-100 rounded" style="height: 200px;">
+					<img src="{{produk.gambar.url}}" class="w-100 " style="height: 150px;">
 					{% else %}
-					<div class="w-100 rounded bg-secondary text-center" style="height: 200px;">no pict</div>
+					<div class="w-100  bg-secondary text-center " style="height: 150px;">no pict</div>
 					{% endif%}
-					<div class=" border border-danger">
+
+					<div class=" rounded text-center">
+							{% if produk.set_new %}
+								<img src="{% static 'img/new.png'%}" style="height:50px;width:60px;"/>
+					  		{% endif%}
 							<p class="h5"><strong>{{produk.produk_nama}}</strong>
 							<p class="text-warning">&#9733;&#9733;&#9733;&#9733;&#9734;</p>
 							<p class="fst-italic"><strong>"</strong>{{produk.deskripsi|truncatechars:50}}<strong>"</strong></p>
-							<p>Harga: <strong>Rp.{{produk.harga|intcomma}}.00</strong></p>
-							<p>Discount: <strong>{{produk.disc}} %</strong> </p>
-											
+							{% if produk.disc_active %}
+								<p>Harga Normal: <s><strong>Rp.{{produk.harga|intcomma}}.00</strong></s> <span class="badge bg-success fw-bold text-white">-Rp.{{produk.disc|intcomma}}.00</span></p>
+								<p>Nett: <strong>Rp.{{produk.harga_nett|intcomma}}.00</strong> <img src="{% static 'img/ok.png'%}" style="width:20px;height:20px;"/></p>
+							
+							{% else %}
+								<p>Harga: <strong>Rp.{{produk.harga|intcomma}}.00</p><p><span class="badge bg-success ">BEST VALUE</span>  <img src="{% static 'img/good.png'%}" style="width:50px;height:50px;"/></strong></p>
+							{% endif %}										
 					</div>
 				</div>
 			</div>
 			{% endfor%}
-		
 	</div>
 
-	<div class="d-flex justify-content-center" >
-		{% if produknya.has_previous %}
-		<a id="before" class="btn text-center text-light my-1 bg-danger fw-bold rounded rounded-pill rounded-end p-1 px-2">&laquo;&laquo;
-		{% else %}
-		<a href="#" class="disabled btn text-center text-light my-1 bg-danger fw-bold rounded rounded-pill rounded-end p-1 px-2">&laquo;&laquo;
+			<div class="d-flex justify-content-center" >
+				{% if produknya.has_previous %}
+				<a id="before" class="btn text-center text-light my-1 bg-danger fw-bold rounded rounded-pill rounded-end p-1 px-2">&laquo;&laquo;
+				{% else %}
+				<a href="#" class="disabled btn text-center text-light my-1 bg-danger fw-bold rounded rounded-pill rounded-end p-1 px-2">&laquo;&laquo;
+				{% endif %}
+				</a>
+				<div class="text-center my-1 col-xl-3 col-lg-3 col-md-10 col-sm-10 text-center border border-2 border-danger fw-bold p-1" style="font-size: 15px">{{produknya}}</div>
+
+				{% if produknya.has_next %}
+				<a id="next" class="btn text-center text-light my-1 bg-danger fw-bold rounded rounded-pill rounded-start p-1 px-2">&raquo;&raquo;
+				{% else %}
+				<a href="#" class="disabled btn text-center text-light my-1 bg-danger fw-bold rounded rounded-pill rounded-start p-1 px-2">&raquo;&raquo;
+				{% endif %}
+				</a>
+			</div>
 		{% endif %}
-		</a>
-		<div class="text-center my-1 col-xl-3 col-lg-3 col-md-10 col-sm-10 text-center border border-2 border-danger fw-bold ">{{produknya}}</div>
-		{% if produknya.has_next %}
-		<a id="next" class="btn text-center text-light my-1 bg-danger fw-bold rounded rounded-pill rounded-start p-1 px-2">&raquo;&raquo;
-		{% else %}
-		<a href="#" class="disabled btn text-center text-light my-1 bg-danger fw-bold rounded rounded-pill rounded-start p-1 px-2">&raquo;&raquo;
-		{% endif %}
-		</a>
-	</div>
 </div>
 
 <script type="text/javascript">
-	function tampilkan(kategori) {
-		window.location.href="?kat=" + kategori;
+	function tampilkan(pid) {
+		window.location.href="/d/?pid=" + pid;
+	}
+
+	function filterkan(kategori) {
+		window.location.href="?kat=" +kategori;
 	}
 
 	$(document).ready(function() {

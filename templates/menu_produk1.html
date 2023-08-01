@@ -18,26 +18,45 @@
             <li><a class="dropdown-item" href="{% url 'inputProduk'%}"><div class="spinner-grow spinner-grow-sm text-success"></div> Sinkron Produk</a></li>
             <li><hr class="dropdown-divider"></li> -->
             <li><a class="nav-link fw-bold" href="/adm/sinkron/"><div class="spinner-grow spinner-grow-sm text-warning"></div> Sinkron Master Data Online <div class="spinner-grow spinner-grow-sm text-warning"></div></a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="dropdown-item fw-bold bg-secondary text-center text-white">Pengaturan Produk</li>
             <li><a class="dropdown-item" href="{% url 'viewkategoriProduk'%}">&#9814; Menampilkan Kategori Produk</a></li>
             <li><a class="dropdown-item" href="{% url 'viewProduk'%}">&#9815; Menampilkan Produk</a></li>
             <li><hr class="dropdown-divider"></li>
+            <li class="dropdown-item fw-bold bg-secondary text-center text-white">Pengaturan Pengiriman</li>
+            <li><a class="dropdown-item" href="/adm/master/prov/">&rarr; Master Provinsi</a></li>
+            <li><a class="dropdown-item" href="/adm/master/kota/">&rarr; Master Kota</a></li>
+            <li><a class="dropdown-item" href="/adm/master/desa/">&rarr; Master Desa</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="dropdown-item fw-bold bg-secondary text-center text-white">Pengaturan Letak</li>
             <li><a class="dropdown-item" href="/adm/input/banner/">&#9816; Mengatur Banner Toko</a></li>
+            <li><hr class="dropdown-divider"></li>
           </ul>
         </li>
+{% comment %} 
         <li class="nav-item dropdown mx-3">
-          <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-             Penjualan 
-          </a>
+          <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Penjualan</a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <!-- <li><a class="dropdown-item" href="{% url 'inputKategoriProduk'%}"><div class="spinner-grow spinner-grow-sm text-primary"></div> Sinkron Kategori Produk</a></li>
             <li><a class="dropdown-item" href="{% url 'inputProduk'%}"><div class="spinner-grow spinner-grow-sm text-success"></div> Sinkron Produk</a></li>
             <li><hr class="dropdown-divider"></li> -->
+            <li><a class="nav-link fw-bold" href="/adm/sinkron/"><div class="spinner-grow spinner-grow-sm text-warning"></div> Sinkron Master Data Online <div class="spinner-grow spinner-grow-sm text-warning"></div></a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="dropdown-item fw-bold bg-secondary text-center text-white">Pengaturan Produk</li>
             <li><a class="dropdown-item" href="{% url 'viewkategoriProduk'%}">&#9814; Menampilkan Kategori Produk</a></li>
             <li><a class="dropdown-item" href="{% url 'viewProduk'%}">&#9815; Menampilkan Produk</a></li>
             <li><hr class="dropdown-divider"></li>
+            <li class="dropdown-item fw-bold bg-secondary text-center text-white">Pengaturan Pengiriman</li>
+            <li><a class="dropdown-item" href="/adm/master/provinsi/">&rarr; Master Provinsi</a></li>
+            <li><a class="dropdown-item" href="/adm/master/kota/">&rarr; Master Kota</a></li>
+            <li><a class="dropdown-item" href="/adm/master/desa/">&rarr; Master Desa</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="dropdown-item fw-bold bg-secondary text-center text-white">Pengaturan Letak</li>
             <li><a class="dropdown-item" href="/adm/input/banner/">&#9816; Mengatur Banner Toko</a></li>
+            <li><hr class="dropdown-divider"></li>
           </ul>
-        </li>
+        </li> {% endcomment %}
+        
         <!-- <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Maintenance Stok
@@ -47,9 +66,7 @@
             <li><a class="dropdown-item" href="{% url 'viewStatusRevisiStok'%}">Laporan Revisi Jumlah Stok Manual</a></li>
           </ul>
         </li> -->
-        <li class="nav-item mx-3 fw-bold" >
-          <a class="nav-link" href="#"><div class="spinner-grow spinner-grow-sm text-warning"></div> Sinkron <div class="spinner-grow spinner-grow-sm text-warning"></div></a>
-        </li>
+
         <li class="nav-item dropdown mx-3">
           <a class="nav-link dropdown-toggle fw-bold" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
              Account

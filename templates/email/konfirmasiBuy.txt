@@ -1,0 +1,6 @@
+Terima Kasih {{nama}} sudah bertransaksi di jagoanhelm.com!
+
+Pembayaran Sebesar {{pembayaran}} bisa melalui transfer bank BCA nomor: 8767867555 maksimal 2 jam ke depan yah....
+Apabila {{nama}} sudah melakukan transfers, otomatis akan dikeluarkan konfirmasi melalui email dan whatsapp kamu di nomor {{no_wa}}.
+
+Terima kasih sudah berbelanja di jagoanhelm.com ^^
