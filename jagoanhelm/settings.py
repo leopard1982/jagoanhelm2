@@ -25,9 +25,10 @@ SECRET_KEY = 'django-insecure-_6t8(y0ru+an5j!o3huh^4p)+k^n&(u5dwhw9&f!#=&r9q&q1_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.50', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['192.168.1.50', 'localhost',
+                 '127.0.0.1', 'leopard2023.pythonanywhere.com']
 CSRF_TRUSTED_ORIGINS = ['http://192.168.1.50',
-                        'http://127.0.0.1:8000', 'http://127.0.0.1', 'http://localhost:8000']
+                        'http://127.0.0.1:8000', 'http://127.0.0.1', 'http://localhost:8000', 'https://leopard2023.pythonanywhere.com', 'http://leopard2023.pythonanywhere.com']
 
 
 # Application definition
