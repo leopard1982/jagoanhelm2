@@ -3,7 +3,7 @@
 {% block contents%}
 {% csrf_token %}
 
-
+<input type="hidden" id="beli_sekarang" value="{{item}}">
 <!-- Modal Isi data-->
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -197,6 +197,8 @@
 
         let csrf_token="";
 
+        let beli_sekarang = $("#beli_sekarang").val();
+
         function yes_checkout() {
             let emailnya = $("#email_pembeli").text();
             let namanya = $("#nama_pembeli").text();
@@ -335,6 +337,7 @@
             $("#listbarang").text("");
             $("#hargabarang").text("");
             $("input[type=checkbox]:checked").each(function() {
+                console.log("")
                 $("#listbarang").append("<p>"+i.toString() + ". " + this.value.toUpperCase() +" (<strong>" + $("input[name="+ this.name +"]").attr("jumlah") + "</strong> pcs)</p>");
                 $("#hargabarang").append("<p>" + convertHarga(parseInt($("input[name="+this.name+"]").attr("harga"))) + "</p>");
                 i++;
@@ -374,6 +377,20 @@
             }
         }
 
+        function cek_awal_checked() {
+            if(beli_sekarang!="") {
+                let i=0;
+                $("input[type=checkbox]").each(function() {
+                    if(this.value==beli_sekarang) {
+                        $("input[name=" + this.name+ "]").attr("checked","checked");
+
+                        cek_checked();
+                    }
+                    i++;
+                });
+
+            }
+        }
 
         $(document).ready(function() {
             csrf_token = $("input[name=csrfmiddlewaretoken]").val();
@@ -400,9 +417,9 @@
 
             $("input[type=checkbox]").each(function() {
                 list_checkbox.push(this.name);
-                console.log("input[name="+ this.name + "]");
-                $("input[name="+ this.name + "]").attr("harga","2000");
-                console.log($("input[name="+ this.name + "]").attr("harga"));
+                //console.log("input[name="+ this.name + "]");
+                //$("input[name="+ this.name + "]").attr("harga","2000");
+                //console.log($("input[name="+ this.name + "]").attr("harga"));
             });
             $.ajax({
                 type: "POST",
@@ -474,9 +491,12 @@
                             $("#diskonnya" + index).removeAttr("hidden");
                             $("#total" + index).addClass("text-decoration-line-through");
                         }
+
+                        cek_awal_checked();
                     });
                 }
             });
+            
         });
 </script>
 {% endblock%}

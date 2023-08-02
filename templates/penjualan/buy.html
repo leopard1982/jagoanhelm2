@@ -209,7 +209,7 @@
             </div>
             <div
               class="buttonku col-5 p-1 shadow border border-white border-2 my-2 mx-2 bg-success rounded d-flex justify-content-center" 
-               >
+               onclick="beli_sekarang()">
               <img
                 src="{% static 'img/ok.png'%}"
                 style="width: 40px; height: 40px"
@@ -326,6 +326,35 @@
         },
         success: function() {
           window.location.reload();
+        }
+      });
+    } else {
+      alert("Pembelian Minimal 1 pcs!");
+    }
+ 
+  }
+
+  function beli_sekarang() {
+    jumlah = $("#jumlah").text();
+    kode_produk = $("#kode_produk").val();
+    nama_produk = $("#nama_produk").val();
+    csrf_token = $("#csrf_token").val();
+    gambar_produk = $("#foto_produk").val();
+    
+
+    if (parseInt(jumlah)>0) {
+      $.ajax({
+        type:'POST',
+        url: '/t/',
+        data: {
+          'csrfmiddlewaretoken':csrf_token,
+          'kode_produk':kode_produk,
+          'nama_produk':nama_produk,
+          'jumlah':jumlah,
+          'gambar':gambar_produk,
+        },
+        success: function() {
+          window.location.href="/c/?item=" + nama_produk;
         }
       });
     } else {

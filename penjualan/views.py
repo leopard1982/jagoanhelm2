@@ -18,6 +18,7 @@ from django.conf import settings
 
 # Create your views here.
 def dashboard(request):
+    # HttpResponse.set_cookie(key="test", value="hallo")
     filter_search = request.GET.get("q")
     if (filter_search == None):
         filter_search = ""
@@ -201,6 +202,7 @@ def troli(request):
             ]
         print(request.session['cart'])
         print(len(request.session['cart']))
+
         return HttpResponseRedirect("/")
     else:
         return HttpResponseRedirect("/")
@@ -252,6 +254,10 @@ def troli_tambah_kurang(request):
 
 
 def checkout_awal(request):
+    nama_item = None
+    if request.GET.get("item") != "":
+        nama_item = request.GET.get("item")
+
     request.session['wishlist'] = []
     request.session['wishlist'] += [{
         'id': 'abc',
@@ -273,6 +279,7 @@ def checkout_awal(request):
         'shopping_chart_jml': shopping_chart_jml,
         'wishlist': wishlish,
         'sc': sc,
+        'item': nama_item
     }
     return render(request, "penjualan/checkout.html", contex)
 
